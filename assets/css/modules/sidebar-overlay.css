@@ -15,7 +15,6 @@
     opacity: 1;
 }
 
-/* Tablet / Small Desktop (TOC Hidden) */
 @media (max-width: 1400px) {
     .toc-sidebar {
         display: none;
@@ -34,7 +33,6 @@
     }
 }
 
-/* Tablet (Sidebar Hidden) */
 @media (max-width: 1024px) {
     :root {
         --sidebar-width: 260px;
@@ -58,29 +56,10 @@
         height: auto;
         overflow: visible;
         width: 100%;
-    }
-
-    .sidebar {
-        height: calc(100vh - var(--header-height));
-    }
-
-    .main-content {
-        height: auto;
-        overflow: visible;
-        padding: 0 !important;
-        border-left: none;
-        border-right: none;
-    }
-
-    .footer {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: flex;
+        box-sizing: border-box;
+        flex-direction: column;
+        border-radius: var(--radius-md);
+        min-height: auto;
     }
 
     .sidebar {
@@ -93,6 +72,7 @@
         z-index: 90;
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
         max-height: calc(100vh - var(--header-height));
+        height: calc(100vh - var(--header-height));
         width: clamp(260px, 82vw, 320px);
         border-right: 1px solid var(--border-primary);
         padding: 0;
@@ -109,12 +89,12 @@
 
     .sidebar .nav-link {
         padding: 10px var(--spacing-sm);
-        min-height: 44px; /* WCAG 2.2 AAA Touch Target */
+        min-height: 44px;
         align-items: center;
     }
 
     .sidebar .nav-group-summary {
-        min-height: 44px; /* WCAG 2.2 AAA Touch Target */
+        min-height: 44px;
         padding: 8px var(--spacing-sm) !important;
         align-items: center !important;
     }
@@ -123,6 +103,26 @@
         transform: translateX(0);
     }
 
+    .main-content {
+        height: auto;
+        overflow: visible;
+        padding: 0 !important;
+        border-left: none;
+        border-right: none;
+        max-height: none;
+    }
+
+    .main-content-body {
+        padding: 20px 20px;
+    }
+
+    .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
     .docs-wrapper {
         padding: 14px 16px;
         padding-top: calc(var(--header-height) + 14px);
@@ -135,20 +135,8 @@
         box-sizing: border-box;
     }
 
-    .docs-container {
-        width: 100%;
-        box-sizing: border-box;
-        flex-direction: column;
-        border-radius: var(--radius-md);
-        min-height: auto;
-    }
-
     .main-content-body {
         padding: 20px 16px;
-    }
-
-    .main-content {
-        max-height: none;
     }
 
     .footer {

@@ -35,7 +35,7 @@
     padding: 0;
     height: 44px;
     width: 44px;
-    min-height: 44px; /* WCAG 2.2 AAA Touch Target */
+    min-height: 44px;
     min-width: 44px;
     align-items: center;
     justify-content: center;
@@ -148,7 +148,7 @@ button.header-link {
     padding: 0;
     height: 44px;
     width: 44px;
-    min-height: 44px; /* WCAG 2.2 AAA Touch Target */
+    min-height: 44px;
     min-width: 44px;
     margin-right: 0;
     border-radius: var(--radius-sm);
@@ -224,7 +224,7 @@ button.header-link {
     line-height: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .menu-toggle {
         display: flex;
     }

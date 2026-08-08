@@ -69,8 +69,13 @@
 
 .error-btn.btn-primary {
     background: var(--accent-primary);
-    color: #ffffff;
+    color: #0d0d0d;
+    font-weight: 600;
     border-color: var(--accent-primary);
+}
+
+[data-theme="light"] .error-btn.btn-primary {
+    color: #ffffff;
 }
 
 .error-btn.btn-primary:hover {

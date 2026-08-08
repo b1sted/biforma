@@ -1,0 +1,45 @@
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" | default (.Get "title") -}}
+{{- $loading := .Get "loading" | default "lazy" -}}
+{{- $fetchpriority := .Get "fetchpriority" | default "auto" -}}
+
+{{- $width := "" -}}
+{{- $height := "" -}}
+
+{{- if and $src (not (urls.Parse $src).IsAbs) -}}
+    {{- $cleanSrc := strings.TrimPrefix "/" $src -}}
+    {{- $pageRes := .Page.Resources.GetMatch $src -}}
+    {{- if $pageRes -}}
+        {{- $width = $pageRes.Width -}}
+        {{- $height = $pageRes.Height -}}
+    {{- else -}}
+        {{- $staticPath := printf "static/%s" $cleanSrc -}}
+        {{- if fileExists $staticPath -}}
+            {{- $cfg := imageConfig $staticPath -}}
+            {{- $width = $cfg.Width -}}
+            {{- $height = $cfg.Height -}}
+        {{- else if .Page.File -}}
+            {{- $contentPath := printf "content/%s%s" .Page.File.Dir $cleanSrc -}}
+            {{- if fileExists $contentPath -}}
+                {{- $cfg := imageConfig $contentPath -}}
+                {{- $width = $cfg.Width -}}
+                {{- $height = $cfg.Height -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $dimAttr := "" -}}
+{{- if and $width $height -}}
+    {{- $dimAttr = printf ` width="%v" height="%v"` $width $height -}}
+{{- end -}}
+
+{{- if $caption -}}
+<figure class="article-figure">
+    <img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    <figcaption class="figure-caption">{{ $caption }}</figcaption>
+</figure>
+{{- else -}}
+<img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+{{- end -}}

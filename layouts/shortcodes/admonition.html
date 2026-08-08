@@ -1,0 +1,16 @@
+{{- $type := .Get "type" | default "note" -}}
+{{- $title := .Get "title" -}}
+{{- $icons := dict "note" "ℹ️" "tip" "💡" "warning" "⚠️" "danger" "🚨" -}}
+{{- $icon := index $icons $type | default "ℹ️" -}}
+
+<div class="admonition {{ $type }}">
+    <div class="admonition-title">
+        <span aria-hidden="true">{{ $icon }}</span>
+        {{- with $title -}}
+            <span>{{ . }}</span>
+        {{- end -}}
+    </div>
+    <div class="admonition-content">
+        {{ .Inner | $.Page.RenderString }}
+    </div>
+</div>

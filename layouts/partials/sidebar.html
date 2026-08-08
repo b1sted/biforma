@@ -1,0 +1,40 @@
+<aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav" aria-label="Sidebar navigation">
+        {{ $currentPage := . }}
+
+        {{ $rootPages := (where .Site.RegularPages "Section" "").ByWeight }}
+        {{ if $rootPages }}
+            <section class="nav-section nav-section-root">
+                {{ $hideTitle := false }}
+                {{ with .Site.Params.sidebar }}{{ $hideTitle = .hideGeneralTitle }}{{ end }}
+
+                {{ if not $hideTitle }}
+                <h3 class="nav-section-title">
+                    {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}Общее{{ end }}
+                </h3>
+                {{ end }}
+
+                {{ partial "nav-items.html" (dict "pages" $rootPages "currentPage" $currentPage "site" .Site) }}
+            </section>
+        {{ end }}
+
+        {{ $sections := .Site.Sections.ByWeight }}
+        {{ range $sections }}
+            {{ $sectionPages := .RegularPages.ByWeight }}
+            {{ if $sectionPages }}
+                <section class="nav-section">
+                    <h3 class="nav-section-title">
+                        <a href="{{ .RelPermalink }}" class="nav-section-link{{ if or (eq $currentPage.RelPermalink .RelPermalink) (eq $currentPage.Section .Section) }} active{{ end }}">
+                            {{ with .Params.icon }}
+                                <span class="nav-icon">{{ . }}</span>
+                            {{ end }}
+                            <span>{{ .Title | default "Раздел" }}</span>
+                        </a>
+                    </h3>
+
+                    {{ partial "nav-items.html" (dict "pages" $sectionPages "currentPage" $currentPage "site" .Site) }}
+                </section>
+            {{ end }}
+        {{ end }}
+    </nav>
+</aside>

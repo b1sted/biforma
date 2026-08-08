@@ -1,0 +1,140 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+
+{{ with site.Params.yandexVerification }}<meta name="yandex-verification" content="{{ . }}">{{ end }}
+{{ with site.Params.googleVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
+
+<script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark')})();</script>
+
+<link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+
+{{ partial "critical.html" . }}
+
+{{ with resources.Get "css/fonts.css" }}
+    {{- $fonts := . | minify -}}
+    <link rel="preload" href="{{ $fonts.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ $fonts.RelPermalink }}"></noscript>
+{{ end }}
+
+{{- $kind := "fallback" -}}
+{{- if .IsHome -}}{{- $kind = "home" -}}
+{{- else if eq .Kind "404" -}}{{- $kind = "404" -}}
+{{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}{{- $kind = "section" -}}
+{{- else if eq .Kind "page" -}}{{- $kind = "single" -}}
+{{- end -}}
+
+{{- $names := hugo.Data.css_modules.core | append (index hugo.Data.css_modules.by_kind $kind) -}}
+
+{{- if .Params.math -}}{{- $names = $names | append "math" -}}{{- end -}}
+{{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}{{- $names = $names | append "donation" -}}{{- end -}}
+<!-- Changed "|---" check to "|" to match any markdown table formatting -->
+{{- if and .IsPage (or (in .RawContent "<table") (in .RawContent "|")) -}}{{- $names = $names | append "tables" -}}{{- end -}}
+{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![")) -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
+{{- if and .IsPage (or (in .RawContent "```") (in .RawContent "code-block-wrapper")) -}}{{- $names = $names | append "chroma" -}}{{- end -}}
+{{- $names = $names | uniq -}}
+
+{{- $files := slice -}}
+{{- range $names -}}
+    {{- $mod := resources.Get (printf "css/modules/%s.css" .) -}}
+    {{- if $mod }}{{- $files = $files | append $mod -}}{{- end -}}
+{{- end -}}
+
+{{- if $files -}}
+    {{- $bundle := $files | resources.Concat (printf "css/main.%s.%s.bundle.css" $kind (crypto.MD5 (delimit $names "-"))) | minify -}}
+    <style>{{ $bundle.Content | safeCSS }}</style>
+{{- end -}}
+
+{{- $deferredFiles := slice -}}
+{{- range hugo.Data.css_modules.deferred -}}
+    {{- $mod := resources.Get (printf "css/modules/%s.css" .) -}}
+    {{- if $mod }}{{- $deferredFiles = $deferredFiles | append $mod -}}{{- end -}}
+{{- end -}}
+{{- if $deferredFiles -}}
+    {{- $deferredBundle := $deferredFiles | resources.Concat "css/deferred.bundle.css" | minify -}}
+    <link rel="preload" href="{{ $deferredBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ $deferredBundle.RelPermalink }}"></noscript>
+{{- end -}}
+
+{{- if .Params.math -}}
+<link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
+<script defer src="{{ "js/katex.min.js" | relURL }}"></script>
+<script defer src="{{ "js/auto-render.min.js" | relURL }}"
+    onload="if('requestIdleCallback' in window){requestIdleCallback(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})});}else{setTimeout(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})},200);}"></script>
+{{- end -}}
+
+{{- $paginatable := or (eq .Kind "home") (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+<title>
+    {{- if .IsHome -}}
+        {{ site.Title }}
+    {{- else -}}
+        {{ .Title }}
+        {{- if and $paginatable .Paginator -}}
+            {{- if gt .Paginator.PageNumber 1 }} (Стр. {{ .Paginator.PageNumber }}){{- end -}}
+        {{- end }} — {{ site.Title -}}
+    {{- end -}}
+</title>
+
+{{- $description := .Description -}}
+{{- if not $description -}}
+    {{- if .IsPage -}}{{- $description = .Summary | plainify | truncate 160 -}}
+    {{- else -}}{{- $description = site.Params.description -}}
+    {{- end -}}
+{{- end -}}
+<meta name="description" content="{{ $description }}">
+
+{{- if or .Params.noindex (eq .Params.searchHidden true) -}}
+<meta name="robots" content="noindex, nofollow">
+{{- else if hugo.IsProduction -}}
+<meta name="robots" content="index, follow, max-image-preview:large">
+{{- end }}
+
+<link rel="canonical" href="{{ .Permalink }}">
+
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:locale" content="ru_RU">
+{{- $ogImage := site.Params.defaultImage | default "/icons/icon-512.png" -}}
+{{- if .Params.image -}}{{- $ogImage = .Params.image -}}{{- end -}}
+<meta property="og:image" content="{{ $ogImage | absURL }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $ogImage | absURL }}">
+
+{{- range .AlternativeOutputFormats -}}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+{{- end }}
+
+<link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+<link rel="apple-touch-icon" href="{{ "icons/icon-192.png" | relURL }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ "icons/icon-192.png" | relURL }}">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ "icons/icon-512.png" | relURL }}">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+
+{{- if not .IsHome }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "{{ if .IsPage }}TechArticle{{ else }}WebSite{{ end }}",
+    "name": "{{ .Title }}",
+    "description": "{{ $description }}",
+    "url": "{{ .Permalink }}"{{ if .IsPage }},
+    "author": { "@type": "Person", "name": "{{ site.Params.author }}" }
+    {{- with .Date }},
+    "datePublished": "{{ .Format "2006-01-02" }}"
+    {{- end }}
+    {{- with .Lastmod }},
+    "dateModified": "{{ .Format "2006-01-02" }}"
+    {{- end -}}{{ end }}
+}
+</script>
+{{- end }}
+
+{{ hugo.Generator -}}

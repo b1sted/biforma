@@ -1,0 +1,42 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">{{ .Title }}</h1>
+    {{ with .Params.subtitle | default .Description }}
+        <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+</header>
+
+{{- $tocEnabled := .Params.toc | default true -}}
+{{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
+
+{{- if and $tocEnabled .TableOfContents (gt (len .TableOfContents) 100) -}}
+<details class="toc-mobile">
+    <summary class="toc-mobile-toggle">
+        <svg width="18" height="18" class="toc-mobile-icon" aria-hidden="true">
+            <use href="{{ "icons.svg#icon-list" | relURL }}"></use>
+        </svg>
+        <span class="toc-mobile-title">На этой странице</span>
+        <svg class="toc-mobile-chevron" width="16" height="16" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 9 12 15 6 9"></polyline>
+        </svg>
+    </summary>
+    <nav class="toc-mobile-nav">
+        {{ .TableOfContents }}
+    </nav>
+</details>
+{{- end -}}
+
+<article class="article" data-pagefind-body>
+    {{ .Content }}
+</article>
+
+{{ if or site.Params.donate site.Params.externalLinks.donateUrl }}
+    {{ partial "donation-block.html" . }}
+{{ end }}
+
+{{ partial "page-nav.html" . }}
+{{ end }}

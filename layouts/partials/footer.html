@@ -1,0 +1,52 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-info">
+            <p class="footer-text footer-copyright">
+                &copy; {{ now.Year }}
+                {{ $author := site.Params.author }}
+                {{- with site.Params.mainSite }}
+                    <a href="{{ . }}">{{ $author }}</a>
+                {{- else }}
+                    {{ $author }}
+                {{- end }}
+            </p>
+            <p class="footer-text footer-license">
+                <span class="footer-license-item">Code: <a href="#" class="js-license-trigger" data-license="polyform" aria-label="Лицензия PolyForm NC 1.0">PolyForm NC 1.0</a></span>
+                <span class="footer-separator">•</span>
+                <span class="footer-license-item">Content: <a href="#" class="js-license-trigger" data-license="cc_by_nc" aria-label="Лицензия CC BY-NC 4.0">CC BY-NC 4.0</a></span>
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <a href="{{ "rss/" | relURL }}" class="footer-link footer-link-rss" aria-label="RSS Feed">
+                <svg width="20" height="20" aria-hidden="true">
+                    <use href="{{ "icons.svg#icon-rss" | relURL }}"></use>
+                </svg>
+            </a>
+
+            {{- with site.Params.donate -}}
+            <a href="{{ . }}" class="footer-link footer-link-heart" target="_blank" rel="noopener noreferrer" aria-label="Donate">
+                <svg width="20" height="20" aria-hidden="true">
+                    <use href="{{ "icons.svg#icon-heart" | relURL }}"></use>
+                </svg>
+            </a>
+            {{- end -}}
+
+            {{- with site.Params.github -}}
+            <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <svg width="20" height="20" aria-hidden="true">
+                    <use href="{{ "icons.svg#icon-github" | relURL }}"></use>
+                </svg>
+            </a>
+            {{- end -}}
+
+            {{- with site.Params.mainSite -}}
+            <a href="{{ . }}" class="footer-link" aria-label="Main Site">
+                <svg width="20" height="20" aria-hidden="true">
+                    <use href="{{ "icons.svg#icon-home" | relURL }}"></use>
+                </svg>
+            </a>
+            {{- end -}}
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,26 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">{{ .Title }}</h1>
+</header>
+
+<article class="article">
+    {{ .Content }}
+
+    {{ if .Pages }}
+    <div class="article-list">
+        {{ range .Pages.ByWeight }}
+        <div class="list-item">
+            <a href="{{ .RelPermalink }}" class="list-link">{{ .Title }}</a>
+            {{ with .Description }}
+                <p class="list-description">{{ . }}</p>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+</article>
+{{ end }}

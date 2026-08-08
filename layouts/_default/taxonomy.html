@@ -1,0 +1,28 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">
+        <span class="page-title-icon">{{ .Params.icon | default "📁" }}</span>
+        {{- .Title -}}
+    </h1>
+    {{ with .Description | default .Params.description }}
+        <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+</header>
+
+<article class="article">
+    {{ .Content }}
+
+    {{ if .RegularPages }}
+        {{ $count := len .RegularPages }}
+        <div class="section-articles" data-count="{{ $count }}">
+            {{ range .RegularPages.ByWeight }}
+                {{ partial "article-card.html" . }}
+            {{ end }}
+        </div>
+    {{ end }}
+</article>
+{{ end }}

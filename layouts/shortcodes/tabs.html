@@ -1,0 +1,44 @@
+{{- $id := .Get "id" | default (printf "tabs-%d" .Ordinal) -}}
+{{- $tabs := split (.Get "tabs") "," -}}
+{{- $style := .Get "style" | default "code" -}}
+{{- $sep := .Get "sep" | default "<!-- tab -->" -}}
+{{- $isContentStyle := eq $style "content" -}}
+
+<div class="{{ if $isContentStyle }}content-tabs code-tabs--rich{{ else }}code-tabs{{ end }}" id="{{ $id }}">
+    <div class="tabs-header" data-pagefind-ignore>
+        <nav class="tabs-nav" role="tablist">
+            {{ range $index, $tab := $tabs }}
+            {{- $tabName := strings.TrimSpace $tab -}}
+            <button class="tab-btn{{ if eq $index 0 }} active{{ end }}" type="button" role="tab" aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}">
+                {{ $tabName }}
+            </button>
+            {{ end }}
+        </nav>
+        {{ if not $isContentStyle }}
+        <button class="tab-copy-btn" aria-label="Копировать код" type="button">
+            <span aria-hidden="true">📋</span>
+            <span class="copy-text">Копировать</span>
+        </button>
+        {{ end }}
+    </div>
+
+    <div class="tabs-content{{ if $isContentStyle }} rich-tabs{{ end }}">
+        {{- if strings.Contains .Inner $sep -}}
+            {{- $panels := split .Inner $sep -}}
+            {{- $validIndex := 0 -}}
+            {{- range $panel := $panels -}}
+                {{- $trimmed := trim $panel " \n\r\t" -}}
+                {{- if ne $trimmed "" -}}
+                <div class="tab-panel{{ if eq $validIndex 0 }} active{{ end }}" role="tabpanel">
+                    {{ $trimmed | $.Page.RenderString }}
+                </div>
+                {{- $validIndex = add $validIndex 1 -}}
+                {{- end -}}
+            {{- end -}}
+        {{- else -}}
+            <div class="tab-panel active" role="tabpanel">
+                {{ .Inner | $.Page.RenderString }}
+            </div>
+        {{- end -}}
+    </div>
+</div>

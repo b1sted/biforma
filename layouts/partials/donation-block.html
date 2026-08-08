@@ -1,0 +1,26 @@
+{{ $donateUrl := site.Params.donate | default site.Params.externalLinks.donateUrl }}
+
+{{ if $donateUrl }}
+<div class="donation-block">
+    <div class="donation-content">
+        <span class="donation-icon" aria-hidden="true">💜</span>
+        <div class="donation-text">
+            <p class="donation-title">Полезный материал?</p>
+            <p class="donation-desc">Если статья помогла разобраться в теме, вы можете поддержать автора любой комфортной суммой.</p>
+        </div>
+    </div>
+    
+    {{ $buttonText := site.Params.donateButtonText | default "Поддержать автора" }}
+    <a href="{{ $donateUrl }}" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="donation-button"
+       aria-label="{{ $buttonText }} (открывается в новой вкладке)">
+        <span>{{ $buttonText }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+    </a>
+</div>
+{{ end }}

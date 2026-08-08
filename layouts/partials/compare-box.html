@@ -1,0 +1,18 @@
+{{- /*
+  CRITICAL: The output of this partial MUST remain on a SINGLE line with no whitespace.
+
+  Reason: When nested inside shortcodes that re-process content via .Page.RenderString
+  (such as tabs.html), Goldmark parses raw HTML as an HTML block. Extra line breaks or uneven
+  indentation cause CommonMark to fall back to inline parsing, escaping HTML tags into
+  visible "<div...>" text. Keep {{- / -}} on all template tags.
+*/ -}}
+
+{{- $side := .side | default "left" -}}
+{{- $context := .context -}}
+{{- $inner := .Inner -}}
+{{- $lang := $context.Get "lang" -}}
+{{- $parentCopy := "" -}}
+{{- if $context.Parent -}}
+    {{- $parentCopy = printf "%v" ($context.Parent.Get "copy") -}}
+{{- end -}}
+<div class="code-compare-{{ $side }}"><div class="code-compare-header"><span class="code-compare-title">{{ $context.Get "title" }}</span>{{- if and $lang (eq $parentCopy "true") -}}<button class="copy-code-button" type="button" aria-label="Копировать код"><span>📋</span><span>Копировать</span></button>{{- end -}}</div><div class="code-compare-content">{{- if $lang -}}{{ transform.Highlight (strings.TrimSpace $inner) $lang "noClasses=false" }}{{- else -}}{{ $inner | transform.Markdownify }}{{- end -}}</div></div>

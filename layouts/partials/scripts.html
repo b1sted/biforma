@@ -1,0 +1,40 @@
+<script>
+    /* A11y fallback: GFM task list checkboxes lack accessible names */
+    (function () {
+        document.querySelectorAll('.main-content input[type="checkbox"]').forEach(function (checkbox) {
+            if (!checkbox.hasAttribute('aria-label')) {
+                var parentLi = checkbox.closest('li');
+                var labelText = parentLi ? parentLi.textContent.trim() : 'Чекбокс задачи';
+                checkbox.setAttribute('aria-label', labelText);
+            }
+        });
+    })();
+</script>
+
+{{- $kind := "fallback" -}}
+{{- if .IsHome -}}
+    {{- $kind = "home" -}}
+{{- else if eq .Kind "404" -}}
+    {{- $kind = "404" -}}
+{{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+    {{- $kind = "section" -}}
+{{- else if eq .Kind "page" -}}
+    {{- $kind = "single" -}}
+{{- end -}}
+
+{{/* Build an IIFE bundle combining core and kind-specific JS modules */}}
+{{- $modules := hugo.Data.js_modules -}}
+{{- $names := $modules.core | append (index $modules.by_kind $kind) | uniq -}}
+{{- $files := slice (resources.Get "js/modules/_iife-start.js") -}}
+
+{{- range $names -}}
+    {{- $mod := resources.Get (printf "js/modules/%s.js" .) -}}
+    {{- if $mod -}}
+        {{- $files = $files | append $mod -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $files = $files | append (resources.Get "js/modules/_iife-end.js") -}}
+{{- $bundle := $files | resources.Concat (printf "js/main.%s.bundle.js" $kind) -}}
+
+<script defer src="{{ ($bundle | js.Build (dict "minify" true "target" "es2017")).RelPermalink }}"></script>

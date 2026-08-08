@@ -1,0 +1,5 @@
+{{- $type := .Get "type" | default (.Get 0) | default "default" -}}
+{{- $classes := dict "dots" "dots" "decorated" "decorated" "section" "section-divider" "thin" "thin-divider" -}}
+{{- $class := index $classes $type -}}
+
+<hr{{ with $class }} class="{{ . }}"{{ end }}>

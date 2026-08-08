@@ -1,0 +1,25 @@
+{{- $lang := .Get "lang" | default (.Get 0) | default "text" -}}
+{{- $title := .Get "title" | default (.Get "filename") | default $lang -}}
+{{- $noHeader := eq (printf "%v" (.Get "noheader")) "true" -}}
+{{- $isCentered := eq (printf "%v" (.Get "center")) "true" -}}
+{{- $lineNos := eq (printf "%v" (.Get "linenos")) "true" -}}
+{{- $options := dict "lineNos" $lineNos "lineNumbersInTable" false "noClasses" false -}}
+
+{{- $code := trim .Inner "\n\r " -}}
+{{- $highlighted := transform.Highlight $code $lang $options -}}
+
+<div class="code-block-wrapper{{ if $noHeader }} no-header{{ end }}{{ if $isCentered }} code-centered-wrapper{{ end }}">
+    {{- if not $noHeader -}}
+    <div class="code-block-header" data-pagefind-ignore>
+        <span class="code-language">{{ $title }}</span>
+        <button class="copy-code-button" type="button" aria-label="Копировать код">
+            <span aria-hidden="true">📋</span>
+            <span class="copy-text">Копировать</span>
+        </button>
+    </div>
+    {{- end -}}
+
+    <div class="code-content">
+        {{ $highlighted }}
+    </div>
+</div>

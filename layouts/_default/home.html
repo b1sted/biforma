@@ -1,0 +1,41 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">{{ site.Title }}</h1>
+    <p class="page-subtitle">{{ .Description | default site.Params.description }}</p>
+</header>
+
+<article class="article">
+    {{ .Content }}
+
+    <h2>Разделы заметок</h2>
+    <div class="sections-grid">
+        {{ range where site.Sections "Section" "ne" "rss" }}
+            {{ $count := len .RegularPages }}
+            {{ $mod10 := mod $count 10 }}
+            {{ $mod100 := mod $count 100 }}
+
+            {{/* Correct Russian plural forms: 1 заметка, 2 заметки, 5 заметок */}}
+            {{ $word := "заметок" }}
+            {{ if and (ge $mod100 11) (le $mod100 19) }}
+                {{ $word = "заметок" }}
+            {{ else if eq $mod10 1 }}
+                {{ $word = "заметка" }}
+            {{ else if and (ge $mod10 2) (le $mod10 4) }}
+                {{ $word = "заметки" }}
+            {{ end }}
+
+            <a href="{{ .RelPermalink }}" class="section-card">
+                <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
+                <div class="section-info">
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ $count }} {{ $word }}</p>
+                </div>
+            </a>
+        {{ end }}
+    </div>
+</article>
+{{ end }}

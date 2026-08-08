@@ -1,0 +1,162 @@
+details {
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-secondary);
+    overflow: hidden;
+    padding-left: 18px;
+    padding-right: 18px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+details:hover {
+    border-color: var(--border-secondary);
+}
+
+details[open] {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 1px rgba(92, 161, 241, 0.08),
+                0 4px 16px rgba(0, 0, 0, 0.12);
+    padding-bottom: 16px;
+}
+
+details summary {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    list-style: none;
+    padding: 14px 18px;
+    margin-left: -18px;
+    margin-right: -18px;
+    background: var(--bg-tertiary);
+    font-size: var(--font-size-sub);
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    border: none;
+    will-change: background-color;
+    position: relative;
+}
+
+details summary::-webkit-details-marker,
+details summary::marker {
+    display: none;
+}
+
+/* Chevron icon */
+details summary::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border-radius: 4px;
+    background: var(--bg-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+details[open] summary::before {
+    transform: rotate(90deg);
+    background-color: rgba(92, 161, 241, 0.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235ca1f1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+details summary:hover {
+    background: var(--bg-hover);
+}
+
+details summary:hover::before {
+    background-color: rgba(92, 161, 241, 0.12);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235ca1f1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+details summary:focus {
+    outline: none;
+}
+
+details summary:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: -2px;
+    border-radius: 0;
+}
+
+details[open] summary {
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-tertiary);
+    margin-bottom: 16px;
+}
+
+details[open] > :not(summary) {
+    animation: detailsSlideIn 0.2s ease-out;
+}
+
+@keyframes detailsSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+[data-theme="light"] details {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] details[open] {
+    box-shadow: 0 0 0 1px rgba(92, 161, 241, 0.12),
+                0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] details summary::before {
+    background-color: var(--bg-secondary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+[data-theme="light"] details summary:hover::before,
+[data-theme="light"] details[open] summary::before {
+    background-color: rgba(92, 161, 241, 0.1);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+@media (max-width: 767px) {
+    details {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    details[open] {
+        padding-bottom: 14px;
+    }
+
+    details summary {
+        padding: 12px 14px;
+        margin-left: -14px;
+        margin-right: -14px;
+        font-size: 13px;
+        min-height: 44px;
+        white-space: normal;
+        gap: 8px;
+    }
+
+    details[open] summary {
+        margin-bottom: 14px;
+    }
+
+    details summary::before {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+    }
+}

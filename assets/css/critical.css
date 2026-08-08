@@ -1,0 +1,104 @@
+/* Critical CSS, inlined in <head> to prevent a flash of unstyled content (FOUC). */
+
+:root {
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #202020;
+    --border-primary: #2a2a2a;
+    --border-secondary: #3a3a3a;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-tertiary: #b0b0b0;
+    --accent-primary: #5ca1f1;
+    --font-size-base: 15px;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f8f8f8;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #fafafa;
+    --bg-hover: #f0f0f0;
+    --border-primary: #e0e0e0;
+    --border-secondary: #d0d0d0;
+    --text-primary: #0a0a0a;
+    --text-secondary: #2a2a2a;
+    --text-tertiary: #4a4a4a;
+    --accent-primary: #2563eb;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    font-size: var(--font-size-base);
+    line-height: 1.65;
+}
+
+.page-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.25;
+    margin-bottom: 8px;
+}
+
+.article {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.65;
+}
+
+.article p {
+    margin-bottom: 18px;
+}
+
+.article ul,
+.article ol {
+    margin: 14px 0 18px;
+    padding-left: 24px;
+}
+
+.article li {
+    margin: 6px 0;
+    font-size: var(--font-size-base);
+    line-height: 1.65;
+}
+
+/* Critical Layout Skeleton */
+.section-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    min-height: 38px;
+    contain: layout style;
+}
+
+.section-group-block {
+    margin-bottom: 28px;
+    contain: layout style;
+}
+
+.section-group-header {
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    contain: layout style;
+}
+
+.section-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+    contain: layout style;
+}
+
+.article-card {
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    contain: layout style paint;
+}

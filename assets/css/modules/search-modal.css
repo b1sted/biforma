@@ -1,0 +1,195 @@
+.search-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10vh;
+}
+
+.search-modal.active {
+    display: flex !important;
+}
+
+.search-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.search-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    max-height: 70vh;
+    margin: 0 var(--spacing-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: searchModalIn 0.15s ease-out;
+    z-index: 1001;
+}
+
+@keyframes searchModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.search-modal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-tertiary);
+}
+
+.search-modal-header svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.search-modal-header input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    font-family: inherit;
+}
+
+.search-modal-header input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+}
+
+.search-modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.search-modal-close kbd {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: var(--font-size-xs);
+    font-family: inherit;
+}
+
+.search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.search-hint {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.search-result-item {
+    display: block;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: all var(--transition);
+    background: var(--bg-tertiary);
+}
+
+.search-result-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-primary);
+}
+
+.search-result-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.search-result-icon {
+    color: var(--accent-primary);
+    flex-shrink: 0;
+}
+
+.search-result-title {
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+}
+
+.search-result-title mark {
+    background: var(--accent-primary);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.search-result-preview {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    margin-top: var(--spacing-xs);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result-preview mark {
+    background: rgba(74, 144, 226, 0.3);
+    color: var(--text-primary);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.search-no-results {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.search-no-results-icon {
+    font-size: 48px;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.search-no-results-text {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-secondary);
+}

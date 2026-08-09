@@ -1,0 +1,24 @@
+{{- $class := .Attributes.class | default "" -}}
+{{- $lang := .Type | default "text" -}}
+{{- $options := dict "lineNos" false "lineNumbersInTable" false "noClasses" false -}}
+
+{{- $highlighted := transform.Highlight .Inner $lang $options -}}
+{{- $noHeader := or (in $class "no-header") .Attributes.noHeader -}}
+{{- $showHeader := not $noHeader -}}
+
+<div class="code-block-wrapper{{ if not $showHeader }} no-header{{ end }}">
+    {{- if $showHeader -}}
+    {{/* Exclude UI elements from Pagefind search index */}}
+    <div class="code-block-header" data-pagefind-ignore>
+        <span class="code-language">{{ $lang }}</span>
+        <button class="copy-code-button" aria-label="Копировать код">
+            <span>📋</span>
+            <span>Копировать</span>
+        </button>
+    </div>
+    {{- end -}}
+
+    <div class="code-content">
+        {{ $highlighted }}
+    </div>
+</div>

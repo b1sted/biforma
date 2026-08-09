@@ -1,0 +1,45 @@
+{{- $pages := .pages.ByWeight -}}
+{{- $currentPage := .currentPage -}}
+{{- $rawGrouped := $pages.GroupByParam "group" -}}
+
+{{- $groups := slice -}}
+{{- range $rawGrouped -}}
+    {{- $groupPages := .Pages.ByWeight -}}
+    {{- $firstPage := index $groupPages 0 -}}
+    {{- $minWeight := $firstPage.Weight | default 999999 -}}
+    {{- $groups = $groups | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) -}}
+{{- end -}}
+{{- $groups = sort $groups "Weight" "asc" -}}
+
+<ul class="nav-list">
+    {{ range $groups }}
+        {{ $groupKey := .Key }}
+        {{ $groupPages := .Pages }}
+        {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey }}
+
+        {{ $hasActive := false }}
+        {{ range $groupPages }}
+            {{ if $currentPage.Eq . }}
+                {{ $hasActive = true }}
+            {{ end }}
+        {{ end }}
+
+        <li class="nav-group">
+            <details class="nav-group-details" {{ if $hasActive }}open{{ end }}>
+                <summary class="nav-group-summary">
+                    <span class="nav-group-title">{{ $displayTitle }}</span>
+                    <span class="nav-group-chevron" aria-hidden="true">›</span>
+                </summary>
+                <ul class="nav-list nav-list-nested">
+                    {{ range $groupPages }}
+                        {{ partial "nav-item.html" (dict "page" . "currentPage" $currentPage) }}
+                    {{ end }}
+                </ul>
+            </details>
+        </li>
+    {{ end }}
+
+    {{ range where $pages ".Params.group" nil }}
+        {{ partial "nav-item.html" (dict "page" . "currentPage" $currentPage) }}
+    {{ end }}
+</ul>

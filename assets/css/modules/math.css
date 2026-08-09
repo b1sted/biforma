@@ -1,0 +1,25 @@
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: var(--spacing-sm) 0;
+    margin: var(--spacing-xl) 0 !important;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 250px;
+}
+
+.katex {
+    font-size: 1.1em;
+    line-height: 1.2;
+    text-indent: 0;
+}
+
+.article .katex-display > .katex {
+    white-space: normal;
+    text-align: center;
+}
+
+[data-theme="light"] .katex {
+    color: var(--text-primary);
+}

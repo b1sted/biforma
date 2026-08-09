@@ -1,0 +1,20 @@
+{{/*
+  Parent shortcode for side-by-side code comparison.
+  Usage:
+  {{< compare copy="true" >}}
+    {{< compare-left title="Old way" lang="c" >}}
+    ... code ...
+    {{< /compare-left >}}
+
+    {{< compare-right title="New way" lang="c" >}}
+    ... code ...
+    {{< /compare-right >}}
+  {{< /compare >}}
+
+  Params:
+  - copy="true" - shows copy buttons in the block headers
+*/}}
+
+<div class="code-compare">
+    {{ .Inner }}
+</div>

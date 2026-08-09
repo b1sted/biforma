@@ -1,0 +1,98 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">
+        {{- with .Params.icon -}}<span class="page-title-icon">{{ . }}</span> {{- end -}}
+        {{- .Title -}}
+    </h1>
+    {{ with .Description | default .Params.description }}
+    <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+</header>
+
+<article class="article">
+    {{ .Content }}
+
+    {{ if .RegularPages }}
+        {{ $pages := .RegularPages.ByWeight }}
+        {{ $totalCount := len $pages }}
+        {{ $rawGrouped := $pages.GroupByParam "group" }}
+
+        {{ if gt (len $rawGrouped) 0 }}
+            {{ $grouped := slice }}
+            {{ range $rawGrouped }}
+                {{ $groupPages := .Pages.ByWeight }}
+                {{ $firstPage := index $groupPages 0 }}
+                {{ $minWeight := $firstPage.Weight | default 999999 }}
+                {{ $grouped = $grouped | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) }}
+            {{ end }}
+            {{ $grouped = sort $grouped "Weight" "asc" }}
+
+            <nav class="section-filter-bar" aria-label="Фильтр категорий">
+                <button class="section-filter-btn active" data-group="all" type="button">
+                    <span>Все</span>
+                    <span class="section-filter-count">{{ $totalCount }}</span>
+                </button>
+                {{ range $grouped }}
+                    {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" .Key }}
+                    <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
+                        <span>{{ $displayTitle }}</span>
+                        <span class="section-filter-count">{{ len .Pages }}</span>
+                    </button>
+                {{ end }}
+            </nav>
+
+            {{ range $grouped }}
+                {{ $groupKey := .Key }}
+                {{ $groupPages := .Pages }}
+                {{ $firstPage := index $groupPages 0 }}
+                {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey }}
+
+                <section class="section-group-block" data-group="{{ $groupKey }}">
+                    <div class="section-group-header">
+                        <div class="section-group-title-row">
+                            <h2 class="section-group-title">{{ $displayTitle }}</h2>
+                            <span class="section-group-count">{{ len $groupPages }}</span>
+                        </div>
+                        {{ with $firstPage.Params.group_description }}
+                        <div class="section-group-desc">{{ . }}</div>
+                        {{ end }}
+                    </div>
+                    <div class="section-articles">
+                        {{ range $groupPages }}
+                            {{ partial "article-card.html" . }}
+                        {{ end }}
+                    </div>
+                </section>
+            {{ end }}
+
+            {{ $ungroupedPages := where $pages ".Params.group" nil }}
+            {{ if gt (len $ungroupedPages) 0 }}
+                <section class="section-group-block" data-group="ungrouped">
+                    <div class="section-group-header">
+                        <div class="section-group-title-row">
+                            <h2 class="section-group-title">Общие заметки</h2>
+                            <span class="section-group-count">{{ len $ungroupedPages }}</span>
+                        </div>
+                    </div>
+                    <div class="section-articles">
+                        {{ range $ungroupedPages }}
+                            {{ partial "article-card.html" . }}
+                        {{ end }}
+                    </div>
+                </section>
+            {{ end }}
+
+        {{ else }}
+            <div class="section-articles">
+                {{ range $pages }}
+                    {{ partial "article-card.html" . }}
+                {{ end }}
+            </div>
+        {{ end }}
+    {{ end }}
+</article>
+{{ end }}

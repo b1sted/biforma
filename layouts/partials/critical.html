@@ -1,0 +1,4 @@
+{{ with resources.Get "css/critical.css" }}
+    {{- $critical := . | minify -}}
+    <style>{{ $critical.Content | safeCSS }}</style>
+{{ end }}

@@ -1,0 +1,20 @@
+<a href="{{ .RelPermalink }}" class="article-card">
+    <div class="article-card-header">
+        <span class="article-icon">{{ .Params.icon | default "📄" }}</span>
+        <h3 class="article-card-title">{{ .Title }}</h3>
+    </div>
+
+    {{- $desc := .Description | default (.Summary | plainify | truncate 140) -}}
+    {{ with $desc }}
+        <p class="article-card-desc">{{ . }}</p>
+    {{ end }}
+
+    <div class="article-card-meta">
+        {{ with .ReadingTime }}
+            <span class="reading-time">{{ . }} мин.</span>
+        {{ end }}
+        {{ with .Params.difficulty }}
+            <span class="difficulty">{{ . }}</span>
+        {{ end }}
+    </div>
+</a>

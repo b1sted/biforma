@@ -1,0 +1,39 @@
+<div class="rss-feeds-grid">
+    {{- $homeRss := "" -}}
+    {{- with site.Home.OutputFormats.Get "RSS" -}}
+        {{- $homeRss = .Permalink -}}
+    {{- else -}}
+        {{- $homeRss = absURL "rss.xml" -}}
+    {{- end -}}
+
+    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}">
+        <div class="rss-card-icon">🌐</div>
+        <div class="rss-card-content">
+            <h3 class="rss-card-title">Все статьи</h3>
+            <div class="rss-card-url">
+                <code>{{ $homeRss }}</code>
+            </div>
+        </div>
+    </div>
+
+    {{ range site.Sections.ByWeight }}
+        {{ if and (ne .Section "rss") .RegularPages }}
+            {{- $sectionRss := "" -}}
+            {{- with .OutputFormats.Get "RSS" -}}
+                {{- $sectionRss = .Permalink -}}
+            {{- else -}}
+                {{- $sectionRss = printf "%srss.xml" .Permalink -}}
+            {{- end -}}
+
+            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}">
+                <div class="rss-card-icon">{{ .Params.icon | default "📁" }}</div>
+                <div class="rss-card-content">
+                    <h3 class="rss-card-title">{{ .Title }}</h3>
+                    <div class="rss-card-url">
+                        <code>{{ $sectionRss }}</code>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    {{ end }}
+</div>

@@ -1,0 +1,111 @@
+.article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-xl) 0;
+    font-size: var(--font-size-sub);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--border-primary);
+}
+
+.article thead {
+    background: var(--bg-secondary);
+}
+
+[data-theme="light"] .article thead {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+/* Force all table headers (<th>) in thead to be centered */
+.article th,
+.article table th,
+.article thead th {
+    padding: 10px 14px;
+    text-align: center !important;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-primary);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.article td {
+    padding: 10px 14px;
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+    font-size: var(--font-size-sub);
+    line-height: 1.5;
+}
+
+.article tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.article tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.article td code {
+    font-size: var(--font-size-xs);
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-tertiary);
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.table-scroll-wrapper table {
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Tables inside details and compare blocks */
+details table,
+.code-compare table {
+    background: transparent;
+    border: none;
+    margin: 0;
+    border-radius: 0;
+}
+
+details thead,
+.code-compare thead {
+    background: transparent;
+}
+
+details th,
+.code-compare th {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-primary);
+    border-bottom: 1px solid var(--border-primary);
+    text-align: center !important;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 16px;
+}
+
+details td,
+.code-compare td {
+    background: transparent;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-primary);
+}

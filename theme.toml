@@ -1,0 +1,32 @@
+name = "Biforma"
+license = "GPL-3.0"
+licenselink = "https://github.com/b1sted/biforma/blob/main/LICENSE"
+description = "Dual-mode Hugo theme for Documentation, Knowledge Bases, and Personal Blogs"
+homepage = "https://github.com/b1sted/biforma"
+
+min_version = "0.123.0"
+
+tags = [
+  "documentation",
+  "docs",
+  "blog",
+  "responsive",
+  "dark-mode",
+  "clean",
+  "search"
+]
+
+features = [
+  "responsive",
+  "dark-mode",
+  "sidebar",
+  "toc",
+  "search",
+  "dual-mode",
+  "katex",
+  "brotli"
+]
+
+[author]
+  name = "Nikita Mandrykin"
+  homepage = "https://basted.ru"

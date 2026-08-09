@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang }}" data-theme="dark">
+
+<head>
+    {{- partial "head.html" . -}}
+</head>
+
+<body>
+    {{- partialCached "header.html" . -}}
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="docs-wrapper">
+        <div class="docs-container">
+            {{- partial "sidebar.html" . -}}
+
+            {{- $tocEnabled := .Params.toc | default true -}}
+            {{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
+            {{- if in (slice "section" "taxonomy" "term" "home") .Kind }}{{ $tocEnabled = false }}{{ end -}}
+
+            <main class="main-content {{ if not $tocEnabled }}no-toc{{ end }}"
+                {{- if .Params.searchHidden }} data-pagefind-ignore="all"{{ end }}>
+                <div class="main-content-body">
+                    {{- block "breadcrumbs" . }}{{ end -}}
+                    {{- block "main" . }}{{ end -}}
+                </div>
+                {{- partialCached "footer.html" . -}}
+            </main>
+
+            {{- if $tocEnabled -}}
+                {{- partial "toc.html" . -}}
+            {{- end -}}
+        </div>
+    </div>
+
+    {{- partialCached "search-modal.html" . -}}
+    {{- partialCached "license-modal.html" . -}}
+    {{- partialCached "scroll-top.html" . -}}
+
+    {{- partialCached "scripts.html" . .Kind -}}
+    {{- partial "analytics.html" . -}}
+</body>
+
+</html>

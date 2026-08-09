@@ -1,0 +1,86 @@
+:root {
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #202020;
+    --bg-code: #0f0f0f;
+    --bg-code-header: #0a0a0a;
+
+    --border-primary: #2a2a2a;
+    --border-secondary: #3a3a3a;
+    --border-code: #1f1f1f;
+
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-tertiary: #b0b0b0;
+    --text-muted: #888888;
+    --text-code-muted: #a0a0a0;
+
+    --accent-primary: #5ca1f1;
+    --accent-secondary: #4a90e2;
+
+    --accent-info: #60a5fa;
+    --accent-success: #4ade80;
+    --accent-warning: #facc15;
+    --accent-danger: #ff6b6b;
+
+    --container-max-width: 1400px;
+    --sidebar-width: 260px;
+    --toc-width: 220px;
+    --header-height: 60px;
+
+    --spacing-xs: 6px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
+    --spacing-3xl: 48px;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    --font-size-3xs: 11px;
+    --font-size-2xs: 12px;
+    --font-size-xs:  13px;
+    --font-size-sub: 14px;
+    --font-size-base: 15px;
+    --font-size-md:  16px;
+    --font-size-lg:  18px;
+    --font-size-xl:  20px;
+    --font-size-2xl: 24px;
+    --font-size-3xl: 32px;
+
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+    --bg-primary: #f8f8f8;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #fafafa;
+    --bg-hover: #f0f0f0;
+    --bg-code: #f5f5f5;
+    --bg-code-header: #ebebeb;
+
+    --border-primary: #e0e0e0;
+    --border-secondary: #d0d0d0;
+    --border-code: #d0d0d0;
+
+    --text-primary: #0a0a0a;
+    --text-secondary: #2a2a2a;
+    --text-tertiary: #4a4a4a;
+    --text-muted: #595959;
+    --text-code-muted: #606060;
+
+    --accent-primary: #2563eb;
+    --accent-secondary: #1d4ed8;
+
+    --accent-info: #1d4ed8;
+    --accent-success: #15803d;
+    --accent-warning: #b45309;
+    --accent-danger: #b91c1c;
+
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+}

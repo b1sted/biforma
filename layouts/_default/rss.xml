@@ -1,0 +1,50 @@
+{{- $pctx := . -}}
+{{- if .IsHome -}}{{ $pctx = site }}{{- end -}}
+
+{{- $pages := slice -}}
+{{- if or $.IsHome $.IsSection -}}
+    {{- $pages = $pctx.RegularPages -}}
+{{- else -}}
+    {{- $pages = $pctx.Pages -}}
+{{- end -}}
+
+{{- $limit := site.Config.Services.RSS.Limit -}}
+{{- if ge $limit 1 -}}
+    {{- $pages = $pages | first $limit -}}
+{{- end -}}
+
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+{{/* xmlns:dc lets us set an author name without requiring an email (RSS 2.0's own author field needs one) */}}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>{{ if eq .Title site.Title }}{{ site.Title | transform.XMLEscape }}{{ else }}{{ with .Title }}{{ . | transform.XMLEscape }} | {{ end }}{{ site.Title | transform.XMLEscape }}{{ end }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>{{ with .Description }}{{ . | transform.XMLEscape }}{{ else }}{{ site.Params.description | transform.XMLEscape }}{{ end }}</description>
+    <language>{{ site.Language.Lang }}</language>
+
+    <copyright>{{ now.Year }} {{ site.Params.author | transform.XMLEscape }}</copyright>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+
+    {{ with .OutputFormats.Get "RSS" -}}
+    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{ end -}}
+
+    {{ range $pages }}
+    <item>
+      <title>{{ .Title | transform.XMLEscape }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      {{ with site.Params.author }}
+      <dc:creator>{{ . | transform.XMLEscape }}</dc:creator>
+      {{ end }}
+      <guid>{{ .Permalink }}</guid>
+      <description><![CDATA[{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}]]></description>
+      {{ with .Params.tags }}
+      {{ range . }}
+      <category>{{ . | transform.XMLEscape }}</category>
+      {{ end }}
+      {{ end }}
+    </item>
+    {{ end }}
+  </channel>
+</rss>

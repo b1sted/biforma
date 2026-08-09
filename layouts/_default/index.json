@@ -1,0 +1,21 @@
+{{- $index := slice -}}
+
+{{- range where site.RegularPages "Params.searchHidden" "!=" true -}}
+    {{- $section := "" -}}
+    {{- if .Parent -}}
+        {{- $section = .Parent.Title -}}
+    {{- end -}}
+
+    {{- $item := dict
+        "title" .Title
+        "url" .RelPermalink
+        "content" (.Plain | truncate 1000)
+        "section" $section
+        "tags" (.Params.tags | default (slice))
+        "description" (.Description | default "")
+    -}}
+
+    {{- $index = $index | append $item -}}
+{{- end -}}
+
+{{- $index | jsonify -}}

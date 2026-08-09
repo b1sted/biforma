@@ -1,0 +1,10 @@
+{{- with . -}}
+    {{- $css := . -}}
+    <!-- Check if passed context is not a primitive string -->
+    {{- if ne (printf "%T" .) "string" -}}
+        {{- $css = .Content -}}
+    {{- end -}}
+    {{- if $css -}}
+        <style>{{ $css | safeCSS }}</style>
+    {{- end -}}
+{{- end -}}

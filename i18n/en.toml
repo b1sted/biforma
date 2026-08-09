@@ -65,7 +65,7 @@ other = "Support the author"
 # Sections, Tags & Cards
 
 [home_sections_title]
-other = "Note Sections"
+other = "Sections"
 
 [section_ungrouped]
 other = "General Notes"
@@ -74,7 +74,7 @@ other = "General Notes"
 other = "All"
 
 [reading_time_min]
-other = "min."
+other = "min read"
 
 [notes_count]
 one = "%d note"
@@ -149,7 +149,7 @@ other = "Page Not Found"
 other = "It might have been removed, renamed,<br>or you typed the wrong address."
 
 [btn_go_home]
-other = "Go to Home"
+other = "Go Home"
 
 [btn_go_back]
 other = "Go Back"

@@ -77,7 +77,7 @@ function initCompareCopyButtons() {
                 btn.innerHTML = originalContent;
             }, 2000);
         } catch (err) {
-            console.error('Ошибка копирования:', err);
+            console.error('Failed to copy code:', err);
         }
     });
 }

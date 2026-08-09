@@ -28,10 +28,16 @@
 
 {{- if .Params.math -}}{{- $names = $names | append "math" -}}{{- end -}}
 {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}{{- $names = $names | append "donation" -}}{{- end -}}
-<!-- Changed "|---" check to "|" to match any markdown table formatting -->
+
+{{/* Tables detection */}}
 {{- if and .IsPage (or (in .RawContent "<table") (in .RawContent "|")) -}}{{- $names = $names | append "tables" -}}{{- end -}}
-{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![")) -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
-{{- if and .IsPage (or (in .RawContent "```") (in .RawContent "code-block-wrapper")) -}}{{- $names = $names | append "chroma" -}}{{- end -}}
+
+{{/* Lightbox detection */}}
+{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![") (in .RawContent "img ")) -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
+
+{{/* Syntax highlighting detection */}}
+{{- if and .IsPage (or (in .RawContent "```") (in .RawContent "code ") (in .RawContent "tabs ") (in .RawContent "compare")) -}}{{- $names = $names | append "chroma" -}}{{- end -}}
+
 {{- $names = $names | uniq -}}
 
 {{- $files := slice -}}

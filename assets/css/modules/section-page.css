@@ -106,7 +106,6 @@
     font-weight: 600;
 }
 
-/* Section cards grid layout */
 .sections-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -452,84 +451,4 @@
 
 .rss-feed-card:hover::after {
     opacity: 1;
-}
-
-@media (max-width: 1024px) {
-    .section-articles:not([data-count="1"]):not([data-count="2"]) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* International Mobile Standards (Apple HIG & Material Design 3) */
-@media (max-width: 768px) {
-    .section-filter-bar {
-        gap: 8px;
-        margin-bottom: 16px;
-        padding-bottom: 10px;
-        min-height: 44px;
-    }
-
-    .section-filter-btn {
-        min-height: 40px;
-        padding: 8px 14px;
-        font-size: 13.5px;
-    }
-
-    .section-group-block {
-        margin-bottom: 22px;
-    }
-
-    .section-group-header {
-        margin-bottom: 12px;
-        padding-bottom: 4px;
-    }
-
-    .section-group-title {
-        font-size: 17px !important;
-    }
-
-    .section-group-desc {
-        font-size: 13px;
-        margin-top: 3px !important;
-        line-height: 1.45;
-    }
-
-    .section-articles,
-    .section-articles[data-count="2"],
-    .section-articles:not([data-count="1"]):not([data-count="2"]) {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 10px;
-    }
-
-    .section-articles[data-count="1"] {
-        max-width: none;
-    }
-
-    .article-card {
-        padding: 14px 16px;
-        min-height: auto;
-    }
-
-    .article-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 18px;
-    }
-
-    .article-card-header h3 {
-        font-size: 15px;
-        line-height: 1.35;
-    }
-
-    .article-card-desc {
-        font-size: 13px;
-        line-height: 1.5;
-        margin-top: 8px;
-    }
-
-    .article-card-meta {
-        padding-top: 10px;
-        font-size: 11.5px;
-    }
 }

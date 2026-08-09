@@ -12,9 +12,9 @@
     {{- if not $noHeader -}}
     <div class="code-block-header" data-pagefind-ignore>
         <span class="code-language">{{ $title }}</span>
-        <button class="copy-code-button" type="button" aria-label="Копировать код">
+        <button class="copy-code-button" type="button" aria-label="{{ i18n "copy_code" }}">
             <span aria-hidden="true">📋</span>
-            <span class="copy-text">Копировать</span>
+            <span class="copy-text">{{ i18n "copy_text" }}</span>
         </button>
     </div>
     {{- end -}}

@@ -32,6 +32,7 @@
 ## Features
 
 - **Dual Mode (`themeMode`)**: Switch between `docs` (tree navigation, Table of Contents, category filters) and `blog` (clean post feed, metadata).
+- **Multilingual & i18n**: Built-in internationalization with localized UI strings and an optional header language switcher for multi-language sites.
 - **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), and lazy-loaded analytics.
 - **Instant Search**: Powered by Pagefind for zero-config, ultra-fast client-side search.
 - **Math & Typography**: Built-in KaTeX math rendering, Chroma syntax highlighting, side-by-side code comparison, tabs, and admonitions.
@@ -67,6 +68,18 @@ Add the following options to your `hugo.toml`:
 baseURL = "https://example.com"
 title = "My Site"
 theme = "biforma"
+
+# Optional Multilingual Configuration
+defaultContentLanguage = "ru"
+
+[languages]
+  [languages.ru]
+    label = "Русский"
+    weight = 1
+
+  [languages.en]
+    label = "English"
+    weight = 2
 
 [params]
   # Select theme mode: "docs" or "blog"

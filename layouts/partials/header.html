@@ -1,6 +1,6 @@
 <header class="header">
     <div class="header-container">
-        <button type="button" class="menu-toggle" aria-label="Открыть меню">
+        <button type="button" class="menu-toggle" aria-label="{{ i18n "aria_open_menu" }}">
             <svg width="20" height="20" aria-hidden="true">
                 <use href="{{ "icons.svg#icon-menu" | relURL }}"></use>
             </svg>
@@ -14,11 +14,11 @@
         </a>
 
         <div class="header-search">
-            <button type="button" class="search-trigger" aria-label="Поиск">
+            <button type="button" class="search-trigger" aria-label="{{ i18n "aria_search" }}">
                 <svg width="16" height="16" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-search" | relURL }}"></use>
                 </svg>
-                <span>{{ site.Params.searchPlaceholder | default "Поиск..." }}</span>
+                <span>{{ site.Params.searchPlaceholder | default (i18n "search_placeholder") }}</span>
                 <kbd>Ctrl+K</kbd>
             </button>
         </div>
@@ -29,7 +29,7 @@
                     <svg width="18" height="18" aria-hidden="true">
                         <use href="{{ "icons.svg#icon-home" | relURL }}"></use>
                     </svg>
-                    <span>Главная</span>
+                    <span>{{ i18n "nav_home" }}</span>
                 </a>
             {{ end }}
 
@@ -38,7 +38,7 @@
                     <svg width="18" height="18" aria-hidden="true">
                         <use href="{{ "icons.svg#icon-heart" | relURL }}"></use>
                     </svg>
-                    <span>Donate</span>
+                    <span>{{ i18n "nav_donate" | default "Donate" }}</span>
                 </a>
             {{ end }}
 
@@ -51,13 +51,34 @@
                 </a>
             {{ end }}
 
-            <button type="button" class="search-trigger-mobile header-link" aria-label="Открыть поиск" style="display:none">
+            <button type="button" class="search-trigger-mobile header-link" aria-label="{{ i18n "aria_open_search" }}" style="display:none">
                 <svg width="18" height="18" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-search" | relURL }}"></use>
                 </svg>
             </button>
 
-            <button type="button" class="theme-toggle" aria-label="Переключить тему оформления">
+            {{/* Language Switcher (compatible with Hugo v0.156+) */}}
+            {{ if hugo.IsMultilingual }}
+                {{ $currentPage := . }}
+                {{ $currentLang := site.Language.Lang }}
+                {{ range hugo.Sites }}
+                    {{ if ne .Language.Lang $currentLang }}
+                        {{ $targetURL := .Home.RelPermalink }}
+                        {{ with $currentPage.Translations }}
+                            {{ $match := index (where . "Language.Lang" $.Language.Lang) 0 }}
+                            {{ with $match }}{{ $targetURL = .RelPermalink }}{{ end }}
+                        {{ end }}
+                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ .Language.Label | default .Language.Label | default .Language.Lang }}">
+                            <svg width="18" height="18" aria-hidden="true">
+                                <use href="{{ "icons.svg#icon-globe" | relURL }}"></use>
+                            </svg>
+                            <span>{{ .Language.Lang | upper }}</span>
+                        </a>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+
+            <button type="button" class="theme-toggle" aria-label="{{ i18n "aria_toggle_theme" }}">
                 <svg id="theme-icon-sun" width="18" height="18" style="display: none" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-sun" | relURL }}"></use>
                 </svg>

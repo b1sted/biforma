@@ -1,5 +1,5 @@
 <aside class="sidebar" id="sidebar">
-    <nav class="sidebar-nav" aria-label="Sidebar navigation">
+    <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
         {{ $currentPage := . }}
 
         {{ $rootPages := (where .Site.RegularPages "Section" "").ByWeight }}
@@ -10,7 +10,7 @@
 
                 {{ if not $hideTitle }}
                 <h3 class="nav-section-title">
-                    {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}Общее{{ end }}
+                    {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}{{ i18n "sidebar_general" }}{{ end }}
                 </h3>
                 {{ end }}
 
@@ -28,7 +28,7 @@
                             {{ with .Params.icon }}
                                 <span class="nav-icon">{{ . }}</span>
                             {{ end }}
-                            <span>{{ .Title | default "Раздел" }}</span>
+                            <span>{{ .Title | default (i18n "sidebar_section") }}</span>
                         </a>
                     </h3>
 

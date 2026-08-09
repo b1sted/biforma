@@ -48,6 +48,8 @@ function syncCompareScroll(leftBlock, rightBlock) {
 }
 
 function initCompareCopyButtons() {
+    const copiedText = window.i18n?.copiedText || 'Скопировано!';
+
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.code-compare-header .copy-code-button');
         if (!btn) return;
@@ -69,13 +71,13 @@ function initCompareCopyButtons() {
             await navigator.clipboard.writeText(textToCopy);
             const originalContent = btn.innerHTML;
             btn.classList.add('copied');
-            btn.innerHTML = '<span>\u2713</span><span>\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e!</span>';
+            btn.innerHTML = `<span>✓</span><span>${copiedText}</span>`;
             setTimeout(() => {
                 btn.classList.remove('copied');
                 btn.innerHTML = originalContent;
             }, 2000);
         } catch (err) {
-            console.error('\u041e\u0448\u0438\u0431\u043a\u0430 \u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f:', err);
+            console.error('Failed to copy code:', err);
         }
     });
 }

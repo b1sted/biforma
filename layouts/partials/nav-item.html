@@ -1,13 +1,7 @@
-{{/*
-  Renders a single <li class="nav-item"> sidebar link.
-  Params:
-    .page        - the Page to render
-    .currentPage - the currently viewed Page (for active-state + inline TOC)
-*/}}
 {{- $page := .page -}}
 {{- $currentPage := .currentPage -}}
 {{- $isActive := $currentPage.Eq $page -}}
-{{- $title := $page.Title | default "Страница" -}}
+{{- $title := $page.Title | default (i18n "page_default_title") -}}
 
 {{- $tocEnabled := $page.Params.toc | default true -}}
 {{- if $page.Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
@@ -24,7 +18,7 @@
 
     {{- if and $isActive $tocEnabled $page.TableOfContents (gt (len $page.TableOfContents) 100) -}}
     <div class="sidebar-toc-section">
-        <nav class="sidebar-toc-nav" aria-label="Содержание страницы">
+        <nav class="sidebar-toc-nav" aria-label="{{ i18n "toc_title" }}">
             {{ $page.TableOfContents }}
         </nav>
     </div>

@@ -11,21 +11,21 @@
                 {{- end }}
             </p>
             <p class="footer-text footer-license">
-                <span class="footer-license-item">Code: <a href="#" class="js-license-trigger" data-license="polyform" aria-label="Лицензия PolyForm NC 1.0">PolyForm NC 1.0</a></span>
+                <span class="footer-license-item">{{ i18n "footer_code_license" }} <a href="#" class="js-license-trigger" data-license="polyform" aria-label="PolyForm NC 1.0">PolyForm NC 1.0</a></span>
                 <span class="footer-separator">•</span>
-                <span class="footer-license-item">Content: <a href="#" class="js-license-trigger" data-license="cc_by_nc" aria-label="Лицензия CC BY-NC 4.0">CC BY-NC 4.0</a></span>
+                <span class="footer-license-item">{{ i18n "footer_content_license" }} <a href="#" class="js-license-trigger" data-license="cc_by_nc" aria-label="CC BY-NC 4.0">CC BY-NC 4.0</a></span>
             </p>
         </div>
 
         <div class="footer-links">
-            <a href="{{ "rss/" | relURL }}" class="footer-link footer-link-rss" aria-label="RSS Feed">
+            <a href="{{ "rss/" | relURL }}" class="footer-link footer-link-rss" aria-label="{{ i18n "rss_feed" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-rss" | relURL }}"></use>
                 </svg>
             </a>
 
             {{- with site.Params.donate -}}
-            <a href="{{ . }}" class="footer-link footer-link-heart" target="_blank" rel="noopener noreferrer" aria-label="Donate">
+            <a href="{{ . }}" class="footer-link footer-link-heart" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "nav_donate" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-heart" | relURL }}"></use>
                 </svg>
@@ -41,7 +41,7 @@
             {{- end -}}
 
             {{- with site.Params.mainSite -}}
-            <a href="{{ . }}" class="footer-link" aria-label="Main Site">
+            <a href="{{ . }}" class="footer-link" aria-label="{{ i18n "nav_home" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-home" | relURL }}"></use>
                 </svg>

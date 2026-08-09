@@ -4,25 +4,13 @@
 
 {{ define "main" }}
 {{ $count := len .Pages }}
-{{ $mod10 := mod $count 10 }}
-{{ $mod100 := mod $count 100 }}
-
-{{/* Correct Russian plural forms: 1 заметка, 2 заметки, 5 заметок */}}
-{{ $word := "заметок" }}
-{{ if and (ge $mod100 11) (le $mod100 19) }}
-    {{ $word = "заметок" }}
-{{ else if eq $mod10 1 }}
-    {{ $word = "заметка" }}
-{{ else if and (ge $mod10 2) (le $mod10 4) }}
-    {{ $word = "заметки" }}
-{{ end }}
 
 <header class="page-header">
     <h1 class="page-title">
         <span class="page-title-icon">🏷️</span>
         {{- .Title -}}
     </h1>
-    <p class="page-subtitle">{{ $count }} {{ $word }} с этим тегом</p>
+    <p class="page-subtitle">{{ printf (i18n "tag_notes_count" $count) $count }}</p>
 </header>
 
 <article class="article">

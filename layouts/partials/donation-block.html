@@ -5,17 +5,17 @@
     <div class="donation-content">
         <span class="donation-icon" aria-hidden="true">💜</span>
         <div class="donation-text">
-            <p class="donation-title">Полезный материал?</p>
-            <p class="donation-desc">Если статья помогла разобраться в теме, вы можете поддержать автора любой комфортной суммой.</p>
+            <p class="donation-title">{{ i18n "donate_title" }}</p>
+            <p class="donation-desc">{{ i18n "donate_desc" }}</p>
         </div>
     </div>
     
-    {{ $buttonText := site.Params.donateButtonText | default "Поддержать автора" }}
+    {{ $buttonText := site.Params.donateButtonText | default (i18n "donate_button") }}
     <a href="{{ $donateUrl }}" 
        target="_blank" 
        rel="noopener noreferrer" 
        class="donation-button"
-       aria-label="{{ $buttonText }} (открывается в новой вкладке)">
+       aria-label="{{ $buttonText }} ({{ i18n "aria_opens_new_tab" }})">
         <span>{{ $buttonText }}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="7" y1="17" x2="17" y2="7"></line>

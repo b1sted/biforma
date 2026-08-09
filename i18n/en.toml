@@ -1,0 +1,195 @@
+# Navigation & Header
+
+[nav_home]
+other = "Home"
+
+[nav_donate]
+other = "Donate"
+
+[search_placeholder]
+other = "Search..."
+
+[close]
+other = "Close"
+
+# Sidebar & Breadcrumbs
+
+[sidebar_general]
+other = "General"
+
+[sidebar_section]
+other = "Section"
+
+[page_default_title]
+other = "Page"
+
+[page_abbr]
+other = "Page"
+
+# Table of Contents & Article navigation
+
+[toc_title]
+other = "On this page"
+
+[page_nav_prev]
+other = "Previous"
+
+[page_nav_next]
+other = "Next"
+
+# Code Blocks & Copy Buttons
+
+[copy_code]
+other = "Copy code"
+
+[copy_text]
+other = "Copy"
+
+[copied_text]
+other = "Copied!"
+
+[done_text]
+other = "Done!"
+
+# Donation Block
+
+[donate_title]
+other = "Found this helpful?"
+
+[donate_desc]
+other = "If this article helped you, consider supporting the author with a donation."
+
+[donate_button]
+other = "Support the author"
+
+# Sections, Tags & Cards
+
+[home_sections_title]
+other = "Sections"
+
+[section_ungrouped]
+other = "General Notes"
+
+[filter_all]
+other = "All"
+
+[reading_time_min]
+other = "min read"
+
+[notes_count]
+one = "%d note"
+other = "%d notes"
+
+[tag_notes_count]
+one = "%d note with this tag"
+other = "%d notes with this tag"
+
+# Search & RSS
+
+[search_no_results]
+other = "No results found"
+
+[search_index_missing]
+other = "Error: Search index not found.<br>Run: <code>npx pagefind --site public</code>"
+
+[rss_feed]
+other = "RSS Feed"
+
+[rss_open_feed]
+other = "🔗 Open Feed"
+
+# Footer
+
+[footer_code_license]
+other = "Code:"
+
+[footer_content_license]
+other = "Content:"
+
+# License Modal
+
+[license_modal_title]
+other = "License"
+
+[license_tab_permissions]
+other = "Permissions"
+
+[license_tab_text]
+other = "Text"
+
+[perm_can]
+other = "Can"
+
+[perm_cannot]
+other = "Cannot"
+
+[perm_must]
+other = "Must"
+
+# Lightbox (Image Viewer)
+
+[lightbox_title]
+other = "Image Viewer"
+
+[lightbox_zoom_in]
+other = "Zoom in"
+
+[lightbox_zoom_out]
+other = "Zoom out"
+
+[lightbox_zoom_reset]
+other = "Reset zoom"
+
+# 404 Error Page
+
+[error_404_title]
+other = "Page Not Found"
+
+[error_404_desc]
+other = "It might have been removed, renamed,<br>or you typed the wrong address."
+
+[btn_go_home]
+other = "Go Home"
+
+[btn_go_back]
+other = "Go Back"
+
+# SEO & Meta
+
+[og_locale]
+other = "en_US"
+
+# ARIA Accessibility Labels
+
+[aria_open_menu]
+other = "Open menu"
+
+[aria_search]
+other = "Search"
+
+[aria_open_search]
+other = "Open search"
+
+[aria_toggle_theme]
+other = "Toggle theme"
+
+[aria_breadcrumbs]
+other = "Breadcrumbs"
+
+[aria_scroll_top]
+other = "Scroll to top"
+
+[aria_filter_categories]
+other = "Filter categories"
+
+[aria_page_nav]
+other = "Article navigation"
+
+[aria_sidebar_nav]
+other = "Sidebar navigation"
+
+[aria_task_checkbox]
+other = "Task checkbox"
+
+[aria_opens_new_tab]
+other = "opens in a new tab"

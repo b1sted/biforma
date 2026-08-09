@@ -7,6 +7,24 @@
 
 <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark')})();</script>
 
+<script>
+window.i18n = {{ dict
+    "copyText" (i18n "copy_text")
+    "copiedText" (i18n "copied_text")
+    "doneText" (i18n "done_text")
+    "searchNoResults" (i18n "search_no_results")
+    "searchIndexMissing" (i18n "search_index_missing")
+    "lightboxTitle" (i18n "lightbox_title")
+    "close" (i18n "close")
+    "lightboxZoomIn" (i18n "lightbox_zoom_in")
+    "lightboxZoomOut" (i18n "lightbox_zoom_out")
+    "lightboxZoomReset" (i18n "lightbox_zoom_reset")
+    "permCan" (i18n "perm_can")
+    "permCannot" (i18n "perm_cannot")
+    "permMust" (i18n "perm_must")
+| jsonify | safeJS }};
+</script>
+
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 
 {{ partial "critical.html" . }}
@@ -77,7 +95,7 @@
     {{- else -}}
         {{ .Title }}
         {{- if and $paginatable .Paginator -}}
-            {{- if gt .Paginator.PageNumber 1 }} (Стр. {{ .Paginator.PageNumber }}){{- end -}}
+            {{- if gt .Paginator.PageNumber 1 }} ({{ i18n "page_abbr" }} {{ .Paginator.PageNumber }}){{- end -}}
         {{- end }} — {{ site.Title -}}
     {{- end -}}
 </title>
@@ -103,7 +121,7 @@
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
-<meta property="og:locale" content="ru_RU">
+<meta property="og:locale" content="{{ i18n "og_locale" | default site.Language.Lang }}">
 {{- $ogImage := site.Params.defaultImage | default "/icons/icon-512.png" -}}
 {{- if .Params.image -}}{{- $ogImage = .Params.image -}}{{- end -}}
 <meta property="og:image" content="{{ $ogImage | absURL }}">

@@ -433,7 +433,7 @@
 }
 
 .rss-feed-card::after {
-    content: '🔗 Открыть ленту';
+    content: attr(data-tooltip);
     position: absolute;
     top: var(--spacing-md);
     right: var(--spacing-md);

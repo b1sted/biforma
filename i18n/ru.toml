@@ -23,6 +23,9 @@ other = "Раздел"
 [page_default_title]
 other = "Страница"
 
+[page_abbr]
+other = "Стр."
+
 # Оглавление (TOC) и Навигация по статьям
 
 [toc_title]
@@ -93,8 +96,8 @@ other = "Ничего не найдено"
 [search_index_missing]
 other = "Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>"
 
-[rss_all_articles]
-other = "Все статьи"
+[rss_feed]
+other = "RSS-лента"
 
 [rss_open_feed]
 other = "🔗 Открыть ленту"
@@ -154,6 +157,11 @@ other = "На главную"
 
 [btn_go_back]
 other = "Назад"
+
+# SEO и Мета
+
+[og_locale]
+other = "ru_RU"
 
 # ARIA-метки доступности (Accessibility)
 

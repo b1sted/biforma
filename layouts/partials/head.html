@@ -95,7 +95,7 @@ window.i18n = {{ dict
     {{- else -}}
         {{ .Title }}
         {{- if and $paginatable .Paginator -}}
-            {{- if gt .Paginator.PageNumber 1 }} (Стр. {{ .Paginator.PageNumber }}){{- end -}}
+            {{- if gt .Paginator.PageNumber 1 }} ({{ i18n "page_abbr" }} {{ .Paginator.PageNumber }}){{- end -}}
         {{- end }} — {{ site.Title -}}
     {{- end -}}
 </title>
@@ -121,7 +121,7 @@ window.i18n = {{ dict
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
-<meta property="og:locale" content="{{ site.Language.Lang }}">
+<meta property="og:locale" content="{{ i18n "og_locale" | default site.Language.Lang }}">
 {{- $ogImage := site.Params.defaultImage | default "/icons/icon-512.png" -}}
 {{- if .Params.image -}}{{- $ogImage = .Params.image -}}{{- end -}}
 <meta property="og:image" content="{{ $ogImage | absURL }}">

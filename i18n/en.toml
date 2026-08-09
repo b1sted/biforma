@@ -23,6 +23,9 @@ other = "Section"
 [page_default_title]
 other = "Page"
 
+[page_abbr]
+other = "Page"
+
 # Table of Contents & Article navigation
 
 [toc_title]
@@ -89,8 +92,8 @@ other = "No results found"
 [search_index_missing]
 other = "Error: Search index not found.<br>Run: <code>npx pagefind --site public</code>"
 
-[rss_all_articles]
-other = "All Articles"
+[rss_feed]
+other = "RSS Feed"
 
 [rss_open_feed]
 other = "🔗 Open Feed"
@@ -150,6 +153,11 @@ other = "Go to Home"
 
 [btn_go_back]
 other = "Go Back"
+
+# SEO & Meta
+
+[og_locale]
+other = "en_US"
 
 # ARIA Accessibility Labels
 

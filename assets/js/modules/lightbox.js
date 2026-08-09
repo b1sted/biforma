@@ -10,24 +10,30 @@ function createLightbox() {
     if (lightboxCreated) return;
     lightboxCreated = true;
 
+    const labelLightbox = window.i18n?.lightboxTitle || 'Просмотр изображения';
+    const labelClose = window.i18n?.close || 'Закрыть';
+    const labelZoomIn = window.i18n?.lightboxZoomIn || 'Увеличить';
+    const labelZoomOut = window.i18n?.lightboxZoomOut || 'Уменьшить';
+    const labelZoomReset = window.i18n?.lightboxZoomReset || 'Сбросить масштаб';
+
     const lightbox = document.createElement('div');
     lightbox.id = 'lightbox';
     lightbox.className = 'lightbox';
     lightbox.setAttribute('role', 'dialog');
     lightbox.setAttribute('aria-modal', 'true');
-    lightbox.setAttribute('aria-label', 'Просмотр изображения');
+    lightbox.setAttribute('aria-label', labelLightbox);
 
     lightbox.innerHTML = `
         <div class="lightbox-content">
             <img src="" alt="" class="lightbox-image zoomable" id="lightbox-image" draggable="false">
             <div class="lightbox-caption" id="lightbox-caption"></div>
         </div>
-        <button class="lightbox-close" aria-label="Закрыть">×</button>
+        <button class="lightbox-close" aria-label="${labelClose}">×</button>
         <div class="lightbox-toolbar">
-            <button class="lightbox-btn zoom-out" aria-label="Уменьшить" title="Уменьшить">−</button>
+            <button class="lightbox-btn zoom-out" aria-label="${labelZoomOut}" title="${labelZoomOut}">−</button>
             <span class="lightbox-scale" id="lightbox-scale">100%</span>
-            <button class="lightbox-btn zoom-in" aria-label="Увеличить" title="Увеличить">+</button>
-            <button class="lightbox-btn zoom-reset" aria-label="Сбросить масштаб" title="Сбросить масштаб">1:1</button>
+            <button class="lightbox-btn zoom-in" aria-label="${labelZoomIn}" title="${labelZoomIn}">+</button>
+            <button class="lightbox-btn zoom-reset" aria-label="${labelZoomReset}" title="${labelZoomReset}">1:1</button>
         </div>
     `;
     document.body.appendChild(lightbox);
@@ -136,7 +142,6 @@ function updateImageTransform() {
     const image = document.getElementById('lightbox-image');
     if (!image) return;
 
-    // Read the true rendered layout sizes (the 100% fit size)
     const baseWidth = image.offsetWidth;
     const baseHeight = image.offsetHeight;
     const winWidth = window.innerWidth;
@@ -145,7 +150,6 @@ function updateImageTransform() {
     const scaledWidth = baseWidth * currentScale;
     const scaledHeight = baseHeight * currentScale;
 
-    // Constrain panning to edges
     const maxX = Math.max(0, (scaledWidth - winWidth) / 2);
     const maxY = Math.max(0, (scaledHeight - winHeight) / 2);
 

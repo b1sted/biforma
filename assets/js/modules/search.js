@@ -9,6 +9,9 @@ function initSearch() {
     let pagefind = null;
     let timeoutId = null;
 
+    const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
+    const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
+
     const loadPagefind = async () => {
         if (pagefind) return;
         try {
@@ -17,7 +20,7 @@ function initSearch() {
         } catch (e) {
             console.error('Pagefind failed to load:', e);
             if (resultsContainer) {
-                resultsContainer.innerHTML = '<div class="search-hint">Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code></div>';
+                resultsContainer.innerHTML = `<div class="search-hint">${indexMissingText}</div>`;
             }
         }
     };
@@ -38,7 +41,7 @@ function initSearch() {
 
     const renderResults = async (searchResult) => {
         if (!searchResult.results.length) {
-            resultsContainer.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">\uD83D\uDE15</div><div class="search-no-results-text">Ничего не найдено</div></div>';
+            resultsContainer.innerHTML = `<div class="search-no-results"><div class="search-no-results-icon">😕</div><div class="search-no-results-text">${noResultsText}</div></div>`;
             return;
         }
 
@@ -47,7 +50,7 @@ function initSearch() {
         const data = await Promise.all(dataPromises);
 
         const html = data.map((item) => {
-            return `<a href="${item.url}" class="search-result-item"><div class="search-result-header"><div class="search-result-icon">\uD83D\uDCC4</div><div class="search-result-title">${item.meta.title}</div></div><div class="search-result-preview">${item.excerpt}</div></a>`;
+            return `<a href="${item.url}" class="search-result-item"><div class="search-result-header"><div class="search-result-icon">📄</div><div class="search-result-title">${item.meta.title}</div></div><div class="search-result-preview">${item.excerpt}</div></a>`;
         }).join('');
 
         resultsContainer.innerHTML = html;

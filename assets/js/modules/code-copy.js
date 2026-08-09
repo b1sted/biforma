@@ -1,4 +1,7 @@
 function initCopyButtons() {
+    const defaultDone = window.i18n?.doneText || 'Готово!';
+    const defaultCopy = window.i18n?.copyText || 'Копировать';
+
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.copy-code-button, .tab-copy-btn, .rss-copy-btn');
         if (!btn) return;
@@ -18,10 +21,10 @@ function initCopyButtons() {
                 btn.classList.add('copied');
                 const span = btn.querySelector('.copy-text') || btn.querySelector('span:last-child');
                 const old = span ? span.textContent : '';
-                if (span) span.textContent = 'Готово!';
+                if (span) span.textContent = defaultDone;
                 setTimeout(() => {
                     btn.classList.remove('copied');
-                    if (span) span.textContent = old === 'Готово!' ? 'Копировать' : old;
+                    if (span) span.textContent = old === defaultDone ? defaultCopy : old;
                 }, 1000);
             } catch (err) {
                 console.error('Failed to copy text:', err);
@@ -33,7 +36,7 @@ function initCopyButtons() {
         if (!box.querySelector('.rss-copy-btn')) {
             const b = document.createElement('button');
             b.className = 'rss-copy-btn';
-            b.innerHTML = '<span>📋</span><span class="copy-text">Копировать</span>';
+            b.innerHTML = `<span>📋</span><span class="copy-text">${defaultCopy}</span>`;
             b.style.marginTop = '8px';
             b.style.width = '100%';
             b.style.cursor = 'pointer';

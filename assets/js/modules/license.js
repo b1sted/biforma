@@ -68,9 +68,11 @@ function initLicenseModal() {
         const cannot = p['cannot' + suffix] || [];
         const must = p['must' + suffix] || [];
 
-        const labels = currentLang === 'ru'
-            ? { can: 'Можно', cannot: 'Нельзя', must: 'Нужно' }
-            : { can: 'Can', cannot: 'Cannot', must: 'Must' };
+        const labels = {
+            can: window.i18n?.permCan || (currentLang === 'ru' ? 'Можно' : 'Can'),
+            cannot: window.i18n?.permCannot || (currentLang === 'ru' ? 'Нельзя' : 'Cannot'),
+            must: window.i18n?.permMust || (currentLang === 'ru' ? 'Нужно' : 'Must')
+        };
 
         const renderList = (items) => {
             if (!items.length) return '';
@@ -98,14 +100,13 @@ function initLicenseModal() {
     function parseMarkdown(text) {
         if (!text) return '';
 
-        // Auto-link explicit URLs enclosed in <>
         text = text.replace(/<((?:https?|ftp):\/\/[^>]+)>/g, '[$1]($1)');
 
         const lines = text.split('\n');
         let html = '';
         let inBlockquote = false;
         let pBuffer = [];
-        let listStack = []; // stack of { type, indent, olType } for nested lists
+        let listStack = [];
 
         const makeSlug = (text) => {
             return text.toLowerCase()
@@ -169,7 +170,6 @@ function initLicenseModal() {
                 trimmed = trimmed.substring(1).trim();
             }
 
-            // Empty line inside a blockquote still needs to flush the paragraph
             if (lineIsBlockquote && !trimmed) {
                 flushP();
                 return;
@@ -215,7 +215,6 @@ function initLicenseModal() {
                 return;
             }
 
-            // Unordered and ordered list items
             const listMatch = trimmed.match(/^(\*|[0-9]+\.|[a-z]{1,2}\.|[A-Z]\.|[ivx]+\.)\s+(.*)/i);
             if (listMatch) {
                 flushP();
@@ -230,13 +229,11 @@ function initLicenseModal() {
                     if (marker.match(/^[0-9]+\.$/)) possibleTypes.push('1');
                 }
 
-                // Adjust the open-list stack to match this line's indentation
                 closeListsToIndent(currentIndent);
 
                 let top = listStack[listStack.length - 1];
                 let olType = possibleTypes[0] || '';
 
-                // Keep the existing list's numbering type when continuing at the same level
                 if (top && top.indent === currentIndent && top.type === listType) {
                     if (possibleTypes.includes(top.olType)) {
                         olType = top.olType;
@@ -254,7 +251,6 @@ function initLicenseModal() {
                 return;
             } else {
                 if (listStack.length > 0) {
-                    // A less-indented non-list line closes any open lists
                     if (currentIndent <= listStack[listStack.length - 1].indent) {
                         closeAllLists();
                     }
@@ -273,7 +269,6 @@ function initLicenseModal() {
         return html;
     }
 
-
     triggers.forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
@@ -291,9 +286,7 @@ function initLicenseModal() {
         const link = e.target.closest('a');
         if (link && link.hash && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
             e.preventDefault();
-            // Decode the hash first (browser encodes Cyrillic characters)
             const targetId = decodeURIComponent(link.hash.substring(1));
-            // Then escape it for querySelector to handle special characters
             const escapedId = CSS.escape(targetId);
             const targetElement = modalBody.querySelector(`#${escapedId}`);
             if (targetElement) {

@@ -15,9 +15,9 @@
             {{ end }}
         </nav>
         {{ if not $isContentStyle }}
-        <button class="tab-copy-btn" aria-label="Копировать код" type="button">
+        <button class="tab-copy-btn" aria-label="{{ i18n "copy_code" }}" type="button">
             <span aria-hidden="true">📋</span>
-            <span class="copy-text">Копировать</span>
+            <span class="copy-text">{{ i18n "copy_text" }}</span>
         </button>
         {{ end }}
     </div>

@@ -6,10 +6,10 @@
         {{- $homeRss = absURL "rss.xml" -}}
     {{- end -}}
 
-    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}">
+    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}" data-tooltip="{{ i18n "rss_open_feed" }}">
         <div class="rss-card-icon">🌐</div>
         <div class="rss-card-content">
-            <h3 class="rss-card-title">Все статьи</h3>
+            <h3 class="rss-card-title">{{ i18n "rss_all_articles" }}</h3>
             <div class="rss-card-url">
                 <code>{{ $homeRss }}</code>
             </div>
@@ -25,7 +25,7 @@
                 {{- $sectionRss = printf "%srss.xml" .Permalink -}}
             {{- end -}}
 
-            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}">
+            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}" data-tooltip="{{ i18n "rss_open_feed" }}">
                 <div class="rss-card-icon">{{ .Params.icon | default "📁" }}</div>
                 <div class="rss-card-content">
                     <h3 class="rss-card-title">{{ .Title }}</h3>

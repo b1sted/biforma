@@ -237,4 +237,9 @@ button.header-link {
         align-items: center;
         justify-content: center;
     }
+
+    /* Preserve language toggle link visibility on mobile screens */
+    .header-link:not(.search-trigger-mobile):not(.lang-toggle) {
+        display: none;
+    }
 }

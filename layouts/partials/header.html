@@ -57,6 +57,27 @@
                 </svg>
             </button>
 
+            {{/* Language Switcher (compatible with Hugo v0.156+) */}}
+            {{ if hugo.IsMultilingual }}
+                {{ $currentPage := . }}
+                {{ $currentLang := site.Language.Lang }}
+                {{ range hugo.Sites }}
+                    {{ if ne .Language.Lang $currentLang }}
+                        {{ $targetURL := .Home.RelPermalink }}
+                        {{ with $currentPage.Translations }}
+                            {{ $match := index (where . "Language.Lang" $.Language.Lang) 0 }}
+                            {{ with $match }}{{ $targetURL = .RelPermalink }}{{ end }}
+                        {{ end }}
+                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ .Language.Label | default .Language.Label | default .Language.Lang }}">
+                            <svg width="18" height="18" aria-hidden="true">
+                                <use href="{{ "icons.svg#icon-globe" | relURL }}"></use>
+                            </svg>
+                            <span>{{ .Language.Lang | upper }}</span>
+                        </a>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+
             <button type="button" class="theme-toggle" aria-label="{{ i18n "aria_toggle_theme" }}">
                 <svg id="theme-icon-sun" width="18" height="18" style="display: none" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-sun" | relURL }}"></use>

@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    {{- partialCached "header.html" . -}}
+    {{- partialCached "header.html" . site.Language.Lang -}}
 
     <div class="overlay" id="overlay"></div>
 
@@ -24,7 +24,7 @@
                     {{- block "breadcrumbs" . }}{{ end -}}
                     {{- block "main" . }}{{ end -}}
                 </div>
-                {{- partialCached "footer.html" . -}}
+                {{- partialCached "footer.html" . site.Language.Lang -}}
             </main>
 
             {{- if $tocEnabled -}}
@@ -33,11 +33,11 @@
         </div>
     </div>
 
-    {{- partialCached "search-modal.html" . -}}
-    {{- partialCached "license-modal.html" . -}}
+    {{- partialCached "search-modal.html" . site.Language.Lang -}}
+    {{- partialCached "license-modal.html" . site.Language.Lang -}}
     {{- partialCached "scroll-top.html" . -}}
 
-    {{- partialCached "scripts.html" . .Kind -}}
+    {{- partialCached "scripts.html" . .Kind site.Language.Lang -}}
     {{- partial "analytics.html" . -}}
 </body>
 

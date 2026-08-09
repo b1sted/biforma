@@ -31,9 +31,9 @@
             {{ end }}
             {{ $grouped = sort $grouped "Weight" "asc" }}
 
-            <nav class="section-filter-bar" aria-label="Фильтр категорий">
+            <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
                 <button class="section-filter-btn active" data-group="all" type="button">
-                    <span>Все</span>
+                    <span>{{ i18n "filter_all" }}</span>
                     <span class="section-filter-count">{{ $totalCount }}</span>
                 </button>
                 {{ range $grouped }}
@@ -74,7 +74,7 @@
                 <section class="section-group-block" data-group="ungrouped">
                     <div class="section-group-header">
                         <div class="section-group-title-row">
-                            <h2 class="section-group-title">Общие заметки</h2>
+                            <h2 class="section-group-title">{{ i18n "section_ungrouped" }}</h2>
                             <span class="section-group-count">{{ len $ungroupedPages }}</span>
                         </div>
                     </div>

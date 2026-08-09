@@ -1,12 +1,12 @@
-<div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Поиск по заметкам">
+<div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="{{ i18n "aria_search" }}">
     <div class="search-modal-backdrop"></div>
     <div class="search-modal-content">
         <div class="search-modal-header">
             <svg width="20" height="20" aria-hidden="true">
                 <use href="/icons.svg#icon-search"></use>
             </svg>
-            <input type="search" id="search-input" placeholder="Поиск..." autocomplete="off" aria-label="Поиск по заметкам">
-            <button type="button" class="search-modal-close" aria-label="Закрыть"><kbd>Esc</kbd></button>
+            <input type="search" id="search-input" placeholder="{{ site.Params.searchPlaceholder | default (i18n "search_placeholder") }}" autocomplete="off" aria-label="{{ i18n "aria_search" }}">
+            <button type="button" class="search-modal-close" aria-label="{{ i18n "close" }}"><kbd>Esc</kbd></button>
         </div>
         <div class="search-results" id="search-results" aria-live="polite"></div>
     </div>

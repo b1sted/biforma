@@ -2,8 +2,8 @@
     <div class="modal-container">
 
         <div class="modal-header">
-            <h2 id="modal-title" class="modal-title">Лицензия</h2>
-            <button type="button" id="modal-close" class="modal-close" aria-label="Закрыть">
+            <h2 id="modal-title" class="modal-title">{{ i18n "license_modal_title" }}</h2>
+            <button type="button" id="modal-close" class="modal-close" aria-label="{{ i18n "close" }}">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -18,8 +18,8 @@
                 <button type="button" class="modal-tab" data-lang="en">EN</button>
             </div>
             <div class="modal-view-toggle">
-                <button type="button" class="modal-view-btn active" data-view="permissions">Что можно</button>
-                <button type="button" class="modal-view-btn" data-view="text">Текст</button>
+                <button type="button" class="modal-view-btn active" data-view="permissions">{{ i18n "license_tab_permissions" }}</button>
+                <button type="button" class="modal-view-btn" data-view="text">{{ i18n "license_tab_text" }}</button>
             </div>
         </div>
 

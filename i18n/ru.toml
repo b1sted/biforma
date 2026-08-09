@@ -1,0 +1,191 @@
+# Навигация и Шапка
+
+[nav_home]
+other = "Главная"
+
+[nav_donate]
+other = "Донат"
+
+[search_placeholder]
+other = "Поиск..."
+
+[close]
+other = "Закрыть"
+
+# Сайдбар и Крошки
+
+[sidebar_general]
+other = "Общее"
+
+[sidebar_section]
+other = "Раздел"
+
+[page_default_title]
+other = "Страница"
+
+# Оглавление (TOC) и Навигация по статьям
+
+[toc_title]
+other = "На этой странице"
+
+[page_nav_prev]
+other = "Предыдущая"
+
+[page_nav_next]
+other = "Следующая"
+
+# Код и Кнопки копирования
+
+[copy_code]
+other = "Копировать код"
+
+[copy_text]
+other = "Копировать"
+
+[copied_text]
+other = "Скопировано!"
+
+[done_text]
+other = "Готово!"
+
+# Блок донатов
+
+[donate_title]
+other = "Полезный материал?"
+
+[donate_desc]
+other = "Если статья помогла разобраться в теме, вы можете поддержать автора любой комфортной суммой."
+
+[donate_button]
+other = "Поддержать автора"
+
+# Разделы, Теги и Карточки
+
+[home_sections_title]
+other = "Разделы заметок"
+
+[section_ungrouped]
+other = "Общие заметки"
+
+[filter_all]
+other = "Все"
+
+[reading_time_min]
+other = "мин."
+
+[notes_count]
+one = "%d заметка"
+few = "%d заметки"
+many = "%d заметок"
+other = "%d заметок"
+
+[tag_notes_count]
+one = "%d заметка с этим тегом"
+few = "%d заметки с этим тегом"
+many = "%d заметок с этим тегом"
+other = "%d заметок с этим тегом"
+
+# Поиск и RSS
+
+[search_no_results]
+other = "Ничего не найдено"
+
+[search_index_missing]
+other = "Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>"
+
+[rss_all_articles]
+other = "Все статьи"
+
+[rss_open_feed]
+other = "🔗 Открыть ленту"
+
+# Футер
+
+[footer_code_license]
+other = "Код:"
+
+[footer_content_license]
+other = "Контент:"
+
+# Модальное окно лицензий
+
+[license_modal_title]
+other = "Лицензия"
+
+[license_tab_permissions]
+other = "Что можно"
+
+[license_tab_text]
+other = "Текст"
+
+[perm_can]
+other = "Можно"
+
+[perm_cannot]
+other = "Нельзя"
+
+[perm_must]
+other = "Нужно"
+
+# Лайтбокс (Просмотр изображений)
+
+[lightbox_title]
+other = "Просмотр изображения"
+
+[lightbox_zoom_in]
+other = "Увеличить"
+
+[lightbox_zoom_out]
+other = "Уменьшить"
+
+[lightbox_zoom_reset]
+other = "Сбросить масштаб"
+
+# Страница ошибки 404
+
+[error_404_title]
+other = "Страница не найдена"
+
+[error_404_desc]
+other = "Возможно, она была удалена, перемещена<br>или вы ввели неверный адрес."
+
+[btn_go_home]
+other = "На главную"
+
+[btn_go_back]
+other = "Назад"
+
+# ARIA-метки доступности (Accessibility)
+
+[aria_open_menu]
+other = "Открыть меню"
+
+[aria_search]
+other = "Поиск"
+
+[aria_open_search]
+other = "Открыть поиск"
+
+[aria_toggle_theme]
+other = "Переключить тему оформления"
+
+[aria_breadcrumbs]
+other = "Хлебные крошки"
+
+[aria_scroll_top]
+other = "Наверх"
+
+[aria_filter_categories]
+other = "Фильтр категорий"
+
+[aria_page_nav]
+other = "Навигация по статьям"
+
+[aria_sidebar_nav]
+other = "Навигация по сайту"
+
+[aria_task_checkbox]
+other = "Чекбокс задачи"
+
+[aria_opens_new_tab]
+other = "открывается в новой вкладке"

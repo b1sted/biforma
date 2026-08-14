@@ -1,5 +1,3 @@
-/* Critical CSS, inlined in <head> to prevent a flash of unstyled content (FOUC). */
-
 :root {
     --bg-primary: #0d0d0d;
     --bg-secondary: #141414;
@@ -10,6 +8,7 @@
     --text-primary: #ffffff;
     --text-secondary: #e0e0e0;
     --text-tertiary: #b0b0b0;
+    --text-muted: #888888;
     --accent-primary: #5ca1f1;
     --font-size-base: 15px;
 }
@@ -24,6 +23,7 @@
     --text-primary: #0a0a0a;
     --text-secondary: #2a2a2a;
     --text-tertiary: #4a4a4a;
+    --text-muted: #595959;
     --accent-primary: #2563eb;
 }
 
@@ -36,69 +36,59 @@ body {
     line-height: 1.65;
 }
 
-.page-title {
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.25;
-    margin-bottom: 8px;
+.header {
+    height: 60px;
+    background: rgba(20, 20, 20, 0.95);
+    border-bottom: 1px solid var(--border-primary);
 }
 
-.article {
-    color: var(--text-secondary);
-    font-size: var(--font-size-base);
-    line-height: 1.65;
+.docs-wrapper {
+    width: 100%;
+    padding-top: 84px;
+    box-sizing: border-box;
 }
 
-.article p {
-    margin-bottom: 18px;
+.docs-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
 }
 
-.article ul,
-.article ol {
-    margin: 14px 0 18px;
-    padding-left: 24px;
-}
-
-.article li {
-    margin: 6px 0;
-    font-size: var(--font-size-base);
-    line-height: 1.65;
-}
-
-/* Critical Layout Skeleton */
-.section-filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    min-height: 38px;
-    contain: layout style;
-}
-
-.section-group-block {
-    margin-bottom: 28px;
-    contain: layout style;
-}
-
-.section-group-header {
-    margin-bottom: 16px;
-    padding-bottom: 6px;
-    contain: layout style;
-}
-
-.section-articles {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 16px;
-    margin-top: 12px;
-    contain: layout style;
-}
-
-.article-card {
-    min-height: 140px;
+.blog-home-wrapper {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    contain: layout style paint;
+}
+
+.blog-bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    contain: layout style;
+}
+
+.blog-bento-hero {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 8px;
+    padding: 24px;
+    contain: layout style;
+}
+
+.blog-hero-title {
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.blog-hero-desc {
+    font-size: 14px;
+    color: var(--text-tertiary);
+    line-height: 1.55;
+    margin: 0;
 }

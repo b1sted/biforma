@@ -12,47 +12,13 @@
     })();
 </script>
 
-{{- $kind := "fallback" -}}
-{{- if .IsHome -}}
-    {{- $kind = "home" -}}
-{{- else if eq .Kind "404" -}}
-    {{- $kind = "404" -}}
-{{- else if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
-    {{- $kind = "about" -}}
-{{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
-    {{- $kind = "section" -}}
-{{- else if eq .Kind "page" -}}
-    {{- $kind = "single" -}}
+{{- $esbuildOpts := dict
+    "target" "es2020"
+    "format" "iife"
+    "minify" (not hugo.IsServer)
+-}}
+
+{{- with resources.Get "js/main.js" -}}
+    {{- $bundle := . | js.Build $esbuildOpts | fingerprint -}}
+    <script defer src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}"></script>
 {{- end -}}
-
-{{- $modules := hugo.Data.js_modules -}}
-{{- $names := slice -}}
-{{- if $modules -}}
-    {{- $names = $modules.core | append (index $modules.by_kind $kind) | append "email-protection" -}}
-{{- else -}}
-    {{- $names = slice "init" "theme" "sidebar" "toc" "tabs" "search" "code-copy" "compare" "email-protection" -}}
-{{- end -}}
-
-{{- if or (eq $kind "single") .TableOfContents -}}
-    {{- $names = $names | append "toc" -}}
-{{- end -}}
-
-{{- if or (eq $kind "about") (eq .Type "about") (in .RelPermalink "/about/") -}}
-    {{- $names = $names | append "about-filter" -}}
-{{- end -}}
-
-{{- $names = $names | uniq -}}
-
-{{- $files := slice (resources.Get "js/modules/_iife-start.js") -}}
-
-{{- range $names -}}
-    {{- $mod := resources.Get (printf "js/modules/%s.js" .) -}}
-    {{- if $mod -}}
-        {{- $files = $files | append $mod -}}
-    {{- end -}}
-{{- end -}}
-
-{{- $files = $files | append (resources.Get "js/modules/_iife-end.js") -}}
-{{- $bundle := $files | resources.Concat (printf "js/main.%s.bundle.js" $kind) -}}
-
-<script defer src="{{ ($bundle | js.Build (dict "minify" true "target" "es2017")).RelPermalink }}"></script>

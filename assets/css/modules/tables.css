@@ -18,12 +18,11 @@
     border-bottom: 1px solid var(--border-primary);
 }
 
-/* Force all table headers (<th>) in thead to be centered */
 .article th,
 .article table th,
 .article thead th {
     padding: 10px 14px;
-    text-align: center !important;
+    text-align: center;
     font-weight: 600;
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-primary);
@@ -50,9 +49,9 @@
 
 .article td code {
     font-size: var(--font-size-xs);
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
+    background: transparent;
+    border: none;
+    padding: 0;
     color: var(--text-primary);
     font-weight: 500;
 }
@@ -67,6 +66,8 @@
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 200px;
 }
 
 .table-scroll-wrapper table {
@@ -75,7 +76,6 @@
     background: transparent;
 }
 
-/* Tables inside details and compare blocks */
 details table,
 .code-compare table {
     background: transparent;
@@ -94,7 +94,7 @@ details th,
     background: var(--bg-secondary);
     border-top: 1px solid var(--border-primary);
     border-bottom: 1px solid var(--border-primary);
-    text-align: center !important;
+    text-align: center;
     font-weight: 600;
     color: var(--text-primary);
     font-size: 13px;

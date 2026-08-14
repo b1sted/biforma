@@ -33,60 +33,62 @@ window.i18n = {{ dict
 
 {{ partial "critical.html" . }}
 
-{{ with resources.Get "css/fonts.css" }}
-    {{- $fonts := . | minify -}}
-    <link rel="preload" href="{{ $fonts.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ $fonts.RelPermalink }}"></noscript>
-{{ end }}
+{{- $coreModules := slice
+    "variables" "base" "layout" "typography" "header" "footer"
+    "toc" "details" "dividers" "search-modal" "license-modal"
+    "sidebar-overlay" "responsive"
+-}}
 
-{{- $kind := "fallback" -}}
-{{- if .IsHome -}}{{- $kind = "home" -}}
-{{- else if eq .Kind "404" -}}{{- $kind = "404" -}}
-{{- else if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}{{- $kind = "about" -}}
-{{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}{{- $kind = "section" -}}
-{{- else if eq .Kind "page" -}}{{- $kind = "single" -}}
+{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+{{- $bundleName := "css/main.page.bundle.css" -}}
+{{- $pageModules := $coreModules -}}
+
+{{- if eq .Kind "404" -}}
+    {{- $pageModules = $pageModules | append "error-page" -}}
+    {{- $bundleName = "css/main.error.bundle.css" -}}
+{{- else if $isAbout -}}
+    {{- $pageModules = $pageModules | append "about" -}}
+    {{- $bundleName = "css/main.about.bundle.css" -}}
+{{- else if and .IsPage (not $isAbout) -}}
+    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox") -}}
+    {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
+        {{- $pageModules = $pageModules | append "donation" -}}
+    {{- end -}}
+    {{- $bundleName = "css/main.article.bundle.css" -}}
+{{- else if or (in (slice "section" "taxonomy" "term") .Kind) (and .IsHome (not $isBlog)) -}}
+    {{- $pageModules = $pageModules | append "section-page" -}}
+    {{- $bundleName = "css/main.section.bundle.css" -}}
 {{- end -}}
 
-{{- $names := hugo.Data.css_modules.core | append (index hugo.Data.css_modules.by_kind $kind) -}}
-
-{{- if eq (site.Params.themeMode | default "docs") "blog" -}}{{- $names = $names | append "blog" -}}{{- end -}}
-{{- if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}{{- $names = $names | append "about" -}}{{- end -}}
-{{- if .Params.math -}}{{- $names = $names | append "math" -}}{{- end -}}
-{{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}{{- $names = $names | append "donation" -}}{{- end -}}
-
-{{- if and .IsPage (or (in .RawContent "<table") (in .RawContent "|")) -}}{{- $names = $names | append "tables" -}}{{- end -}}
-
-{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![") (in .RawContent "img ")) -}}{{- $names = $names | append "tabs" -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
-
-{{- if and .IsPage (or (in .RawContent "```") (in .RawContent "code ") (in .RawContent "tabs ") (in .RawContent "compare")) -}}{{- $names = $names | append "chroma" -}}{{- end -}}
-
-{{- $names = $names | uniq -}}
-
-{{- $files := slice -}}
-{{- range $names -}}
-    {{- $mod := resources.Get (printf "css/modules/%s.css" .) -}}
-    {{- if $mod }}{{- $files = $files | append $mod -}}{{- end -}}
-{{- end -}}
-
-{{- if $files -}}
-    {{- $bundle := $files | resources.Concat (printf "css/main.%s.%s.bundle.css" $kind (crypto.MD5 (delimit $names "-"))) | minify -}}
-    <style>{{ $bundle.Content | safeCSS }}</style>
-{{- end -}}
-
-{{- $deferredFiles := slice -}}
-{{- range hugo.Data.css_modules.deferred -}}
-    {{- $mod := resources.Get (printf "css/modules/%s.css" .) -}}
-    {{- if $mod }}{{- $deferredFiles = $deferredFiles | append $mod -}}{{- end -}}
-{{- end -}}
-{{- if $deferredFiles -}}
-    {{- $deferredBundle := $deferredFiles | resources.Concat "css/deferred.bundle.css" | minify -}}
-    <link rel="preload" href="{{ $deferredBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ $deferredBundle.RelPermalink }}"></noscript>
+{{- if $isBlog -}}
+    {{- $pageModules = $pageModules | append "blog" -}}
 {{- end -}}
 
 {{- if .Params.math -}}
-<link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
+    {{- $pageModules = $pageModules | append "math" -}}
+{{- end -}}
+
+{{- $bundleFiles := slice -}}
+{{- with resources.Get "css/fonts.css" -}}{{- $bundleFiles = $bundleFiles | append . -}}{{- end -}}
+
+{{- range ($pageModules | uniq) -}}
+    {{- with resources.Get (printf "css/modules/%s.css" .) -}}
+        {{- $bundleFiles = $bundleFiles | append . -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if .Params.math -}}
+    {{- with resources.Get "css/katex.min.css" -}}{{- $bundleFiles = $bundleFiles | append . -}}{{- end -}}
+{{- end -}}
+
+{{- if $bundleFiles -}}
+    {{- $pageBundle := $bundleFiles | resources.Concat $bundleName | minify | fingerprint -}}
+    <link rel="preload" href="{{ $pageBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ $pageBundle.RelPermalink }}"></noscript>
+{{- end -}}
+
+{{- if .Params.math -}}
 <script defer src="{{ "js/katex.min.js" | relURL }}"></script>
 <script defer src="{{ "js/auto-render.min.js" | relURL }}"
     onload="if('requestIdleCallback' in window){requestIdleCallback(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})});}else{setTimeout(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})},200);}"></script>
@@ -147,19 +149,24 @@ window.i18n = {{ dict
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 
 {{- if not .IsHome }}
+{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+{{- $schemaType := "WebSite" -}}
+{{- if .IsPage -}}
+    {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
+{{- end -}}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "{{ if .IsPage }}TechArticle{{ else }}WebSite{{ end }}",
-    "name": "{{ .Title }}",
+    "@type": "{{ $schemaType }}",
+    "headline": "{{ .Title }}",
     "description": "{{ $description }}",
     "url": "{{ .Permalink }}"{{ if .IsPage }},
     "author": { "@type": "Person", "name": "{{ site.Params.author }}" }
     {{- with .Date }},
-    "datePublished": "{{ .Format "2006-01-02" }}"
+    "datePublished": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
     {{- end }}
     {{- with .Lastmod }},
-    "dateModified": "{{ .Format "2006-01-02" }}"
+    "dateModified": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
     {{- end -}}{{ end }}
 }
 </script>

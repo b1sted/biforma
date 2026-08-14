@@ -27,8 +27,22 @@
             {{- /* Content injected via JS */ -}}
         </div>
 
+        {{- $licenses := dict -}}
+        {{- with hugo.Data.licenses -}}
+            {{- range $key, $val := . -}}
+                {{- $item := $val -}}
+                {{- with $val.text_ru -}}
+                    {{- $item = merge $item (dict "html_ru" (. | markdownify)) -}}
+                {{- end -}}
+                {{- with $val.text_en -}}
+                    {{- $item = merge $item (dict "html_en" (. | markdownify)) -}}
+                {{- end -}}
+                {{- $licenses = merge $licenses (dict $key $item) -}}
+            {{- end -}}
+        {{- end -}}
+
         <script type="application/json" id="license-data">
-            {{ (hugo.Data.licenses | default (dict)) | jsonify | safeJS }}
+            {{ $licenses | jsonify | safeJS }}
         </script>
     </div>
 </div>

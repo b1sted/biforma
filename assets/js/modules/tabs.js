@@ -1,4 +1,4 @@
-function initTabs() {
+export function initTabs() {
     document.querySelectorAll('.code-tabs, .content-tabs').forEach((container) => {
         const content = container.querySelector('.tabs-content');
         const nav = container.querySelector('.tabs-nav');
@@ -12,7 +12,6 @@ function initTabs() {
             panels.forEach((p, i) => p.classList.toggle('active', i === 0));
         }
 
-        // Attach click listener for switching tabs
         if (!container.dataset.tabsInitialized) {
             container.dataset.tabsInitialized = 'true';
             nav.addEventListener('click', (e) => {
@@ -23,9 +22,13 @@ function initTabs() {
                 const idx = allBtns.indexOf(btn);
 
                 if (idx !== -1) {
-                    allBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
-                    const currentPanels = Array.from(content.querySelectorAll('.tab-panel'));
-                    currentPanels.forEach((p, i) => p.classList.toggle('active', i === idx));
+                    allBtns.forEach((b, i) => {
+                        b.classList.toggle('active', i === idx);
+                        b.setAttribute('aria-selected', String(i === idx));
+                    });
+                    Array.from(content.querySelectorAll('.tab-panel')).forEach((p, i) => {
+                        p.classList.toggle('active', i === idx);
+                    });
                 }
             });
         }

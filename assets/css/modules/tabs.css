@@ -1,8 +1,8 @@
 .article pre {
-    background: var(--bg-code) !important;
-    border: 1px solid var(--border-code) !important;
+    background: var(--bg-code);
+    border: 1px solid var(--border-code);
     border-radius: var(--radius-md);
-    padding: 0 !important;
+    padding: 0;
     margin: var(--spacing-xl) 0;
     overflow-x: auto;
     line-height: 1.6;
@@ -10,13 +10,13 @@
 
 .article pre code {
     display: block;
-    padding: 14px 16px !important;
-    background: transparent !important;
-    border: none !important;
-    color: var(--text-secondary) !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace !important;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
 }
 
 .code-block-wrapper,
@@ -28,49 +28,49 @@
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    background: var(--bg-code) !important;
-    border: 1px solid var(--border-code) !important;
+    background: var(--bg-code);
+    border: 1px solid var(--border-code);
     border-radius: var(--radius-md);
     overflow: hidden;
-    contain: layout style paint;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    content-visibility: auto;
+    contain-intrinsic-size: auto 250px;
 }
 
 .code-centered-wrapper,
 .code-block-wrapper.code-centered-wrapper,
 .code-block-simple.code-centered {
-    width: fit-content !important;
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .code-centered-wrapper pre,
 .code-block-simple.code-centered pre {
-    width: fit-content !important;
-    max-width: 100% !important;
+    width: fit-content;
+    max-width: 100%;
 }
 
 .code-centered-wrapper pre code,
 .code-block-simple.code-centered pre code {
-    white-space: pre !important;
-    display: block !important;
-    padding: 12px 18px !important;
+    white-space: pre;
+    display: block;
+    padding: 12px 18px;
 }
 
-/* Reset double indents within blocks */
 .code-block-wrapper pre,
 .code-block-simple pre,
 .code-block-wrapper .chroma,
 .code-block-simple .chroma,
 .code-block-wrapper .highlight,
 .code-block-simple .highlight {
-    background: transparent !important;
-    background-color: transparent !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
+    background: transparent;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
 }
 
 .code-block-wrapper pre code,
@@ -79,16 +79,16 @@
 .code-block-wrapper .chroma code,
 .code-block-simple .chroma code {
     display: block;
-    padding: 14px 16px !important;
-    background: transparent !important;
-    color: var(--text-secondary) !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    font-weight: 400 !important;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', 'Monaco', monospace !important;
+    padding: 14px 16px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', 'Monaco', monospace;
     overflow-x: auto;
-    white-space: pre !important;
-    word-break: normal !important;
+    white-space: pre;
+    word-break: normal;
 }
 
 .tabs-header,
@@ -220,40 +220,39 @@
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) .highlight,
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) .chroma,
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) pre {
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) .code-block-header {
-    display: none !important;
+    display: none;
 }
 
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) .tab-panel pre code,
 .code-tabs:not(.code-tabs--rich):not(.content-tabs) .tab-panel .chroma code {
-    padding: 14px 16px !important;
-    font-size: 13px !important;
-    line-height: 1.6 !important;
-    background: transparent !important;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    background: transparent;
 }
 
 .code-tabs--rich,
 .content-tabs {
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    contain: none;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
     margin: var(--spacing-xl) 0;
 }
 
 .code-tabs--rich .tabs-header,
 .content-tabs .tabs-header {
-    background: transparent !important;
-    border-bottom: 1px solid var(--border-primary) !important;
+    background: transparent;
+    border-bottom: 1px solid var(--border-primary);
     padding: 0;
 }
 

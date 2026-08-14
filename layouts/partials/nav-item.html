@@ -3,11 +3,8 @@
 {{- $isActive := $currentPage.Eq $page -}}
 {{- $title := $page.Title | default (i18n "page_default_title") -}}
 
-{{- $tocEnabled := $page.Params.toc | default true -}}
-{{- if $page.Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
-
-<li class="nav-item{{ if $isActive }} has-toc{{ end }}">
-    <a class="nav-link{{ if $isActive }} active{{ end }}" 
+<li class="nav-item">
+    <a class="nav-link{{ if $isActive }} active{{ end }}"
        href="{{ $page.RelPermalink }}"
        {{ if $isActive }}aria-current="page"{{ end }}>
         {{ with $page.Params.icon }}
@@ -15,12 +12,4 @@
         {{ end }}
         <span>{{ $title }}</span>
     </a>
-
-    {{- if and $isActive $tocEnabled $page.TableOfContents (gt (len $page.TableOfContents) 100) -}}
-    <div class="sidebar-toc-section">
-        <nav class="sidebar-toc-nav" aria-label="{{ i18n "toc_title" }}">
-            {{ $page.TableOfContents }}
-        </nav>
-    </div>
-    {{- end -}}
 </li>

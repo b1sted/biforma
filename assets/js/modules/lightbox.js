@@ -6,6 +6,28 @@ let currentScale = 1;
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
 
+export function setupLightboxTriggers() {
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.js-lightbox-trigger');
+        if (trigger) {
+            e.preventDefault();
+            openLightbox(trigger.dataset.image, trigger.dataset.caption);
+            return;
+        }
+
+        const img = e.target.closest('.article img');
+        if (img && !img.closest('a')) {
+            e.preventDefault();
+            const figure = img.closest('figure');
+            const caption = figure?.querySelector('figcaption')?.textContent || img.alt || img.title || '';
+            openLightbox(img.src, caption);
+        }
+    });
+
+    window.openLightbox = openLightbox;
+    window.closeLightbox = closeLightbox;
+}
+
 function createLightbox() {
     if (lightboxCreated) return;
     lightboxCreated = true;
@@ -30,38 +52,30 @@ function createLightbox() {
         </div>
         <button class="lightbox-close" aria-label="${labelClose}">×</button>
         <div class="lightbox-toolbar">
-            <button class="lightbox-btn zoom-out" aria-label="${labelZoomOut}" title="${labelZoomOut}">−</button>
+            <button class="lightbox-btn zoom-out" aria-label="${labelZoomOut}">−</button>
             <span class="lightbox-scale" id="lightbox-scale">100%</span>
-            <button class="lightbox-btn zoom-in" aria-label="${labelZoomIn}" title="${labelZoomIn}">+</button>
-            <button class="lightbox-btn zoom-reset" aria-label="${labelZoomReset}" title="${labelZoomReset}">1:1</button>
+            <button class="lightbox-btn zoom-in" aria-label="${labelZoomIn}">+</button>
+            <button class="lightbox-btn zoom-reset" aria-label="${labelZoomReset}">1:1</button>
         </div>
     `;
     document.body.appendChild(lightbox);
 
     const closeBtn = lightbox.querySelector('.lightbox-close');
     const image = lightbox.querySelector('.lightbox-image');
-
     const btnZoomIn = lightbox.querySelector('.zoom-in');
     const btnZoomOut = lightbox.querySelector('.zoom-out');
     const btnZoomReset = lightbox.querySelector('.zoom-reset');
 
     closeBtn.addEventListener('click', closeLightbox);
-
     btnZoomIn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const newScale = Math.min(MAX_SCALE, currentScale + 0.5);
-        if (Math.abs(newScale - currentScale) > 0.01) {
-            setZoom({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 }, newScale);
-        }
+        setZoom({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 }, Math.min(MAX_SCALE, currentScale + 0.5));
     });
 
     btnZoomOut.addEventListener('click', (e) => {
         e.stopPropagation();
-        const newScale = Math.max(MIN_SCALE, currentScale - 0.5);
-        if (Math.abs(newScale - currentScale) > 0.01) {
-            if (newScale <= MIN_SCALE + 0.01) resetZoomState();
-            else setZoom({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 }, newScale);
-        }
+        const next = Math.max(MIN_SCALE, currentScale - 0.5);
+        next <= MIN_SCALE ? resetZoomState() : setZoom({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 }, next);
     });
 
     btnZoomReset.addEventListener('click', (e) => {
@@ -78,28 +92,15 @@ function createLightbox() {
     image.addEventListener('click', (e) => {
         e.stopPropagation();
         if (isDragging) return;
-
-        if (Math.abs(currentScale - MIN_SCALE) < 0.01) {
-            setZoom(e, 2.5);
-        } else {
-            resetZoomState();
-        }
+        currentScale <= MIN_SCALE ? setZoom(e, 2.5) : resetZoomState();
     });
 
     image.addEventListener('wheel', (e) => {
-        if (!isZoomed && Math.abs(currentScale - MIN_SCALE) < 0.01 && e.deltaY > 0) return;
         e.preventDefault();
-        e.stopPropagation();
-
         const delta = e.deltaY < 0 ? 1 : -1;
         const scaleChange = currentScale * 0.15 * delta;
         const newScale = Math.min(Math.max(MIN_SCALE, currentScale + scaleChange), MAX_SCALE);
-
-        if (Math.abs(newScale - currentScale) > 0.01) {
-            setZoom(e, newScale);
-        } else if (newScale <= MIN_SCALE + 0.01 && currentScale > MIN_SCALE + 0.01) {
-            resetZoomState();
-        }
+        newScale <= MIN_SCALE ? resetZoomState() : setZoom(e, newScale);
     }, { passive: false });
 
     image.addEventListener('mousedown', (e) => {
@@ -108,27 +109,21 @@ function createLightbox() {
         startX = e.clientX - currentX;
         startY = e.clientY - currentY;
 
-        image.style.transition = 'none';
-
         const onMouseMove = (moveEvent) => {
             isDragging = true;
             currentX = moveEvent.clientX - startX;
             currentY = moveEvent.clientY - startY;
-            updateImageTransform();
+            requestAnimationFrame(updateImageTransform);
         };
-        window.addEventListener('mousemove', onMouseMove);
 
         const onMouseUp = () => {
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
-            image.style.transition = 'transform 0.05s linear';
             setTimeout(() => { isDragging = false; }, 50);
-        }
-        window.addEventListener('mouseup', onMouseUp);
-    });
+        };
 
-    window.addEventListener('mouseleave', () => {
-        if (isDragging) isDragging = false;
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
     });
 
     document.addEventListener('keydown', (e) => {
@@ -142,37 +137,19 @@ function updateImageTransform() {
     const image = document.getElementById('lightbox-image');
     if (!image) return;
 
-    const baseWidth = image.offsetWidth;
-    const baseHeight = image.offsetHeight;
-    const winWidth = window.innerWidth;
-    const winHeight = window.innerHeight;
-
-    const scaledWidth = baseWidth * currentScale;
-    const scaledHeight = baseHeight * currentScale;
-
-    const maxX = Math.max(0, (scaledWidth - winWidth) / 2);
-    const maxY = Math.max(0, (scaledHeight - winHeight) / 2);
-
-    currentX = Math.min(Math.max(currentX, -maxX), maxX);
-    currentY = Math.min(Math.max(currentY, -maxY), maxY);
-
     if (isZoomed) {
-        image.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+        image.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(${currentScale})`;
     } else {
         image.style.transform = '';
     }
 
     const scaleText = document.getElementById('lightbox-scale');
-    if (scaleText) {
-        scaleText.textContent = Math.round(currentScale * 100) + '%';
-    }
+    if (scaleText) scaleText.textContent = `${Math.round(currentScale * 100)}%`;
 }
 
 function setZoom(e, targetScale) {
     const image = document.getElementById('lightbox-image');
-    if (!image) return;
-
-    if (targetScale <= MIN_SCALE + 0.01) {
+    if (!image || targetScale <= MIN_SCALE) {
         resetZoomState();
         return;
     }
@@ -195,7 +172,7 @@ function setZoom(e, targetScale) {
     currentY = currentY * scaleRatio - offsetY * (scaleRatio - 1);
 
     currentScale = targetScale;
-    updateImageTransform();
+    requestAnimationFrame(updateImageTransform);
 }
 
 function resetZoomState() {
@@ -207,16 +184,12 @@ function resetZoomState() {
         currentY = 0;
         image.classList.remove('zoomed');
         image.classList.add('zoomable');
-        updateImageTransform();
+        requestAnimationFrame(updateImageTransform);
     }
 }
 
-function openLightbox(imageSrc, caption) {
-    if (!lightboxCreated) {
-        createLightbox();
-        setTimeout(() => openLightbox(imageSrc, caption), 50);
-        return;
-    }
+export function openLightbox(imageSrc, caption) {
+    if (!lightboxCreated) createLightbox();
 
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
@@ -227,46 +200,15 @@ function openLightbox(imageSrc, caption) {
     lightboxCaption.textContent = caption || '';
 
     resetZoomState();
-
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox() {
+export function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     if (lightbox) {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
-        setTimeout(resetZoomState, 300);
+        setTimeout(resetZoomState, 250);
     }
-}
-
-function setupLightboxTriggers() {
-    document.addEventListener('click', function (e) {
-        const trigger = e.target.closest('.js-lightbox-trigger');
-        if (trigger) {
-            e.preventDefault();
-            openLightbox(trigger.dataset.image, trigger.dataset.caption);
-            return;
-        }
-
-        const img = e.target.closest('.article-content img, .article-figure img, .article-image img');
-        if (img) {
-            e.preventDefault();
-
-            let captionText = img.alt || img.title || '';
-            const figure = img.closest('figure');
-            if (figure) {
-                const figcaption = figure.querySelector('figcaption');
-                if (figcaption) {
-                    captionText = figcaption.textContent;
-                }
-            }
-
-            openLightbox(img.src, captionText);
-        }
-    });
-
-    window.openLightbox = openLightbox;
-    window.closeLightbox = closeLightbox;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.Lang }}" data-theme="dark">
+<html lang="{{ site.Language.Lang }}" data-theme="dark" data-base-url="{{ site.BaseURL | relURL }}">
 
 <head>
     {{- partial "head.html" . -}}
@@ -37,7 +37,7 @@
     {{- partialCached "license-modal.html" . site.Language.Lang -}}
     {{- partialCached "scroll-top.html" . -}}
 
-    {{- partialCached "scripts.html" . .Kind site.Language.Lang -}}
+    {{- partial "scripts.html" . -}}
     {{- partial "analytics.html" . -}}
 </body>
 

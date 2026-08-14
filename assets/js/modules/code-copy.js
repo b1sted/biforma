@@ -1,4 +1,4 @@
-function initCopyButtons() {
+export function initCopyButtons() {
     const defaultDone = window.i18n?.doneText || 'Готово!';
     const defaultCopy = window.i18n?.copyText || 'Копировать';
 
@@ -25,21 +25,10 @@ function initCopyButtons() {
                 setTimeout(() => {
                     btn.classList.remove('copied');
                     if (span) span.textContent = old === defaultDone ? defaultCopy : old;
-                }, 1000);
+                }, 1200);
             } catch (err) {
                 console.error('Failed to copy text:', err);
             }
-        }
-    });
-
-    // Fallback button initialization for dynamically inserted cards
-    document.querySelectorAll('.rss-feed-card .rss-card-url').forEach((box) => {
-        if (!box.querySelector('.rss-copy-btn') && !box.closest('.rss-url-bar')) {
-            const b = document.createElement('button');
-            b.className = 'rss-copy-btn';
-            b.type = 'button';
-            b.innerHTML = `<span>📋</span><span class="copy-text">${defaultCopy}</span>`;
-            box.appendChild(b);
         }
     });
 }

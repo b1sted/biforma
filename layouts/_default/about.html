@@ -1,0 +1,89 @@
+{{ define "breadcrumbs" }}
+    {{ partial "breadcrumbs.html" . }}
+{{ end }}
+
+{{ define "main" }}
+<div class="about-page">
+    <header class="page-header">
+        <h1 class="page-title">{{ .Title }}</h1>
+    </header>
+
+    <div class="about-main">
+        <section class="about-bio">
+            <p class="about-bio-text">{{ .Params.bio.text | safeHTML }}</p>
+
+            {{ with .Params.tech_stack }}
+            <div class="tech-stack">
+                {{ range . }}
+                <span class="tech-item">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
+        </section>
+
+        {{ with .Params.projects }}
+        <section class="about-projects">
+            <div class="about-projects-header">
+                <h2 class="about-projects-title">{{ .title | default (i18n "about_projects_title" | default "Проекты") }}</h2>
+                <label class="academic-toggle" id="academic-toggle-label" title="{{ i18n "academic_toggle_title_show" | default "Показать учебные проекты" }}">
+                    <input type="checkbox" id="academic-toggle" autocomplete="off">
+                    <span class="academic-toggle-icon">🎓</span>
+                    <span class="academic-toggle-text" id="academic-toggle-text">{{ i18n "academic_toggle_show" | default "Показать учебные" }}</span>
+                </label>
+            </div>
+
+            {{ $sortedItems := sort .items "name" "asc" }}
+
+            <div class="projects-showcase" id="projects-showcase">
+                {{ range $sortedItems }}
+                <div class="project-showcase-card{{ if .academic }} project-academic{{ end }}"{{ if .academic }} data-academic="true" style="display: none;"{{ end }}>
+                    <div class="project-showcase-header">
+                        <div class="project-showcase-header-left">
+                            <div class="project-showcase-icon-box">
+                                <span>{{ .icon | default "🚀" }}</span>
+                            </div>
+                            <h3 class="project-showcase-title">{{ .name }}</h3>
+                        </div>
+
+                        {{ if .academic }}
+                            <span class="academic-badge">🎓 {{ i18n "academic_badge" | default "Учебный" }}</span>
+                        {{ end }}
+                    </div>
+
+                    <p class="project-showcase-desc">{{ .description }}</p>
+
+                    <div class="project-showcase-footer">
+                        <div class="project-showcase-tech">{{ .tech }}</div>
+
+                        <div class="project-showcase-links">
+                            {{ range .links }}
+                            {{ $linkUrl := .url }}
+                            {{ $emailData := .data_email }}
+                            {{ if and (not $emailData) (eq .icon "mail") }}
+                                {{ $emailData = .label | base64Encode }}
+                            {{ end }}
+
+                            <a href="{{ if $emailData }}#{{ else }}{{ $linkUrl }}{{ end }}"
+                               class="project-action-link"
+                               {{ with $emailData }}data-email="{{ . }}"{{ end }}
+                               {{ if and (ne $linkUrl "#") (not $emailData) }}target="_blank" rel="noopener noreferrer"{{ end }}>
+                                {{ if eq .text "GitHub" }}
+                                    <svg width="14" height="14" aria-hidden="true"><use href="{{ "icons.svg#icon-github" | relURL }}"></use></svg>
+                                {{ else if or (eq .text "View") (eq .text "Demo") (eq .text "Live") }}
+                                    <svg width="14" height="14" aria-hidden="true"><use href="{{ "icons.svg#icon-external" | relURL }}"></use></svg>
+                                {{ else }}
+                                    <svg width="14" height="14" aria-hidden="true"><use href="{{ "icons.svg#icon-external" | relURL }}"></use></svg>
+                                {{ end }}
+                                <span>{{ .text }}</span>
+                            </a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

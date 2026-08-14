@@ -16,7 +16,7 @@
 
             {{- $tocEnabled := .Params.toc | default true -}}
             {{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
-            {{- if in (slice "section" "taxonomy" "term" "home") .Kind }}{{ $tocEnabled = false }}{{ end -}}
+            {{- if or (in (slice "section" "taxonomy" "term" "home") .Kind) (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") }}{{ $tocEnabled = false }}{{ end -}}
 
             <main class="main-content {{ if not $tocEnabled }}no-toc{{ end }}"
                 {{- if .Params.searchHidden }} data-pagefind-ignore="all"{{ end }}>

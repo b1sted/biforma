@@ -17,15 +17,32 @@
     {{- $kind = "home" -}}
 {{- else if eq .Kind "404" -}}
     {{- $kind = "404" -}}
+{{- else if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+    {{- $kind = "about" -}}
 {{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
     {{- $kind = "section" -}}
 {{- else if eq .Kind "page" -}}
     {{- $kind = "single" -}}
 {{- end -}}
 
-{{/* Build an IIFE bundle combining core and kind-specific JS modules */}}
 {{- $modules := hugo.Data.js_modules -}}
-{{- $names := $modules.core | append (index $modules.by_kind $kind) | uniq -}}
+{{- $names := slice -}}
+{{- if $modules -}}
+    {{- $names = $modules.core | append (index $modules.by_kind $kind) | append "email-protection" -}}
+{{- else -}}
+    {{- $names = slice "init" "theme" "sidebar" "toc" "tabs" "search" "code-copy" "compare" "email-protection" -}}
+{{- end -}}
+
+{{- if or (eq $kind "single") .TableOfContents -}}
+    {{- $names = $names | append "toc" -}}
+{{- end -}}
+
+{{- if or (eq $kind "about") (eq .Type "about") (in .RelPermalink "/about/") -}}
+    {{- $names = $names | append "about-filter" -}}
+{{- end -}}
+
+{{- $names = $names | uniq -}}
+
 {{- $files := slice (resources.Get "js/modules/_iife-start.js") -}}
 
 {{- range $names -}}

@@ -1,4 +1,4 @@
-# Навигация и Шапка
+# Navigation & Header
 
 [nav_home]
 other = "Главная"
@@ -6,13 +6,16 @@ other = "Главная"
 [nav_donate]
 other = "Донат"
 
+[nav_about]
+other = "Обо мне"
+
 [search_placeholder]
 other = "Поиск..."
 
 [close]
 other = "Закрыть"
 
-# Сайдбар и Крошки
+# Sidebar & Breadcrumbs
 
 [sidebar_general]
 other = "Общее"
@@ -26,7 +29,7 @@ other = "Страница"
 [page_abbr]
 other = "Стр."
 
-# Оглавление (TOC) и Навигация по статьям
+# Table of Contents & Article Navigation
 
 [toc_title]
 other = "На этой странице"
@@ -37,7 +40,53 @@ other = "Предыдущая"
 [page_nav_next]
 other = "Следующая"
 
-# Код и Кнопки копирования
+# Blog, Categories & Pagination
+
+[blog_recent_posts]
+other = "Свежие записи"
+
+[blog_all_posts]
+other = "Все посты"
+
+[blog_categories]
+other = "КАТЕГОРИИ"
+
+[blog_featured]
+other = "ИЗБРАННОЕ"
+
+[blog_hero_badge]
+other = "Свежая публикация"
+
+[blog_pagination_prev]
+other = "← Назад"
+
+[blog_pagination_next]
+other = "Далее →"
+
+[article_tags_label]
+other = "Теги статьи"
+
+# About Page & Projects
+
+[about_projects_title]
+other = "Проекты"
+
+[academic_toggle_show]
+other = "Показать учебные"
+
+[academic_toggle_hide]
+other = "Скрыть учебные"
+
+[academic_toggle_title_show]
+other = "Показать учебные проекты"
+
+[academic_toggle_title_hide]
+other = "Скрыть учебные проекты"
+
+[academic_badge]
+other = "Учебный"
+
+# Code Blocks & Copy Buttons
 
 [copy_code]
 other = "Копировать код"
@@ -51,7 +100,7 @@ other = "Скопировано!"
 [done_text]
 other = "Готово!"
 
-# Блок донатов
+# Donation Block
 
 [donate_title]
 other = "Полезный материал?"
@@ -62,7 +111,7 @@ other = "Если статья помогла разобраться в теме
 [donate_button]
 other = "Поддержать автора"
 
-# Разделы, Теги и Карточки
+# Sections, Tags & Cards
 
 [home_sections_title]
 other = "Разделы заметок"
@@ -88,7 +137,7 @@ few = "%d заметки с этим тегом"
 many = "%d заметок с этим тегом"
 other = "%d заметок с этим тегом"
 
-# Поиск и RSS
+# Search & RSS
 
 [search_no_results]
 other = "Ничего не найдено"
@@ -102,7 +151,10 @@ other = "RSS-лента"
 [rss_open_feed]
 other = "🔗 Открыть ленту"
 
-# Футер
+[rss_all_articles]
+other = "Все статьи сайта"
+
+# Footer
 
 [footer_code_license]
 other = "Код:"
@@ -110,7 +162,7 @@ other = "Код:"
 [footer_content_license]
 other = "Контент:"
 
-# Модальное окно лицензий
+# License Modal
 
 [license_modal_title]
 other = "Лицензия"
@@ -130,7 +182,7 @@ other = "Нельзя"
 [perm_must]
 other = "Нужно"
 
-# Лайтбокс (Просмотр изображений)
+# Lightbox (Image Viewer)
 
 [lightbox_title]
 other = "Просмотр изображения"
@@ -144,7 +196,7 @@ other = "Уменьшить"
 [lightbox_zoom_reset]
 other = "Сбросить масштаб"
 
-# Страница ошибки 404
+# 404 Error Page
 
 [error_404_title]
 other = "Страница не найдена"
@@ -158,12 +210,12 @@ other = "На главную"
 [btn_go_back]
 other = "Назад"
 
-# SEO и Мета
+# SEO & Meta
 
 [og_locale]
 other = "ru_RU"
 
-# ARIA-метки доступности (Accessibility)
+# Accessibility ARIA Labels
 
 [aria_open_menu]
 other = "Открыть меню"
@@ -197,3 +249,6 @@ other = "Чекбокс задачи"
 
 [aria_opens_new_tab]
 other = "открывается в новой вкладке"
+
+[aria_pagination]
+other = "Пагинация"

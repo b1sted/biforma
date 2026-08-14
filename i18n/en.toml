@@ -6,6 +6,9 @@ other = "Home"
 [nav_donate]
 other = "Donate"
 
+[nav_about]
+other = "About"
+
 [search_placeholder]
 other = "Search..."
 
@@ -36,6 +39,52 @@ other = "Previous"
 
 [page_nav_next]
 other = "Next"
+
+# Blog, Categories & Pagination
+
+[blog_recent_posts]
+other = "Recent posts"
+
+[blog_all_posts]
+other = "All posts"
+
+[blog_categories]
+other = "CATEGORIES"
+
+[blog_featured]
+other = "FEATURED"
+
+[blog_hero_badge]
+other = "Latest publication"
+
+[blog_pagination_prev]
+other = "← Older"
+
+[blog_pagination_next]
+other = "Newer →"
+
+[article_tags_label]
+other = "Article tags"
+
+# About Page & Projects
+
+[about_projects_title]
+other = "Projects"
+
+[academic_toggle_show]
+other = "Show academic"
+
+[academic_toggle_hide]
+other = "Hide academic"
+
+[academic_toggle_title_show]
+other = "Show academic projects"
+
+[academic_toggle_title_hide]
+other = "Hide academic projects"
+
+[academic_badge]
+other = "Academic"
 
 # Code Blocks & Copy Buttons
 
@@ -97,6 +146,9 @@ other = "RSS Feed"
 
 [rss_open_feed]
 other = "🔗 Open Feed"
+
+[rss_all_articles]
+other = "All site articles"
 
 # Footer
 
@@ -193,3 +245,6 @@ other = "Task checkbox"
 
 [aria_opens_new_tab]
 other = "opens in a new tab"
+
+[aria_pagination]
+other = "Pagination"

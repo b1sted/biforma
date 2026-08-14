@@ -1,20 +1,28 @@
+{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+
 <a href="{{ .RelPermalink }}" class="article-card">
-    <div class="article-card-header">
-        <span class="article-icon">{{ .Params.icon | default "📄" }}</span>
-        <h3 class="article-card-title">{{ .Title }}</h3>
+    <div class="article-card-top">
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">
+            {{ .Date.Format "02.01.2006" }}
+        </time>
+        <span class="card-meta-sep">•</span>
+        <span class="card-reading-time">⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
     </div>
 
-    {{- $desc := .Description | default (.Summary | plainify | truncate 140) -}}
+    <h3 class="article-card-title">{{ .Title }}</h3>
+
+    {{- $desc := .Description | default (.Summary | plainify | truncate 130) -}}
     {{ with $desc }}
         <p class="article-card-desc">{{ . }}</p>
     {{ end }}
 
-    <div class="article-card-meta">
-        {{ with .ReadingTime }}
-            <span class="reading-time">{{ . }} {{ i18n "reading_time_min" }}</span>
-        {{ end }}
-        {{ with .Params.difficulty }}
-            <span class="difficulty">{{ . }}</span>
+    <div class="card-footer">
+        {{ with .Params.tags }}
+            <div class="card-tags">
+                {{ range first 3 . }}
+                    <span class="tag-chip">#{{ . }}</span>
+                {{ end }}
+            </div>
         {{ end }}
     </div>
 </a>

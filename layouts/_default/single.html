@@ -3,10 +3,26 @@
 {{ end }}
 
 {{ define "main" }}
-<header class="page-header">
+{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+
+<header class="page-header {{ if $isBlog }}blog-single-header{{ end }}">
     <h1 class="page-title">{{ .Title }}</h1>
+
     {{ with .Params.subtitle | default .Description }}
         <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+
+    {{ if $isBlog }}
+        <div class="single-meta-info">
+            <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
+                {{ .Date.Format "02.01.2006" }}
+            </time>
+
+            {{ with .ReadingTime }}
+                <span class="single-meta-sep">•</span>
+                <span class="single-meta-item">⏱ {{ . }} {{ i18n "reading_time_min" }}</span>
+            {{ end }}
+        </div>
     {{ end }}
 </header>
 
@@ -36,6 +52,17 @@
 
 {{ if or site.Params.donate site.Params.externalLinks.donateUrl }}
     {{ partial "donation-block.html" . }}
+{{ end }}
+
+{{ with .Params.tags }}
+    <div class="article-footer-tags">
+        <span class="article-tags-label">{{ i18n "article_tags_label" | default "Теги статьи" }}</span>
+        <div class="single-meta-tags">
+            {{ range . }}
+                <span class="tag-chip">#{{ . }}</span>
+            {{ end }}
+        </div>
+    </div>
 {{ end }}
 
 {{ partial "page-nav.html" . }}

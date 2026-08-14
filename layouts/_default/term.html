@@ -4,6 +4,7 @@
 
 {{ define "main" }}
 {{ $count := len .Pages }}
+{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
 <header class="page-header">
     <h1 class="page-title">
@@ -15,11 +16,49 @@
 
 <article class="article">
     {{ if .Pages }}
-    <div class="section-articles">
-        {{ range .Pages.ByDate.Reverse }}
-            {{ partial "article-card.html" . }}
+        {{ if $isBlog }}
+            <div class="blog-stream-list">
+                {{ range .Pages.ByDate.Reverse }}
+                    <article class="blog-stream-item">
+                        <div class="blog-stream-body">
+                            <div class="blog-item-meta-top">
+                                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
+                                <span class="meta-sep">•</span>
+                                <span>⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
+                                {{ $secObj := site.GetPage .Section }}
+                                {{ with $secObj }}
+                                    <span class="meta-sep">•</span>
+                                    <a href="{{ .RelPermalink }}" class="meta-category-link">📁 {{ .Title }}</a>
+                                {{ end }}
+                            </div>
+
+                            <h3 class="blog-item-title">
+                                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            </h3>
+
+                            {{- $desc := .Description | default (.Summary | plainify | truncate 160) -}}
+                            {{ with $desc }}
+                                <p class="blog-item-desc">{{ . }}</p>
+                            {{ end }}
+
+                            {{ with .Params.tags }}
+                                <div class="blog-tag-list">
+                                    {{ range first 3 . }}
+                                        <span class="tag-chip">#{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                            {{ end }}
+                        </div>
+                    </article>
+                {{ end }}
+            </div>
+        {{ else }}
+            <div class="section-articles">
+                {{ range .Pages.ByDate.Reverse }}
+                    {{ partial "article-card.html" . }}
+                {{ end }}
+            </div>
         {{ end }}
-    </div>
     {{ end }}
 </article>
 {{ end }}

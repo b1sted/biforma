@@ -1,4 +1,4 @@
-function initSearch() {
+export function initSearch() {
     const searchTrigger = document.querySelector('.search-trigger');
     const modal = document.getElementById('search-modal');
     const input = document.getElementById('search-input');
@@ -15,7 +15,9 @@ function initSearch() {
     const loadPagefind = async () => {
         if (pagefind) return;
         try {
-            pagefind = await import('/pagefind/pagefind.js');
+            const basePath = document.documentElement.dataset.baseUrl || '/';
+            const pagefindUrl = `${basePath.endsWith('/') ? basePath : basePath + '/'}pagefind/pagefind.js`;
+            pagefind = await import(pagefindUrl);
             if (pagefind.init) await pagefind.init();
         } catch (e) {
             console.error('Pagefind failed to load:', e);
@@ -28,13 +30,15 @@ function initSearch() {
     const openModal = async () => {
         if (!modal) return;
         modal.classList.add('active');
-        setTimeout(() => { if (input) input.focus(); }, 100);
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { if (input) input.focus(); }, 50);
         await loadPagefind();
     };
 
     const closeModal = () => {
         if (!modal) return;
         modal.classList.remove('active');
+        document.body.style.overflow = '';
         if (input) input.value = '';
         if (resultsContainer) resultsContainer.innerHTML = '';
     };
@@ -46,14 +50,17 @@ function initSearch() {
         }
 
         const topResults = searchResult.results.slice(0, 10);
-        const dataPromises = topResults.map((r) => r.data());
-        const data = await Promise.all(dataPromises);
+        const data = await Promise.all(topResults.map((r) => r.data()));
 
-        const html = data.map((item) => {
-            return `<a href="${item.url}" class="search-result-item"><div class="search-result-header"><div class="search-result-icon">📄</div><div class="search-result-title">${item.meta.title}</div></div><div class="search-result-preview">${item.excerpt}</div></a>`;
-        }).join('');
-
-        resultsContainer.innerHTML = html;
+        resultsContainer.innerHTML = data.map((item) => `
+            <a href="${item.url}" class="search-result-item">
+                <div class="search-result-header">
+                    <div class="search-result-icon">📄</div>
+                    <div class="search-result-title">${item.meta.title}</div>
+                </div>
+                <div class="search-result-preview">${item.excerpt}</div>
+            </a>
+        `).join('');
     };
 
     const handleInput = (e) => {
@@ -71,34 +78,29 @@ function initSearch() {
                 const search = await pagefind.search(query);
                 renderResults(search);
             }
-        }, 200);
+        }, 150);
     };
 
-    if (searchTrigger) {
-        searchTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal();
-        });
-    }
+    searchTrigger?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
 
-    const searchTriggerMobile = document.querySelector('.search-trigger-mobile');
-    if (searchTriggerMobile) {
-        searchTriggerMobile.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal();
-        });
-    }
+    document.querySelector('.search-trigger-mobile')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
 
-    if (input) input.addEventListener('input', handleInput);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (backdrop) backdrop.addEventListener('click', closeModal);
+    input?.addEventListener('input', handleInput);
+    closeBtn?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', closeModal);
 
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
             e.preventDefault();
-            openModal();
+            modal?.classList.contains('active') ? closeModal() : openModal();
         }
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && modal?.classList.contains('active')) {
             closeModal();
         }
     });

@@ -1,4 +1,4 @@
-function initCompareBlocks() {
+export function initCompareBlocks() {
     initCompareScrollSync();
     initCompareCopyButtons();
 }
@@ -6,45 +6,29 @@ function initCompareBlocks() {
 function initCompareScrollSync() {
     const blocks = document.querySelectorAll('.code-compare');
     blocks.forEach((compareBlock) => {
-        const leftBlock = compareBlock.querySelector('.code-compare-left');
-        const rightBlock = compareBlock.querySelector('.code-compare-right');
-        if (leftBlock && rightBlock) {
-            syncCompareScroll(leftBlock, rightBlock);
-        }
+        const leftContent = compareBlock.querySelector('.code-compare-left .code-compare-content');
+        const rightContent = compareBlock.querySelector('.code-compare-right .code-compare-content');
+        if (!leftContent || !rightContent) return;
+
+        let activeSide = null;
+
+        const syncScroll = (source, target) => {
+            if (activeSide && activeSide !== source) return;
+            activeSide = source;
+
+            requestAnimationFrame(() => {
+                const maxSource = source.scrollHeight - source.clientHeight;
+                const maxTarget = target.scrollHeight - target.clientHeight;
+                if (maxSource > 0) {
+                    target.scrollTop = (source.scrollTop / maxSource) * maxTarget;
+                }
+                activeSide = null;
+            });
+        };
+
+        leftContent.addEventListener('scroll', () => syncScroll(leftContent, rightContent), { passive: true });
+        rightContent.addEventListener('scroll', () => syncScroll(rightContent, leftContent), { passive: true });
     });
-}
-
-function syncCompareScroll(leftBlock, rightBlock) {
-    const leftContent = leftBlock.querySelector('.code-compare-content');
-    const rightContent = rightBlock.querySelector('.code-compare-content');
-    if (!leftContent || !rightContent) return;
-
-    let isLeftScrolling = false;
-    let isRightScrolling = false;
-
-    leftContent.addEventListener('scroll', () => {
-        if (isRightScrolling) return;
-        isLeftScrolling = true;
-        const maxLeft = leftContent.scrollHeight - leftContent.clientHeight;
-        if (maxLeft > 0) {
-            const pct = leftContent.scrollTop / maxLeft;
-            const maxRight = rightContent.scrollHeight - rightContent.clientHeight;
-            rightContent.scrollTop = pct * maxRight;
-        }
-        setTimeout(() => { isLeftScrolling = false; }, 50);
-    }, { passive: true });
-
-    rightContent.addEventListener('scroll', () => {
-        if (isLeftScrolling) return;
-        isRightScrolling = true;
-        const maxRight = rightContent.scrollHeight - rightContent.clientHeight;
-        if (maxRight > 0) {
-            const pct = rightContent.scrollTop / maxRight;
-            const maxLeft = leftContent.scrollHeight - leftContent.clientHeight;
-            leftContent.scrollTop = pct * maxLeft;
-        }
-        setTimeout(() => { isRightScrolling = false; }, 50);
-    }, { passive: true });
 }
 
 function initCompareCopyButtons() {
@@ -58,13 +42,8 @@ function initCompareCopyButtons() {
         if (!compareBlock) return;
 
         const content = compareBlock.querySelector('.code-compare-content');
-        let textToCopy = '';
         const codeElement = content.querySelector('pre code, .chroma code');
-        if (codeElement) {
-            textToCopy = codeElement.innerText;
-        } else {
-            textToCopy = content.innerText;
-        }
+        const textToCopy = codeElement ? codeElement.innerText : content.innerText;
         if (!textToCopy) return;
 
         try {

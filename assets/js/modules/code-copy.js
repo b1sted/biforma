@@ -32,14 +32,13 @@ function initCopyButtons() {
         }
     });
 
+    // Fallback button initialization for dynamically inserted cards
     document.querySelectorAll('.rss-feed-card .rss-card-url').forEach((box) => {
-        if (!box.querySelector('.rss-copy-btn')) {
+        if (!box.querySelector('.rss-copy-btn') && !box.closest('.rss-url-bar')) {
             const b = document.createElement('button');
             b.className = 'rss-copy-btn';
+            b.type = 'button';
             b.innerHTML = `<span>📋</span><span class="copy-text">${defaultCopy}</span>`;
-            b.style.marginTop = '8px';
-            b.style.width = '100%';
-            b.style.cursor = 'pointer';
             box.appendChild(b);
         }
     });

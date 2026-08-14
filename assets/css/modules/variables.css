@@ -42,16 +42,16 @@
     --radius-lg: 8px;
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
 
-    --font-size-3xs: 11px;
-    --font-size-2xs: 12px;
-    --font-size-xs:  13px;
-    --font-size-sub: 14px;
-    --font-size-base: 15px;
-    --font-size-md:  16px;
-    --font-size-lg:  18px;
-    --font-size-xl:  20px;
-    --font-size-2xl: 24px;
-    --font-size-3xl: 32px;
+    --font-size-3xs: 0.75rem;
+    --font-size-2xs: 0.75rem;
+    --font-size-xs:  0.8125rem;
+    --font-size-sub: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-md:  1.0625rem;
+    --font-size-lg:  1.125rem;
+    --font-size-xl:  1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2.375rem;
 
     --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }

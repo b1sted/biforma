@@ -1,28 +1,186 @@
 {{ define "breadcrumbs" }}
-    {{ partial "breadcrumbs.html" . }}
+    {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+    {{ if not $isBlog }}
+        {{ partial "breadcrumbs.html" . }}
+    {{ end }}
 {{ end }}
 
 {{ define "main" }}
-<header class="page-header">
-    <h1 class="page-title">{{ site.Title }}</h1>
-    <p class="page-subtitle">{{ .Description | default site.Params.description }}</p>
-</header>
+{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
-<article class="article">
-    {{ .Content }}
+{{ if $isBlog }}
+    {{ $blogPages := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true }}
+    {{ $blogPages = where $blogPages "Type" "ne" "about" }}
+    {{ $blogPages = $blogPages.ByDate.Reverse }}
 
-    <h2>{{ i18n "home_sections_title" }}</h2>
-    <div class="sections-grid">
-        {{ range where site.Sections "Section" "ne" "rss" }}
-            {{ $count := len .RegularPages }}
-            <a href="{{ .RelPermalink }}" class="section-card">
-                <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
-                <div class="section-info">
-                    <h3>{{ .Title }}</h3>
-                    <p>{{ printf (i18n "notes_count" $count) $count }}</p>
-                </div>
-            </a>
+    {{ $paginator := .Paginate $blogPages 12 }}
+
+    <div class="blog-home-wrapper">
+        <div class="blog-bento-grid">
+            {{ range $index, $page := $paginator.Pages }}
+                {{ $secTitle := "" }}
+                {{ $secObj := site.GetPage .Section }}
+                {{ with $secObj }}{{ $secTitle = .Title }}{{ end }}
+
+                {{ $isHero := eq $index 0 }}
+                {{ $isWide := or (eq $index 1) (eq $index 7) }}
+
+                {{ if $isHero }}
+                    <article class="blog-bento-hero">
+                        <div class="blog-hero-top-row">
+                            <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Свежая публикация" }}</span>
+                            <time class="blog-hero-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                                {{ .Date.Format "02.01.2006" }}
+                            </time>
+                        </div>
+
+                        <h2 class="blog-hero-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h2>
+
+                        {{- $desc := .Description | default (.Summary | plainify | truncate 220) -}}
+                        {{ with $desc }}
+                            <p class="blog-hero-desc">{{ . }}</p>
+                        {{ end }}
+
+                        <div class="card-footer">
+                            <div class="card-meta-left">
+                                <span>⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
+                                {{ with $secTitle }}
+                                    <span class="card-meta-sep">•</span>
+                                    <a href="{{ $secObj.RelPermalink }}" class="card-category">📁 {{ . }}</a>
+                                {{ end }}
+                            </div>
+                            {{ with .Params.tags }}
+                                <div class="card-tags">
+                                    {{ range first 3 . }}
+                                        <span class="tag-chip">#{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                            {{ end }}
+                        </div>
+                    </article>
+
+                {{ else if $isWide }}
+                    <article class="blog-bento-wide">
+                        <div class="card-meta-top">
+                            <div class="card-meta-info">
+                                <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
+                                <span class="card-meta-sep">•</span>
+                                <span class="card-reading-time">⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
+                            </div>
+                            {{ with $secTitle }}
+                                <div class="card-category-row">
+                                    <a href="{{ $secObj.RelPermalink }}" class="card-category">📁 {{ . }}</a>
+                                </div>
+                            {{ end }}
+                        </div>
+
+                        <h3 class="card-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h3>
+
+                        {{- $desc := .Description | default (.Summary | plainify | truncate 160) -}}
+                        {{ with $desc }}
+                            <p class="card-desc">{{ . }}</p>
+                        {{ end }}
+
+                        <div class="card-footer">
+                            {{ with .Params.tags }}
+                                <div class="card-tags">
+                                    {{ range first 3 . }}
+                                        <span class="tag-chip">#{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                            {{ end }}
+                        </div>
+                    </article>
+
+                {{ else }}
+                    <article class="blog-bento-card">
+                        <div class="card-meta-top">
+                            <div class="card-meta-info">
+                                <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
+                                <span class="card-meta-sep">•</span>
+                                <span class="card-reading-time">⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
+                            </div>
+                            {{ with $secTitle }}
+                                <div class="card-category-row">
+                                    <a href="{{ $secObj.RelPermalink }}" class="card-category">📁 {{ . }}</a>
+                                </div>
+                            {{ end }}
+                        </div>
+
+                        <h3 class="card-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h3>
+
+                        {{- $desc := .Description | default (.Summary | plainify | truncate 110) -}}
+                        {{ with $desc }}
+                            <p class="card-desc">{{ . }}</p>
+                        {{ end }}
+
+                        <div class="card-footer">
+                            {{ with .Params.tags }}
+                                <div class="card-tags">
+                                    {{ range first 3 . }}
+                                        <span class="tag-chip">#{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                            {{ end }}
+                        </div>
+                    </article>
+                {{ end }}
+            {{ end }}
+        </div>
+
+        {{ if gt $paginator.TotalPages 1 }}
+            <nav class="blog-pagination" aria-label="{{ i18n "aria_pagination" | default "Пагинация" }}">
+                {{ if $paginator.HasPrev }}
+                    <a href="{{ $paginator.Prev.URL }}" class="blog-pagination-btn prev">
+                        <span>{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                    </a>
+                {{ else }}
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                {{ end }}
+
+                <span class="blog-pagination-info">
+                    {{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}
+                </span>
+
+                {{ if $paginator.HasNext }}
+                    <a href="{{ $paginator.Next.URL }}" class="blog-pagination-btn next">
+                        <span>{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                    </a>
+                {{ else }}
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                {{ end }}
+            </nav>
         {{ end }}
     </div>
-</article>
+
+{{ else }}
+    <header class="page-header">
+        <h1 class="page-title">{{ site.Title }}</h1>
+        <p class="page-subtitle">{{ .Description | default site.Params.description }}</p>
+    </header>
+
+    <article class="article">
+        {{ .Content }}
+
+        <h2>{{ i18n "home_sections_title" }}</h2>
+        <div class="sections-grid">
+            {{ range where site.Sections "Section" "ne" "rss" }}
+                {{ $count := len .RegularPages }}
+                <a href="{{ .RelPermalink }}" class="section-card">
+                    <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
+                    <div class="section-info">
+                        <h3>{{ .Title }}</h3>
+                        <p>{{ printf (i18n "notes_count" $count) $count }}</p>
+                    </div>
+                </a>
+            {{ end }}
+        </div>
+    </article>
+{{ end }}
 {{ end }}

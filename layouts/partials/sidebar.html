@@ -1,39 +1,205 @@
 <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
         {{ $currentPage := . }}
+        {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
-        {{ $rootPages := (where .Site.RegularPages "Section" "").ByWeight }}
-        {{ if $rootPages }}
-            <section class="nav-section nav-section-root">
-                {{ $hideTitle := false }}
-                {{ with .Site.Params.sidebar }}{{ $hideTitle = .hideGeneralTitle }}{{ end }}
+        {{ if $isBlog }}
+            <div class="blog-sidebar-wrapper">
 
-                {{ if not $hideTitle }}
-                <h3 class="nav-section-title">
-                    {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}{{ i18n "sidebar_general" }}{{ end }}
-                </h3>
+                {{ $aboutPage := site.GetPage "about" }}
+                {{ $showAbout := site.Params.showAbout | default true }}
+                {{ $hasAbout := and $showAbout $aboutPage }}
+
+                <div class="profile-block">
+                    {{ if $hasAbout }}
+                        <a href="{{ $aboutPage.RelPermalink }}" class="profile-header profile-header-link" aria-label="{{ i18n "nav_about" | default "Обо мне" }}">
+                            <div class="profile-avatar">
+                                {{ with site.Params.avatarEmoji | default site.Params.authorEmoji }}
+                                    <span class="profile-avatar-emoji">{{ . }}</span>
+                                {{ else }}
+                                    {{ with site.Params.avatar }}
+                                        <img src="{{ . | relURL }}" alt="{{ site.Params.author }}" loading="lazy">
+                                    {{ else }}
+                                        <div class="profile-avatar-initials">
+                                            {{- $author := site.Params.author | default "Author" -}}
+                                            {{- $words := split $author " " -}}
+                                            {{- if ge (len $words) 2 -}}
+                                                {{- printf "%s%s" (substr (index $words 0) 0 1) (substr (index $words 1) 0 1) | upper -}}
+                                            {{- else -}}
+                                                {{- substr $author 0 2 | upper -}}
+                                            {{- end -}}
+                                        </div>
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+
+                            <div class="profile-meta">
+                                <h2 class="profile-name">{{ site.Params.author }}</h2>
+                                {{ with site.Params.role | default site.Params.authorRole }}
+                                    <span class="profile-role">{{ . }}</span>
+                                {{ end }}
+                            </div>
+
+                            <span class="profile-arrow" aria-hidden="true">›</span>
+                        </a>
+                    {{ else }}
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                {{ with site.Params.avatarEmoji | default site.Params.authorEmoji }}
+                                    <span class="profile-avatar-emoji">{{ . }}</span>
+                                {{ else }}
+                                    {{ with site.Params.avatar }}
+                                        <img src="{{ . | relURL }}" alt="{{ site.Params.author }}" loading="lazy">
+                                    {{ else }}
+                                        <div class="profile-avatar-initials">
+                                            {{- $author := site.Params.author | default "Author" -}}
+                                            {{- $words := split $author " " -}}
+                                            {{- if ge (len $words) 2 -}}
+                                                {{- printf "%s%s" (substr (index $words 0) 0 1) (substr (index $words 1) 0 1) | upper -}}
+                                            {{- else -}}
+                                                {{- substr $author 0 2 | upper -}}
+                                            {{- end -}}
+                                        </div>
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+
+                            <div class="profile-meta">
+                                <h2 class="profile-name">{{ site.Params.author }}</h2>
+                                {{ with site.Params.role | default site.Params.authorRole }}
+                                    <span class="profile-role">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        </div>
+                    {{ end }}
+
+                    {{ with site.Params.description }}
+                        <p class="profile-bio">{{ . }}</p>
+                    {{ end }}
+
+                    {{ $github := site.Params.github | default site.Params.social.github }}
+                    {{ $telegram := site.Params.telegram | default site.Params.social.telegram }}
+                    {{ $email := site.Params.email | default site.Params.social.email }}
+                    {{ $donate := site.Params.donate | default site.Params.externalLinks.donateUrl }}
+
+                    {{ if or $github $telegram $email $donate }}
+                        <div class="profile-socials">
+                            {{ with $github }}
+                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="GitHub">
+                                    <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-github" | relURL }}"></use></svg>
+                                </a>
+                            {{ end }}
+                            {{ with $telegram }}
+                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="Telegram">
+                                    <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-telegram" | relURL }}"></use></svg>
+                                </a>
+                            {{ end }}
+                            {{ with $email }}
+                                {{ $encodedEmail := . | base64Encode }}
+                                <a href="#" data-email="{{ $encodedEmail }}" class="profile-social-link" aria-label="Email">
+                                    <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-mail" | relURL }}"></use></svg>
+                                </a>
+                            {{ end }}
+                            {{ with $donate }}
+                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link profile-social-donate" aria-label="{{ i18n "nav_donate" | default "Donate" }}">
+                                    <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-heart" | relURL }}"></use></svg>
+                                </a>
+                            {{ end }}
+                        </div>
+                    {{ end }}
+                </div>
+
+                <hr class="sidebar-divider">
+
+                {{ $sections := where (where site.Sections "Section" "ne" "rss") "Section" "ne" "about" }}
+                <div class="sidebar-block">
+                    <h3 class="sidebar-block-title">{{ i18n "blog_categories" | default "КАТЕГОРИИ" }}</h3>
+                    <ul class="category-list">
+                        {{ $validPosts := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true }}
+                        {{ $validPosts = where $validPosts "Type" "ne" "about" }}
+                        {{ $allCount := len $validPosts }}
+
+                        <li class="category-item">
+                            <a href="{{ site.Home.RelPermalink }}" class="category-link{{ if $currentPage.IsHome }} active{{ end }}">
+                                <span class="category-name">{{ i18n "blog_all_posts" | default "Все посты" }}</span>
+                                <span class="category-count">{{ $allCount }}</span>
+                            </a>
+                        </li>
+                        {{ range $sections.ByWeight }}
+                            {{ $count := len .RegularPages }}
+                            {{ if gt $count 0 }}
+                                <li class="category-item">
+                                    <a href="{{ .RelPermalink }}" class="category-link{{ if or (eq $currentPage.RelPermalink .RelPermalink) (eq $currentPage.Section .Section) }} active{{ end }}">
+                                        <span class="category-name">{{ .Title }}</span>
+                                        <span class="category-count">{{ $count }}</span>
+                                    </a>
+                                </li>
+                            {{ end }}
+                        {{ end }}
+                    </ul>
+                </div>
+
+                {{ $allRegular := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true }}
+                {{ $allRegular = where $allRegular "Type" "ne" "about" }}
+                {{ $allRegular = $allRegular.ByDate.Reverse }}
+
+                {{ $featuredCandidates := where $allRegular "Params.featured" true | first 3 }}
+                {{ if not $featuredCandidates }}
+                    {{ $featuredCandidates = $allRegular | first 3 }}
                 {{ end }}
 
-                {{ partial "nav-items.html" (dict "pages" $rootPages "currentPage" $currentPage "site" .Site) }}
-            </section>
-        {{ end }}
-
-        {{ $sections := .Site.Sections.ByWeight }}
-        {{ range $sections }}
-            {{ $sectionPages := .RegularPages.ByWeight }}
-            {{ if $sectionPages }}
-                <section class="nav-section">
-                    <h3 class="nav-section-title">
-                        <a href="{{ .RelPermalink }}" class="nav-section-link{{ if or (eq $currentPage.RelPermalink .RelPermalink) (eq $currentPage.Section .Section) }} active{{ end }}">
-                            {{ with .Params.icon }}
-                                <span class="nav-icon">{{ . }}</span>
+                {{ if $featuredCandidates }}
+                    <hr class="sidebar-divider">
+                    <div class="sidebar-block">
+                        <h3 class="sidebar-block-title">{{ i18n "blog_featured" | default "ИЗБРАННОЕ" }}</h3>
+                        <ul class="featured-list">
+                            {{ range $featuredCandidates }}
+                                <li class="featured-item">
+                                    <a href="{{ .RelPermalink }}" class="featured-link{{ if $currentPage.Eq . }} active{{ end }}">
+                                        <span class="featured-title">{{ .Title }}</span>
+                                    </a>
+                                </li>
                             {{ end }}
-                            <span>{{ .Title | default (i18n "sidebar_section") }}</span>
-                        </a>
-                    </h3>
+                        </ul>
+                    </div>
+                {{ end }}
 
-                    {{ partial "nav-items.html" (dict "pages" $sectionPages "currentPage" $currentPage "site" .Site) }}
+            </div>
+
+        {{ else }}
+            {{ $rootPages := (where .Site.RegularPages "Section" "").ByWeight }}
+            {{ if $rootPages }}
+                <section class="nav-section nav-section-root">
+                    {{ $hideTitle := false }}
+                    {{ with .Site.Params.sidebar }}{{ $hideTitle = .hideGeneralTitle }}{{ end }}
+
+                    {{ if not $hideTitle }}
+                    <h3 class="nav-section-title">
+                        {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}{{ i18n "sidebar_general" }}{{ end }}
+                    </h3>
+                    {{ end }}
+
+                    {{ partial "nav-items.html" (dict "pages" $rootPages "currentPage" $currentPage "site" .Site) }}
                 </section>
+            {{ end }}
+
+            {{ $sections := .Site.Sections.ByWeight }}
+            {{ range $sections }}
+                {{ $sectionPages := .RegularPages.ByWeight }}
+                {{ if $sectionPages }}
+                    <section class="nav-section">
+                        <h3 class="nav-section-title">
+                            <a href="{{ .RelPermalink }}" class="nav-section-link{{ if or (eq $currentPage.RelPermalink .RelPermalink) (eq $currentPage.Section .Section) }} active{{ end }}">
+                                {{ with .Params.icon }}
+                                    <span class="nav-icon">{{ . }}</span>
+                                {{ end }}
+                                <span>{{ .Title | default (i18n "sidebar_section") }}</span>
+                            </a>
+                        </h3>
+
+                        {{ partial "nav-items.html" (dict "pages" $sectionPages "currentPage" $currentPage "site" .Site) }}
+                    </section>
+                {{ end }}
             {{ end }}
         {{ end }}
     </nav>

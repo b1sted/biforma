@@ -4,8 +4,9 @@
             <p class="footer-text footer-copyright">
                 &copy; {{ now.Year }}
                 {{ $author := site.Params.author }}
-                {{- with site.Params.mainSite }}
-                    <a href="{{ . }}">{{ $author }}</a>
+                {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+                {{- if and (not $isBlog) site.Params.mainSite }}
+                    <a href="{{ site.Params.mainSite }}">{{ $author }}</a>
                 {{- else }}
                     {{ $author }}
                 {{- end }}
@@ -32,6 +33,16 @@
             </a>
             {{- end -}}
 
+            {{- $email := site.Params.email | default site.Params.social.email -}}
+            {{- with $email -}}
+            {{ $encodedEmail := . | base64Encode }}
+            <a href="#" data-email="{{ $encodedEmail }}" class="footer-link" aria-label="Email">
+                <svg width="20" height="20" aria-hidden="true">
+                    <use href="{{ "icons.svg#icon-mail" | relURL }}"></use>
+                </svg>
+            </a>
+            {{- end -}}
+
             {{- with site.Params.github -}}
             <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                 <svg width="20" height="20" aria-hidden="true">
@@ -40,8 +51,8 @@
             </a>
             {{- end -}}
 
-            {{- with site.Params.mainSite -}}
-            <a href="{{ . }}" class="footer-link" aria-label="{{ i18n "nav_home" }}">
+            {{- if and (not $isBlog) site.Params.mainSite -}}
+            <a href="{{ site.Params.mainSite }}" class="footer-link" aria-label="{{ i18n "nav_home" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-home" | relURL }}"></use>
                 </svg>

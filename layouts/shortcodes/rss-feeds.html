@@ -6,12 +6,21 @@
         {{- $homeRss = absURL "rss.xml" -}}
     {{- end -}}
 
-    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}" data-tooltip="{{ i18n "rss_open_feed" }}">
-        <div class="rss-card-icon">🌐</div>
-        <div class="rss-card-content">
-            <h3 class="rss-card-title">{{ i18n "rss_all_articles" }}</h3>
-            <div class="rss-card-url">
-                <code>{{ $homeRss }}</code>
+    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}">
+        <div class="rss-card-header">
+            <div class="rss-card-icon-box">
+                <span>🌐</span>
+            </div>
+            <h3 class="rss-card-title">{{ i18n "rss_all_articles" | default "Все статьи сайта" }}</h3>
+        </div>
+
+        <div class="rss-card-bottom">
+            <div class="rss-url-bar">
+                <code class="rss-url-text">{{ $homeRss }}</code>
+                <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" }}">
+                    <span>📋</span>
+                    <span class="copy-text">{{ i18n "copy_text" | default "Копировать" }}</span>
+                </button>
             </div>
         </div>
     </div>
@@ -25,12 +34,21 @@
                 {{- $sectionRss = printf "%srss.xml" .Permalink -}}
             {{- end -}}
 
-            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}" data-tooltip="{{ i18n "rss_open_feed" }}">
-                <div class="rss-card-icon">{{ .Params.icon | default "📁" }}</div>
-                <div class="rss-card-content">
+            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}">
+                <div class="rss-card-header">
+                    <div class="rss-card-icon-box">
+                        <span>{{ .Params.icon | default "📁" }}</span>
+                    </div>
                     <h3 class="rss-card-title">{{ .Title }}</h3>
-                    <div class="rss-card-url">
-                        <code>{{ $sectionRss }}</code>
+                </div>
+
+                <div class="rss-card-bottom">
+                    <div class="rss-url-bar">
+                        <code class="rss-url-text">{{ $sectionRss }}</code>
+                        <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" }}">
+                            <span>📋</span>
+                            <span class="copy-text">{{ i18n "copy_text" | default "Копировать" }}</span>
+                        </button>
                     </div>
                 </div>
             </div>

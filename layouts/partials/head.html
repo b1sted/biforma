@@ -22,6 +22,10 @@ window.i18n = {{ dict
     "permCan" (i18n "perm_can")
     "permCannot" (i18n "perm_cannot")
     "permMust" (i18n "perm_must")
+    "academicToggleShow" (i18n "academic_toggle_show")
+    "academicToggleHide" (i18n "academic_toggle_hide")
+    "academicToggleTitleShow" (i18n "academic_toggle_title_show")
+    "academicToggleTitleHide" (i18n "academic_toggle_title_hide")
 | jsonify | safeJS }};
 </script>
 
@@ -38,22 +42,22 @@ window.i18n = {{ dict
 {{- $kind := "fallback" -}}
 {{- if .IsHome -}}{{- $kind = "home" -}}
 {{- else if eq .Kind "404" -}}{{- $kind = "404" -}}
+{{- else if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}{{- $kind = "about" -}}
 {{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}{{- $kind = "section" -}}
 {{- else if eq .Kind "page" -}}{{- $kind = "single" -}}
 {{- end -}}
 
 {{- $names := hugo.Data.css_modules.core | append (index hugo.Data.css_modules.by_kind $kind) -}}
 
+{{- if eq (site.Params.themeMode | default "docs") "blog" -}}{{- $names = $names | append "blog" -}}{{- end -}}
+{{- if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}{{- $names = $names | append "about" -}}{{- end -}}
 {{- if .Params.math -}}{{- $names = $names | append "math" -}}{{- end -}}
 {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}{{- $names = $names | append "donation" -}}{{- end -}}
 
-{{/* Tables detection */}}
 {{- if and .IsPage (or (in .RawContent "<table") (in .RawContent "|")) -}}{{- $names = $names | append "tables" -}}{{- end -}}
 
-{{/* Lightbox detection */}}
-{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![") (in .RawContent "img ")) -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
+{{- if and .IsPage (or (in .RawContent "<img") (in .RawContent "![") (in .RawContent "img ")) -}}{{- $names = $names | append "tabs" -}}{{- $names = $names | append "lightbox" -}}{{- end -}}
 
-{{/* Syntax highlighting detection */}}
 {{- if and .IsPage (or (in .RawContent "```") (in .RawContent "code ") (in .RawContent "tabs ") (in .RawContent "compare")) -}}{{- $names = $names | append "chroma" -}}{{- end -}}
 
 {{- $names = $names | uniq -}}

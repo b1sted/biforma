@@ -106,12 +106,11 @@
     cursor: pointer;
     user-select: none;
     list-style: none;
-    min-height: 44px; /* Touch-friendly tap target on mobile */
+    min-height: 44px;
     background: var(--bg-tertiary);
     transition: background-color var(--transition);
 }
 
-/* Remove default browser details markers and pseudo-elements */
 .toc-mobile-toggle::-webkit-details-marker,
 .toc-mobile-toggle::marker {
     display: none;
@@ -152,7 +151,6 @@
     border-top: 1px solid var(--border-primary);
 }
 
-/* Inner TOC list links - Flush alignment */
 .toc-mobile-nav #TableOfContents {
     border-left: none;
     margin: 0;
@@ -173,15 +171,16 @@
     display: flex;
     align-items: center;
     padding: 6px 10px;
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-2xs);
     line-height: 1.4;
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: var(--radius-sm);
-    min-height: 36px; /* Touch-friendly tap target */
+    min-height: 36px;
     transition: all var(--transition);
     word-break: break-word;
     overflow-wrap: break-word;
+    font-weight: 500;
 }
 
 .toc-mobile-nav #TableOfContents a:hover {
@@ -190,12 +189,14 @@
 }
 
 .toc-mobile-nav #TableOfContents a.active {
+    color: #5ca1f1 !important;
     color: var(--accent-primary) !important;
-    background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
-    font-weight: 600;
+    background: rgba(92, 161, 241, 0.12) !important;
+    border-left: 3px solid #5ca1f1 !important;
+    border-left: 3px solid var(--accent-primary) !important;
+    font-weight: 700 !important;
 }
 
-/* Nested H3 sub-items aligned under top-level text */
 .toc-mobile-nav #TableOfContents ul ul {
     margin-left: 14px;
     padding-left: 6px;
@@ -209,6 +210,7 @@
     padding: 5px 8px;
     min-height: 32px;
     color: var(--text-tertiary);
+    font-weight: 400;
 }
 
 /* Sidebar TOC (Right Desktop Column) */
@@ -230,14 +232,15 @@
 .sidebar-toc-nav #TableOfContents a {
     display: block;
     font-size: var(--font-size-2xs);
-    color: var(--text-tertiary);
+    color: var(--text-muted);
     text-decoration: none;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     transition: color var(--transition), background var(--transition), border-color var(--transition);
     line-height: 1.4;
     padding: 4px 10px;
-    border-left: 1px solid transparent;
+    border-left: 2px solid transparent;
     margin-left: -1px;
+    font-weight: 500;
 }
 
 .sidebar-toc-nav #TableOfContents a:hover {
@@ -247,10 +250,12 @@
 }
 
 .sidebar-toc-nav #TableOfContents a.active {
-    color: var(--accent-primary);
-    background: var(--bg-tertiary);
-    border-left-color: var(--accent-primary);
-    font-weight: 500;
+    color: #5ca1f1 !important;
+    color: var(--accent-primary) !important;
+    background: rgba(92, 161, 241, 0.12) !important;
+    border-left: 3px solid #5ca1f1 !important;
+    border-left: 3px solid var(--accent-primary) !important;
+    font-weight: 700 !important;
 }
 
 .sidebar-toc-nav #TableOfContents ul {
@@ -274,6 +279,8 @@
 
 .sidebar-toc-nav #TableOfContents ul ul a {
     padding-left: 12px;
+    color: var(--text-tertiary);
+    font-weight: 400;
 }
 
 .toc-sidebar {
@@ -300,7 +307,7 @@
 }
 
 .toc-title {
-    font-size: var(--font-size-3xs);
+    font-size: 11.5px;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -330,10 +337,11 @@
     line-height: 1.4;
     transition: all var(--transition);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    border-left: 1px solid transparent;
+    border-left: 2px solid transparent;
     margin-left: -1px;
     margin-top: 2px;
     margin-bottom: 2px;
+    font-weight: 500;
 }
 
 #TableOfContents a:hover {
@@ -343,10 +351,12 @@
 }
 
 #TableOfContents a.active {
+    color: #5ca1f1 !important;
     color: var(--accent-primary) !important;
-    background: var(--bg-tertiary);
-    border-left-color: var(--accent-primary) !important;
-    font-weight: 500;
+    background: rgba(92, 161, 241, 0.12) !important;
+    border-left: 3px solid #5ca1f1 !important;
+    border-left: 3px solid var(--accent-primary) !important;
+    font-weight: 700 !important;
 }
 
 #TableOfContents ul {
@@ -355,6 +365,11 @@
     margin-top: 4px;
     padding-left: 0;
     border-left: 1px solid var(--border-primary);
+}
+
+#TableOfContents ul ul a {
+    color: var(--text-tertiary);
+    font-weight: 400;
 }
 
 #TableOfContents > ul {

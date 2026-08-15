@@ -1,5 +1,18 @@
 {{- $class := .Attributes.class | default "" -}}
 {{- $lang := .Type | default "text" -}}
+
+{{- if eq $lang "mermaid" -}}
+{{- $scale := .Attributes.scale | default "" -}}
+{{- $caption := .Attributes.caption | default .Attributes.title | default "" -}}
+{{- $raw := trim .Inner "\n\r" -}}
+
+<figure class="article-figure mermaid-wrapper" data-pagefind-ignore>
+    <div class="mermaid" data-diagram="{{ $raw | base64Encode }}"{{ with $scale }} data-scale="{{ . }}"{{ end }}></div>
+    {{- with $caption -}}
+    <figcaption class="figure-caption">{{ . }}</figcaption>
+    {{- end -}}
+</figure>
+{{- else -}}
 {{- $options := dict "lineNos" false "lineNumbersInTable" false "noClasses" false -}}
 
 {{- $highlighted := transform.Highlight .Inner $lang $options -}}
@@ -22,3 +35,4 @@
         {{ $highlighted }}
     </div>
 </div>
+{{- end -}}

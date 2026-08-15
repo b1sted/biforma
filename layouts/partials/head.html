@@ -69,6 +69,10 @@ window.i18n = {{ dict
     {{- $pageModules = $pageModules | append "math" -}}
 {{- end -}}
 
+{{- if or .Params.mermaid site.Params.mermaid -}}
+    {{- $pageModules = $pageModules | append "mermaid" -}}
+{{- end -}}
+
 {{- $bundleFiles := slice -}}
 {{- with resources.Get "css/fonts.css" -}}{{- $bundleFiles = $bundleFiles | append . -}}{{- end -}}
 
@@ -78,10 +82,6 @@ window.i18n = {{ dict
     {{- end -}}
 {{- end -}}
 
-{{- if .Params.math -}}
-    {{- with resources.Get "css/katex.min.css" -}}{{- $bundleFiles = $bundleFiles | append . -}}{{- end -}}
-{{- end -}}
-
 {{- if $bundleFiles -}}
     {{- $pageBundle := $bundleFiles | resources.Concat $bundleName | minify | fingerprint -}}
     <link rel="preload" href="{{ $pageBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -89,9 +89,12 @@ window.i18n = {{ dict
 {{- end -}}
 
 {{- if .Params.math -}}
+{{/* Preload non-blocking stylesheet to eliminate render-blocking delay */}}
+<link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
 <script defer src="{{ "js/katex.min.js" | relURL }}"></script>
 <script defer src="{{ "js/auto-render.min.js" | relURL }}"
-    onload="if('requestIdleCallback' in window){requestIdleCallback(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})});}else{setTimeout(function(){renderMathInElement(document.querySelector('.article')||document.body,{output:'html',delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false})},200);}"></script>
+    onload="renderMathInElement(document.querySelector('.article')||document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
 {{- end -}}
 
 {{- $paginatable := or (eq .Kind "home") (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}

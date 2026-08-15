@@ -11,6 +11,7 @@ import { initCompareBlocks } from './modules/compare.js';
 import { initLicenseModal } from './modules/license.js';
 import { initResponsiveTables } from './modules/tables.js';
 import { setupLightboxTriggers } from './modules/lightbox.js';
+import { initMermaid } from './modules/mermaid.js';
 
 function runCriticalInit() {
     initTheme();
@@ -30,7 +31,8 @@ function runCriticalInit() {
         () => { initScrollTop(); },
         () => { if (document.querySelector('.section-filter-bar')) initSectionFilter(); },
         () => { if (document.querySelector('.rss-feed-card')) initRssFeeds(); },
-        () => { if (document.querySelector('.js-license-trigger')) initLicenseModal(); }
+        () => { if (document.querySelector('.js-license-trigger')) initLicenseModal(); },
+        () => { if (document.querySelector('.mermaid')) initMermaid(); }
     ];
 
     function processTaskQueue() {

@@ -15,6 +15,35 @@ export function initTocAndScroll() {
     const headerToLinksMap = new Map();
     const observedHeadings = [];
 
+    function scrollToElement(targetElement, smooth = true) {
+        if (!targetElement) return;
+
+        const scrollContainer = document.querySelector('.main-content');
+        const isMobile = window.innerWidth <= 1024;
+        const behavior = smooth ? 'smooth' : 'auto';
+
+        if (isMobile || !scrollContainer) {
+            const headerOffset = 70;
+            const top = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            window.scrollTo({ top, behavior });
+        } else {
+            const offset = 24;
+            const top = targetElement.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top + scrollContainer.scrollTop - offset;
+            scrollContainer.scrollTo({ top, behavior });
+        }
+    }
+
+    function handleInitialHash() {
+        if (!window.location.hash) return;
+        const id = decodeURIComponent(window.location.hash.substring(1));
+        const target = idToHeaderMap.get(id);
+        if (target) {
+            // Scroll internal container to anchor on initial load / reload
+            setTimeout(() => scrollToElement(target, false), 50);
+            setTimeout(() => scrollToElement(target, false), 300);
+        }
+    }
+
     tocLinks.forEach((link) => {
         const href = link.getAttribute('href');
         if (!href || !href.startsWith('#')) return;
@@ -35,21 +64,12 @@ export function initTocAndScroll() {
                 const mobileToc = link.closest('.toc-mobile');
                 if (mobileToc) mobileToc.removeAttribute('open');
 
-                const scrollContainer = document.querySelector('.main-content');
-                const isMobile = window.innerWidth <= 1024;
-
-                if (isMobile || !scrollContainer) {
-                    const headerOffset = 70;
-                    const top = header.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-                    window.scrollTo({ top, behavior: 'smooth' });
-                } else {
-                    const offset = 24;
-                    const top = header.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top + scrollContainer.scrollTop - offset;
-                    scrollContainer.scrollTo({ top, behavior: 'smooth' });
-                }
+                scrollToElement(header, true);
             });
         }
     });
+
+    handleInitialHash();
 
     if (!observedHeadings.length) return;
 

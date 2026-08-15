@@ -70,16 +70,44 @@
     transition: transform 0.1s ease-out;
 }
 
-.lightbox-image.zoomable {
+.lightbox-svg-wrapper {
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    box-sizing: border-box;
+    width: fit-content;
+}
+
+.lightbox-svg-wrapper svg {
+    max-width: 90vw !important;
+    max-height: 80vh !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+.lightbox-image.zoomable,
+.lightbox-svg-wrapper.zoomable {
     cursor: zoom-in;
 }
 
-.lightbox-image.zoomed {
+.lightbox-image.zoomed,
+.lightbox-svg-wrapper.zoomed {
     cursor: grab;
     transition: transform 0.05s linear;
 }
 
-.lightbox-image.zoomed:active {
+.lightbox-image.zoomed:active,
+.lightbox-svg-wrapper.zoomed:active {
     cursor: grabbing;
 }
 

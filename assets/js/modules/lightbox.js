@@ -21,10 +21,24 @@ export function setupLightboxTriggers() {
             const figure = img.closest('figure');
             const caption = figure?.querySelector('figcaption')?.textContent || img.alt || img.title || '';
             openLightbox(img.src, caption);
+            return;
+        }
+
+        // Only open modal for mermaid blocks instantiated via shortcode
+        const mermaidContainer = e.target.closest('.mermaid.js-mermaid-lightbox');
+        if (mermaidContainer) {
+            const svg = mermaidContainer.querySelector('svg');
+            if (svg) {
+                e.preventDefault();
+                const figure = mermaidContainer.closest('.mermaid-wrapper');
+                const caption = figure?.querySelector('.figure-caption')?.textContent || '';
+                openLightboxSvg(svg, caption);
+            }
         }
     });
 
     window.openLightbox = openLightbox;
+    window.openLightboxSvg = openLightboxSvg;
     window.closeLightbox = closeLightbox;
 }
 
@@ -48,6 +62,7 @@ function createLightbox() {
     lightbox.innerHTML = `
         <div class="lightbox-content">
             <img src="" alt="" class="lightbox-image zoomable" id="lightbox-image" draggable="false">
+            <div class="lightbox-svg-wrapper zoomable" id="lightbox-svg-wrapper" style="display: none;"></div>
             <div class="lightbox-caption" id="lightbox-caption"></div>
         </div>
         <button class="lightbox-close" aria-label="${labelClose}">×</button>
@@ -62,6 +77,7 @@ function createLightbox() {
 
     const closeBtn = lightbox.querySelector('.lightbox-close');
     const image = lightbox.querySelector('.lightbox-image');
+    const svgWrapper = lightbox.querySelector('.lightbox-svg-wrapper');
     const btnZoomIn = lightbox.querySelector('.zoom-in');
     const btnZoomOut = lightbox.querySelector('.zoom-out');
     const btnZoomReset = lightbox.querySelector('.zoom-reset');
@@ -89,21 +105,27 @@ function createLightbox() {
         }
     });
 
-    image.addEventListener('click', (e) => {
+    const handleElementClick = (e) => {
         e.stopPropagation();
         if (isDragging) return;
         currentScale <= MIN_SCALE ? setZoom(e, 2.5) : resetZoomState();
-    });
+    };
 
-    image.addEventListener('wheel', (e) => {
+    image.addEventListener('click', handleElementClick);
+    svgWrapper.addEventListener('click', handleElementClick);
+
+    const handleWheel = (e) => {
         e.preventDefault();
         const delta = e.deltaY < 0 ? 1 : -1;
         const scaleChange = currentScale * 0.15 * delta;
         const newScale = Math.min(Math.max(MIN_SCALE, currentScale + scaleChange), MAX_SCALE);
         newScale <= MIN_SCALE ? resetZoomState() : setZoom(e, newScale);
-    }, { passive: false });
+    };
 
-    image.addEventListener('mousedown', (e) => {
+    image.addEventListener('wheel', handleWheel, { passive: false });
+    svgWrapper.addEventListener('wheel', handleWheel, { passive: false });
+
+    const handleMouseDown = (e) => {
         if (!isZoomed) return;
         e.preventDefault();
         startX = e.clientX - currentX;
@@ -113,7 +135,7 @@ function createLightbox() {
             isDragging = true;
             currentX = moveEvent.clientX - startX;
             currentY = moveEvent.clientY - startY;
-            requestAnimationFrame(updateImageTransform);
+            requestAnimationFrame(updateTransform);
         };
 
         const onMouseUp = () => {
@@ -124,7 +146,10 @@ function createLightbox() {
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
-    });
+    };
+
+    image.addEventListener('mousedown', handleMouseDown);
+    svgWrapper.addEventListener('mousedown', handleMouseDown);
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('active')) {
@@ -133,14 +158,22 @@ function createLightbox() {
     });
 }
 
-function updateImageTransform() {
-    const image = document.getElementById('lightbox-image');
-    if (!image) return;
+function getActiveTarget() {
+    const svgWrapper = document.getElementById('lightbox-svg-wrapper');
+    if (svgWrapper && svgWrapper.style.display !== 'none') {
+        return svgWrapper;
+    }
+    return document.getElementById('lightbox-image');
+}
+
+function updateTransform() {
+    const target = getActiveTarget();
+    if (!target) return;
 
     if (isZoomed) {
-        image.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(${currentScale})`;
+        target.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(${currentScale})`;
     } else {
-        image.style.transform = '';
+        target.style.transform = '';
     }
 
     const scaleText = document.getElementById('lightbox-scale');
@@ -148,17 +181,17 @@ function updateImageTransform() {
 }
 
 function setZoom(e, targetScale) {
-    const image = document.getElementById('lightbox-image');
-    if (!image || targetScale <= MIN_SCALE) {
+    const target = getActiveTarget();
+    if (!target || targetScale <= MIN_SCALE) {
         resetZoomState();
         return;
     }
 
     isZoomed = true;
-    image.classList.remove('zoomable');
-    image.classList.add('zoomed');
+    target.classList.remove('zoomable');
+    target.classList.add('zoomed');
 
-    const rect = image.getBoundingClientRect();
+    const rect = target.getBoundingClientRect();
     const clickX = e.clientX !== undefined ? e.clientX : (rect.left + rect.width / 2);
     const clickY = e.clientY !== undefined ? e.clientY : (rect.top + rect.height / 2);
 
@@ -172,32 +205,77 @@ function setZoom(e, targetScale) {
     currentY = currentY * scaleRatio - offsetY * (scaleRatio - 1);
 
     currentScale = targetScale;
-    requestAnimationFrame(updateImageTransform);
+    requestAnimationFrame(updateTransform);
 }
 
 function resetZoomState() {
     const image = document.getElementById('lightbox-image');
-    if (image) {
-        isZoomed = false;
-        currentScale = MIN_SCALE;
-        currentX = 0;
-        currentY = 0;
-        image.classList.remove('zoomed');
-        image.classList.add('zoomable');
-        requestAnimationFrame(updateImageTransform);
-    }
+    const svgWrapper = document.getElementById('lightbox-svg-wrapper');
+
+    isZoomed = false;
+    currentScale = MIN_SCALE;
+    currentX = 0;
+    currentY = 0;
+
+    [image, svgWrapper].forEach((el) => {
+        if (el) {
+            el.classList.remove('zoomed');
+            el.classList.add('zoomable');
+            el.style.transform = '';
+        }
+    });
+
+    const scaleText = document.getElementById('lightbox-scale');
+    if (scaleText) scaleText.textContent = '100%';
 }
 
 export function openLightbox(imageSrc, caption) {
     if (!lightboxCreated) createLightbox();
 
     const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
+    const image = document.getElementById('lightbox-image');
+    const svgWrapper = document.getElementById('lightbox-svg-wrapper');
     const lightboxCaption = document.getElementById('lightbox-caption');
 
-    lightboxImage.src = imageSrc;
-    lightboxImage.alt = caption || '';
-    lightboxCaption.textContent = caption || '';
+    if (svgWrapper) svgWrapper.style.display = 'none';
+    if (image) {
+        image.style.display = 'block';
+        image.src = imageSrc;
+        image.alt = caption || '';
+    }
+    if (lightboxCaption) lightboxCaption.textContent = caption || '';
+
+    resetZoomState();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+export function openLightboxSvg(svgElement, caption) {
+    if (!lightboxCreated) createLightbox();
+
+    const lightbox = document.getElementById('lightbox');
+    const image = document.getElementById('lightbox-image');
+    const svgWrapper = document.getElementById('lightbox-svg-wrapper');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+
+    if (image) image.style.display = 'none';
+    if (svgWrapper) {
+        svgWrapper.style.display = 'flex';
+        svgWrapper.innerHTML = '';
+
+        const clonedSvg = svgElement.cloneNode(true);
+        const rect = svgElement.getBoundingClientRect();
+        const baseWidth = parseFloat(svgElement.style.maxWidth) || svgElement.viewBox?.baseVal?.width || rect.width;
+
+        if (baseWidth > 0) {
+            clonedSvg.style.width = `${baseWidth}px`;
+            clonedSvg.style.maxWidth = '100%';
+            clonedSvg.style.height = 'auto';
+        }
+
+        svgWrapper.appendChild(clonedSvg);
+    }
+    if (lightboxCaption) lightboxCaption.textContent = caption || '';
 
     resetZoomState();
     lightbox.classList.add('active');

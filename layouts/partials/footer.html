@@ -52,7 +52,8 @@
             {{- end -}}
 
             {{- if and (not $isBlog) site.Params.mainSite -}}
-            <a href="{{ site.Params.mainSite }}" class="footer-link" aria-label="{{ i18n "nav_home" }}">
+            {{/* Distinct accessible label for external homepage to satisfy WCAG identical links check */}}
+            <a href="{{ site.Params.mainSite }}" class="footer-link" aria-label="{{ site.Params.author }} ({{ i18n "nav_home" }})">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-home" | relURL }}"></use>
                 </svg>

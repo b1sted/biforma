@@ -1,3 +1,5 @@
+import { renderAllMermaid } from './mermaid.js';
+
 export function initTheme() {
     const toggleBtn = document.querySelector('.theme-toggle');
     if (!toggleBtn) return;
@@ -23,6 +25,10 @@ export function initTheme() {
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
         updateIcons(next);
+
+        if (document.querySelector('.mermaid')) {
+            renderAllMermaid();
+        }
 
         setTimeout(() => {
             html.classList.remove('theme-transition');

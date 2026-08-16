@@ -1,45 +1,117 @@
 {{- $src := .Get "src" | default (.Get 0) -}}
+{{- $srcLight := .Get "src-light" | default (.Get "light") -}}
+{{- $srcDark := .Get "src-dark" | default (.Get "dark") -}}
 {{- $alt := .Get "alt" | default "" -}}
 {{- $caption := .Get "caption" | default (.Get "title") -}}
 {{- $loading := .Get "loading" | default "lazy" -}}
 {{- $fetchpriority := .Get "fetchpriority" | default "auto" -}}
 
-{{- $width := "" -}}
-{{- $height := "" -}}
-
-{{- if and $src (not (urls.Parse $src).IsAbs) -}}
-    {{- $cleanSrc := strings.TrimPrefix "/" $src -}}
-    {{- $pageRes := .Page.Resources.GetMatch $src -}}
-    {{- if $pageRes -}}
-        {{- $width = $pageRes.Width -}}
-        {{- $height = $pageRes.Height -}}
-    {{- else -}}
-        {{- $staticPath := printf "static/%s" $cleanSrc -}}
-        {{- if fileExists $staticPath -}}
-            {{- $cfg := imageConfig $staticPath -}}
-            {{- $width = $cfg.Width -}}
-            {{- $height = $cfg.Height -}}
-        {{- else if .Page.File -}}
-            {{- $contentPath := printf "content/%s%s" .Page.File.Dir $cleanSrc -}}
-            {{- if fileExists $contentPath -}}
-                {{- $cfg := imageConfig $contentPath -}}
-                {{- $width = $cfg.Width -}}
-                {{- $height = $cfg.Height -}}
+{{- if and $srcLight $srcDark -}}
+    {{- $widthLight := "" -}}
+    {{- $heightLight := "" -}}
+    {{- if not (urls.Parse $srcLight).IsAbs -}}
+        {{- $cleanLight := strings.TrimPrefix "/" $srcLight -}}
+        {{- $pageResLight := .Page.Resources.GetMatch $srcLight -}}
+        {{- if $pageResLight -}}
+            {{- $widthLight = $pageResLight.Width -}}
+            {{- $heightLight = $pageResLight.Height -}}
+        {{- else -}}
+            {{- $staticLight := printf "static/%s" $cleanLight -}}
+            {{- if fileExists $staticLight -}}
+                {{- $cfgLight := imageConfig $staticLight -}}
+                {{- $widthLight = $cfgLight.Width -}}
+                {{- $heightLight = $cfgLight.Height -}}
+            {{- else if .Page.File -}}
+                {{- $contentLight := printf "content/%s%s" .Page.File.Dir $cleanLight -}}
+                {{- if fileExists $contentLight -}}
+                    {{- $cfgLight := imageConfig $contentLight -}}
+                    {{- $widthLight = $cfgLight.Width -}}
+                    {{- $heightLight = $cfgLight.Height -}}
+                {{- end -}}
             {{- end -}}
         {{- end -}}
     {{- end -}}
-{{- end -}}
 
-{{- $dimAttr := "" -}}
-{{- if and $width $height -}}
-    {{- $dimAttr = printf ` width="%v" height="%v"` $width $height -}}
-{{- end -}}
+    {{- $dimLight := "" -}}
+    {{- if and $widthLight $heightLight -}}
+        {{- $dimLight = printf ` width="%v" height="%v"` $widthLight $heightLight -}}
+    {{- end -}}
 
-{{- if $caption -}}
-<figure class="article-figure">
-    <img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
-    <figcaption class="figure-caption">{{ $caption }}</figcaption>
-</figure>
+    {{- $widthDark := "" -}}
+    {{- $heightDark := "" -}}
+    {{- if not (urls.Parse $srcDark).IsAbs -}}
+        {{- $cleanDark := strings.TrimPrefix "/" $srcDark -}}
+        {{- $pageResDark := .Page.Resources.GetMatch $srcDark -}}
+        {{- if $pageResDark -}}
+            {{- $widthDark = $pageResDark.Width -}}
+            {{- $heightDark = $pageResDark.Height -}}
+        {{- else -}}
+            {{- $staticDark := printf "static/%s" $cleanDark -}}
+            {{- if fileExists $staticDark -}}
+                {{- $cfgDark := imageConfig $staticDark -}}
+                {{- $widthDark = $cfgDark.Width -}}
+                {{- $heightDark = $cfgDark.Height -}}
+            {{- else if .Page.File -}}
+                {{- $contentDark := printf "content/%s%s" .Page.File.Dir $cleanDark -}}
+                {{- if fileExists $contentDark -}}
+                    {{- $cfgDark := imageConfig $contentDark -}}
+                    {{- $widthDark = $cfgDark.Width -}}
+                    {{- $heightDark = $cfgDark.Height -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- $dimDark := "" -}}
+    {{- if and $widthDark $heightDark -}}
+        {{- $dimDark = printf ` width="%v" height="%v"` $widthDark $heightDark -}}
+    {{- end -}}
+
+    <figure class="article-figure article-figure-adaptive">
+        <img src="{{ $srcLight }}" alt="{{ $alt }}" class="img-light-only article-figure-img" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimLight | safeHTMLAttr }}>
+        <img src="{{ $srcDark }}" alt="{{ $alt }}" class="img-dark-only article-figure-img" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimDark | safeHTMLAttr }}>
+        {{- with $caption -}}
+        <figcaption class="figure-caption">{{ . }}</figcaption>
+        {{- end -}}
+    </figure>
 {{- else -}}
-<img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    {{- $width := "" -}}
+    {{- $height := "" -}}
+
+    {{- if and $src (not (urls.Parse $src).IsAbs) -}}
+        {{- $cleanSrc := strings.TrimPrefix "/" $src -}}
+        {{- $pageRes := .Page.Resources.GetMatch $src -}}
+        {{- if $pageRes -}}
+            {{- $width = $pageRes.Width -}}
+            {{- $height = $pageRes.Height -}}
+        {{- else -}}
+            {{- $staticPath := printf "static/%s" $cleanSrc -}}
+            {{- if fileExists $staticPath -}}
+                {{- $cfg := imageConfig $staticPath -}}
+                {{- $width = $cfg.Width -}}
+                {{- $height = $cfg.Height -}}
+            {{- else if .Page.File -}}
+                {{- $contentPath := printf "content/%s%s" .Page.File.Dir $cleanSrc -}}
+                {{- if fileExists $contentPath -}}
+                    {{- $cfg := imageConfig $contentPath -}}
+                    {{- $width = $cfg.Width -}}
+                    {{- $height = $cfg.Height -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- $dimAttr := "" -}}
+    {{- if and $width $height -}}
+        {{- $dimAttr = printf ` width="%v" height="%v"` $width $height -}}
+    {{- end -}}
+
+    {{- if $caption -}}
+    <figure class="article-figure">
+        <img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+        <figcaption class="figure-caption">{{ $caption }}</figcaption>
+    </figure>
+    {{- else -}}
+    <img src="{{ $src }}" alt="{{ $alt }}" loading="{{ $loading }}" fetchpriority="{{ $fetchpriority }}" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    {{- end -}}
 {{- end -}}

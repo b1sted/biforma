@@ -6,33 +6,37 @@
 {{- $align := "" -}}
 {{- $caption := $title -}}
 
-{{/* Check if $title is an alignment keyword or a real caption */}}
 {{- if in $alignValues $title -}}
     {{- $align = $title -}}
     {{- $caption = "" -}}
 {{- end -}}
 
+{{- $u := urls.Parse $src -}}
+{{- $fragment := lower $u.Fragment -}}
+{{- $themeClass := "" -}}
+
+{{- if or (eq $fragment "light") (eq $fragment "gh-light-mode-only") -}}
+    {{- $themeClass = "img-light-only" -}}
+{{- else if or (eq $fragment "dark") (eq $fragment "gh-dark-mode-only") -}}
+    {{- $themeClass = "img-dark-only" -}}
+{{- end -}}
+
 {{- $width := "" -}}
 {{- $height := "" -}}
 
-{{/* Process relative local images */}}
-{{- if not (urls.Parse $src).IsAbs -}}
-    {{- /* 1. Search in Page Bundle Resources */ -}}
-    {{- $pageRes := .Page.Resources.GetMatch $src -}}
+{{- if not $u.IsAbs -}}
+    {{- $cleanPath := strings.TrimPrefix "/" $u.Path -}}
+    {{- $pageRes := .Page.Resources.GetMatch $u.Path -}}
     {{- if $pageRes -}}
         {{- $width = $pageRes.Width -}}
         {{- $height = $pageRes.Height -}}
     {{- else -}}
-        {{- $cleanPath := strings.TrimPrefix "/" (urls.Parse $src).Path -}}
-
-        {{- /* 2. Search in /static folder */ -}}
         {{- $staticPath := printf "static/%s" $cleanPath -}}
         {{- if fileExists $staticPath -}}
             {{- $cfg := imageConfig $staticPath -}}
             {{- $width = $cfg.Width -}}
             {{- $height = $cfg.Height -}}
         {{- else if .Page.File -}}
-            {{- /* 3. Search in /content folder relative to the page */ -}}
             {{- $contentPath := printf "content/%s/%s" .Page.File.Dir $cleanPath -}}
             {{- if fileExists $contentPath -}}
                 {{- $cfg := imageConfig $contentPath -}}
@@ -48,15 +52,20 @@
     {{- $dimAttr = printf ` width="%v" height="%v"` $width $height -}}
 {{- end -}}
 
+{{- $classAttr := "" -}}
+{{- if $themeClass -}}
+    {{- $classAttr = printf ` class="%s"` $themeClass -}}
+{{- end -}}
+
 {{- if $caption -}}
 <figure class="article-figure{{ if $align }} align-{{ $align }}{{ end }}">
-    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
     <figcaption class="figure-caption">{{ $caption }}</figcaption>
 </figure>
 {{- else if $align -}}
 <div class="article-image article-image-{{ $align }}">
-    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
 </div>
 {{- else -}}
-<img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+<img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
 {{- end -}}

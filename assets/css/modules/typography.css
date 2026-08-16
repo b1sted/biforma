@@ -339,6 +339,19 @@
     justify-content: flex-end;
 }
 
+[data-theme="dark"] .img-light-only,
+:root:not([data-theme="light"]) .img-light-only {
+    display: none !important;
+}
+
+[data-theme="light"] .img-dark-only {
+    display: none !important;
+}
+
+.article-figure-adaptive .article-figure-img + .article-figure-img {
+    margin-top: 0;
+}
+
 .rss-feeds-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));

@@ -161,7 +161,7 @@
         display: flex !important;
     }
 
-    .header-link:not(.search-trigger-mobile) {
+    .header-link:not(.search-trigger-mobile):not(.lang-toggle) {
         display: none;
     }
 

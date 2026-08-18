@@ -1,43 +1,45 @@
 {{- $currentPage := . -}}
-{{- $section := .Parent -}}
+{{- $pages := slice -}}
 
-{{- if $section -}}
-    {{- $pages := $section.RegularPages.ByWeight -}}
-    {{- $currentIndex := -1 -}}
+{{- if eq $currentPage.Section "" -}}
+    {{- $pages = (where (where site.RegularPages "Section" "") "Params.searchHidden" "!=" true).ByWeight -}}
+{{- else if $currentPage.CurrentSection -}}
+    {{- $pages = (where $currentPage.CurrentSection.RegularPages "Params.searchHidden" "!=" true).ByWeight -}}
+{{- end -}}
 
-    {{- range $index, $page := $pages -}}
-        {{- if $currentPage.Eq $page -}}
-            {{- $currentIndex = $index -}}
-        {{- end -}}
+{{- $currentIndex := -1 -}}
+{{- range $index, $page := $pages -}}
+    {{- if $currentPage.Eq $page -}}
+        {{- $currentIndex = $index -}}
     {{- end -}}
+{{- end -}}
 
-    {{- if ge $currentIndex 0 -}}
-        {{- $prevIndex := sub $currentIndex 1 -}}
-        {{- $nextIndex := add $currentIndex 1 -}}
-        {{- $hasPrev := ge $prevIndex 0 -}}
-        {{- $hasNext := lt $nextIndex (len $pages) -}}
+{{- if ge $currentIndex 0 -}}
+    {{- $prevIndex := sub $currentIndex 1 -}}
+    {{- $nextIndex := add $currentIndex 1 -}}
+    {{- $hasPrev := ge $prevIndex 0 -}}
+    {{- $hasNext := lt $nextIndex (len $pages) -}}
 
-        {{- if or $hasPrev $hasNext -}}
-            <nav class="page-nav{{ if and (not $hasPrev) $hasNext }} nav-next-only{{ else if and $hasPrev (not $hasNext) }} nav-prev-only{{ end }}" 
-                 aria-label="{{ i18n "aria_page_nav" }}" 
-                 data-pagefind-ignore>
-                
-                {{- if $hasPrev -}}
-                    {{- $prevPage := index $pages $prevIndex -}}
-                    <a href="{{ $prevPage.RelPermalink }}" class="page-nav-card prev">
-                        <span class="page-nav-label">{{ i18n "page_nav_prev" }}</span>
-                        <span class="page-nav-title">{{ $prevPage.Title }}</span>
-                    </a>
-                {{- end -}}
+    {{- if or $hasPrev $hasNext -}}
+        <nav class="page-nav{{ if and (not $hasPrev) $hasNext }} nav-next-only{{ else if and $hasPrev (not $hasNext) }} nav-prev-only{{ end }}"
+             aria-label="{{ i18n "aria_page_nav" }}"
+             data-pagefind-ignore>
 
-                {{- if $hasNext -}}
-                    {{- $nextPage := index $pages $nextIndex -}}
-                    <a href="{{ $nextPage.RelPermalink }}" class="page-nav-card next">
-                        <span class="page-nav-label">{{ i18n "page_nav_next" }}</span>
-                        <span class="page-nav-title">{{ $nextPage.Title }}</span>
-                    </a>
-                {{- end -}}
-            </nav>
-        {{- end -}}
+            {{- if $hasPrev -}}
+                {{- $prevPage := index $pages $prevIndex -}}
+                <a href="{{ $prevPage.RelPermalink }}" class="page-nav-card prev">
+                    <span class="page-nav-label">{{ i18n "page_nav_prev" }}</span>
+                    <span class="page-nav-title">{{ $prevPage.Title }}</span>
+                </a>
+            {{- end -}}
+
+            {{- if $hasNext -}}
+                {{- $nextPage := index $pages $nextIndex -}}
+                <a href="{{ $nextPage.RelPermalink }}" class="page-nav-card next">
+                    <span class="page-nav-label">{{ i18n "page_nav_next" }}</span>
+                    <span class="page-nav-title">{{ $nextPage.Title }}</span>
+                </a>
+            {{- end -}}
+        </nav>
     {{- end -}}
 {{- end -}}

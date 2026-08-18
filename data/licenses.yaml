@@ -1,0 +1,529 @@
+polyform:
+  title: "PolyForm Noncommercial 1.0.0"
+  description_en: "Software license for non-commercial use."
+  description_ru: "Лицензия на программное обеспечение для некоммерческого использования."
+
+  permissions:
+    can_ru:
+      - "Использовать в личных целях (обучение, хобби)"
+      - "Использовать в некоммерческих организациях (благотворительность, образование, наука)"
+      - "Изменять код и создавать производные работы"
+      - "Распространять оригинальный и измененный код (некоммерчески)"
+    can_en:
+      - "Use for personal purposes (learning, hobbies)"
+      - "Use in non-commercial organizations (charity, education, science)"
+      - "Modify code and create derivative works"
+      - "Distribute original and modified code (non-commercially)"
+    cannot_ru:
+      - "Использовать в коммерческих целях"
+      - "Продавать программное обеспечение"
+      - "Извлечение прямой коммерческой прибыли из использования кода"
+    cannot_en:
+      - "Use for commercial purposes"
+      - "Sell the software"
+      - "Extract direct commercial profit from using the code"
+    must_ru:
+      - "Сохранять уведомления об авторских правах"
+      - "Включать текст лицензии при распространении"
+      - "Указывать “Required Notice”, если он предоставлен"
+    must_en:
+      - "Retain copyright notices"
+      - "Include license text when distributing"
+      - "Include “Required Notice” if provided"
+
+  text_en: |
+    # PolyForm Noncommercial License 1.0.0
+
+    <https://polyformproject.org/licenses/noncommercial/1.0.0>
+
+    ## Acceptance
+
+    In order to get any license under these terms, you must agree to them as both strict obligations and conditions to all your licenses.
+
+    ## Copyright License
+
+    The licensor grants you a copyright license for the software to do everything you might do with the software that would otherwise infringe the licensor's copyright in it for any permitted purpose. However, you may only distribute the software according to [Distribution License](#distribution-license) and make changes or new works based on the software according to [Changes and New Works License](#changes-and-new-works-license).
+
+    ## Distribution License
+
+    The licensor grants you an additional copyright license to distribute copies of the software. Your license to distribute covers distributing the software with changes and new works permitted by [Changes and New Works License](#changes-and-new-works-license).
+
+    ## Notices
+
+    You must ensure that anyone who gets a copy of any part of the software from you also gets a copy of these terms or the URL for them above, as well as copies of any plain-text lines beginning with `Required Notice:` that the licensor provided with the software. For example:
+
+    > Required Notice: Copyright [Author] ([Website])
+
+    ## Changes and New Works License
+
+    The licensor grants you an additional copyright license to make changes and new works based on the software for any permitted purpose.
+
+    ## Patent License
+
+    The licensor grants you a patent license for the software that covers patent claims the licensor can license, or becomes able to license, that you would infringe by using the software.
+
+    ## Noncommercial Purposes
+
+    Any noncommercial purpose is a permitted purpose.
+
+    ## Personal Uses
+
+    Personal use for research, experiment, and testing for the benefit of public knowledge, personal study, private entertainment, hobby projects, amateur pursuits, or religious observance, without any anticipated commercial application, is use for a permitted purpose.
+
+    ## Noncommercial Organizations
+
+    Use by any charitable organization, educational institution, public research organization, public safety or health organization, environmental protection organization, or government institution is use for a permitted purpose regardless of the source of funding or obligations resulting from the funding.
+
+    ## Fair Use
+
+    You may have "fair use" rights for the software under the law. These terms do not limit them.
+
+    ## No Other Rights
+
+    These terms do not allow you to sublicense or transfer any of your licenses to anyone else, or prevent the licensor from granting licenses to anyone else. These terms do not imply any other licenses.
+
+    ## Patent Defense
+
+    If you make any written claim that the software infringes or contributes to infringement of any patent, your patent license for the software granted under these terms ends immediately. If your company makes such a claim, your patent license ends immediately for work on behalf of your company.
+
+    ## Violations
+
+    The first time you are notified in writing that you have violated any of these terms, or done anything with the software not covered by your licenses, your licenses can nonetheless continue if you come into full compliance with these terms, and take practical steps to correct past violations, within 32 days of receiving notice. Otherwise, all your licenses end immediately.
+
+    ## No Liability
+
+    ***As far as the law allows, the software comes as is, without any warranty or condition, and the licensor will not be liable to you for any damages arising out of these terms or the use or nature of the software, under any kind of legal claim.***
+
+    ## Definitions
+
+    The **licensor** is the individual or entity offering these terms, and the **software** is the software the licensor makes available under these terms.
+
+    **You** refers to the individual or entity agreeing to these terms.
+
+    **Your company** is any legal entity, sole proprietorship, or other kind of organization that you work for, plus all organizations that have control over, are under the control of, or are under common control with that organization. **Control** means ownership of substantially all the assets of an entity, or the power to direct its management and policies by vote, contract, or otherwise. Control can be direct or indirect.
+
+    **Your licenses** are all the licenses granted to you for the software under these terms.
+
+    **Use** means anything you do with the software requiring one of your licenses.
+
+  text_ru: |
+    # Некоммерческая лицензия PolyForm 1.0.0
+
+    <https://polyformproject.org/licenses/noncommercial/1.0.0>
+
+    ## Принятие условий
+
+    Чтобы получить какую-либо лицензию на настоящих условиях, вы должны согласиться с ними как со строгими обязательствами и условиями действия всех ваших лицензий.
+
+    ## Авторско-правовая лицензия
+
+    Лицензиар предоставляет вам авторско-правовую лицензию на программное обеспечение, позволяющую совершать любые действия с программным обеспечением, которые в ином случае нарушали бы авторские права лицензиара на него, для любых разрешенных целей. Однако вы вправе распространять программное обеспечение только в соответствии с разделом [Лицензия на распространение](#distribution-license), а также вносить изменения или создавать новые произведения на основе программного обеспечения только в соответствии с разделом [Лицензия на изменения и новые произведения](#changes-and-new-works-license).
+
+    ## Лицензия на распространение
+
+    Лицензиар предоставляет вам дополнительную авторско-правовую лицензию на распространение копий программного обеспечения. Ваша лицензия на распространение охватывает распространение программного обеспечения с изменениями и новыми произведениями, разрешенными разделом [Лицензия на изменения и новые произведения](#changes-and-new-works-license).
+
+    ## Уведомления
+
+    Вы должны обеспечить, чтобы любое лицо, получающее от вас копию любой части программного обеспечения, также получило копию настоящих условий или приведенную выше ссылку (URL) на них, а также копии любых текстовых строк, начинающихся с `Required Notice:`, которые лицензиар предоставил вместе с программным обеспечением. Например:
+
+    > Required Notice: Copyright [Author] ([Website])
+
+    ## Лицензия на изменения и новые произведения
+
+    Лицензиар предоставляет вам дополнительную авторско-правовую лицензию на внесение изменений и создание новых произведений на основе программного обеспечения для любых разрешенных целей.
+
+    ## Патентная лицензия
+
+    Лицензиар предоставляет вам патентную лицензию на программное обеспечение, которая охватывает патентные притязания, на лицензирование которых лицензиар имеет право или получит такое право и которые были бы нарушены вами при использовании программного обеспечения.
+
+    ## Некоммерческие цели
+
+    Любая некоммерческая цель является разрешенной целью.
+
+    ## Личное использование
+
+    Личное использование в целях исследований, экспериментов и тестирования для расширения общественных знаний, личного обучения, частных развлечений, хобби-проектов, любительских занятий или религиозных обрядов без какого-либо предполагаемого коммерческого применения является использованием в разрешенных целях.
+
+    ## Некоммерческие организации
+
+    Использование любой благотворительной организацией, образовательным учреждением, общественной исследовательской организацией, организацией общественной безопасности или здравоохранения, природоохранной организацией либо государственным учреждением является использованием в разрешенных целях независимо от источника финансирования или обязательств, возникающих в результате такого финансирования.
+
+    ## Добросовестное использование
+
+    В соответствии с законодательством вы можете обладать правами «добросовестного использования» (fair use) в отношении программного обеспечения. Настоящие условия их не ограничивают.
+
+    ## Отсутствие иных прав
+
+    Настоящие условия не дают вам права сублицензировать или передавать какие-либо из ваших лицензий кому-либо еще, а также не препятствуют лицензиару предоставлять лицензии кому-либо еще. Настоящие условия не подразумевают предоставления каких-либо иных лицензий.
+
+    ## Патентная защита
+
+    Если вы предъявите какую-либо письменную претензию или иск о том, что программное обеспечение нарушает какой-либо патент или способствует его нарушению, действие вашей патентной лицензии на программное обеспечение, предоставленной на настоящих условиях, немедленно прекращается. Если такую претензию предъявляет ваша компания, действие вашей патентной лицензии немедленно прекращается в отношении работы от имени вашей компании.
+
+    ## Нарушения
+
+    При первом получении письменного уведомления о том, что вы нарушили какое-либо из настоящих условий или совершили с программным обеспечением действия, не охватываемые вашими лицензиями, действие ваших лицензий тем не менее может продолжиться, если вы полностью устраните несоответствие настоящим условиям и предпримете практические шаги для исправления прошлых нарушений в течение 32 дней с момента получения уведомления. В противном случае действие всех ваших лицензий немедленно прекращается.
+
+    ## Отказ от ответственности
+
+    ***В той степени, в которой это допускается законом, программное обеспечение предоставляется на условиях «как есть» (as is), без каких-либо явных или подразумеваемых гарантий или условий, и лицензиар не несет перед вами ответственности за любые убытки или ущерб, возникающие из настоящих условий, использования либо свойств программного обеспечения, по любым видам правовых претензий.***
+
+    ## Определения
+
+    **Лицензиар** — это физическое или юридическое лицо, предлагающее настоящие условия, а **программное обеспечение** — это программное обеспечение, которое лицензиар предоставляет на настоящих условиях.
+
+    **Вы** означает физическое или юридическое лицо, принимающее настоящие условия.
+
+    **Ваша компания** — это любое юридическое лицо, индивидуальный предприниматель или организация иного рода, на которую вы работаете, а также все организации, которые контролируют данную организацию, находятся под ее контролем либо находятся под общим контролем с ней. **Контроль** означает владение практически всеми активами организации либо право определять ее руководство и политику посредством права голоса, договора или иным образом. Контроль может быть прямым или косвенным.
+
+    **Ваши лицензии** — это все лицензии на программное обеспечение, предоставленные вам на настоящих условиях.
+
+    **Использование** означает любые действия с программным обеспечением, требующие наличия одной из ваших лицензий.
+
+cc_by_nc:
+  title: "CC BY-NC 4.0"
+  description_en: "Creative Commons Attribution-NonCommercial 4.0 International"
+  description_ru: "Creative Commons С указанием авторства-Некоммерческая версии 4.0 Международная"
+
+  permissions:
+    can_ru:
+      - "Делиться: копировать и распространять материал"
+      - "Адаптировать: создавать производные материалы"
+    can_en:
+      - "Share: copy and redistribute the material"
+      - "Adapt: remix, transform, and build upon the material"
+    cannot_ru:
+      - "Использовать в коммерческих целях"
+    cannot_en:
+      - "Use for commercial purposes"
+    must_ru:
+      - "Указывать авторство (Атрибуция)"
+      - "Предоставлять ссылку на оригинал и лицензию"
+      - "Обозначать, если были внесены изменения"
+    must_en:
+      - "Give appropriate credit (Attribution)"
+      - "Provide a link to the original and license"
+      - "Indicate if changes were made"
+
+  text_en: |
+    # Creative Commons Attribution-NonCommercial 4.0 International
+
+    Creative Commons Corporation (“Creative Commons”) is not a law firm and does not provide legal services or legal advice. Distribution of Creative Commons public licenses does not create a lawyer-client or other relationship. Creative Commons makes its licenses and related information available on an “as-is” basis. Creative Commons gives no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Creative Commons disclaims all liability for damages resulting from their use to the fullest extent possible.
+
+    **Using Creative Commons Public Licenses**
+
+    Creative Commons public licenses provide a standard set of terms and conditions that creators and other rights holders may use to share original works of authorship and other material subject to copyright and certain other rights specified in the public license below. The following considerations are for informational purposes only, are not exhaustive, and do not form part of our licenses.
+
+    * __Considerations for licensors:__ Our public licenses are intended for use by those authorized to give the public permission to use material in ways otherwise restricted by copyright and certain other rights. Our licenses are irrevocable. Licensors should read and understand the terms and conditions of the license they choose before applying it. Licensors should also secure all rights necessary before applying our licenses so that the public can reuse the material as expected. Licensors should clearly mark any material not subject to the license. This includes other CC-licensed material, or material used under an exception or limitation to copyright. [More considerations for licensors](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
+
+    * __Considerations for the public:__ By using one of our public licenses, a licensor grants the public permission to use the licensed material under specified terms and conditions. If the licensor’s permission is not necessary for any reason–for example, because of any applicable exception or limitation to copyright–then that use is not regulated by the license. Our licenses grant only permissions under copyright and certain other rights that a licensor has authority to grant. Use of the licensed material may still be restricted for other reasons, including because others have copyright or other rights in the material. A licensor may make special requests, such as asking that all changes be marked or described. Although not required by our licenses, you are encouraged to respect those requests where reasonable. [More considerations for the public](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+
+    ## Creative Commons Attribution-NonCommercial 4.0 International Public License
+
+    By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial 4.0 International Public License ("Public License"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.
+
+    ### Section 1 – Definitions.
+
+    a. __Adapted Material__ means material subject to Copyright and Similar Rights that is derived from or based upon the Licensed Material and in which the Licensed Material is translated, altered, arranged, transformed, or otherwise modified in a manner requiring permission under the Copyright and Similar Rights held by the Licensor. For purposes of this Public License, where the Licensed Material is a musical work, performance, or sound recording, Adapted Material is always produced where the Licensed Material is synched in timed relation with a moving image.
+
+    b. __Adapter's License__ means the license You apply to Your Copyright and Similar Rights in Your contributions to Adapted Material in accordance with the terms and conditions of this Public License.
+
+    c. __Copyright and Similar Rights__ means copyright and/or similar rights closely related to copyright including, without limitation, performance, broadcast, sound recording, and Sui Generis Database Rights, without regard to how the rights are labeled or categorized. For purposes of this Public License, the rights specified in Section 2(b)(1)-(2) are not Copyright and Similar Rights.
+
+    d. __Effective Technological Measures__ means those measures that, in the absence of proper authority, may not be circumvented under laws fulfilling obligations under Article 11 of the WIPO Copyright Treaty adopted on December 20, 1996, and/or similar international agreements.
+
+    e. __Exceptions and Limitations__ means fair use, fair dealing, and/or any other exception or limitation to Copyright and Similar Rights that applies to Your use of the Licensed Material.
+
+    f. __Licensed Material__ means the artistic or literary work, database, or other material to which the Licensor applied this Public License.
+
+    g. __Licensed Rights__ means the rights granted to You subject to the terms and conditions of this Public License, which are limited to all Copyright and Similar Rights that apply to Your use of the Licensed Material and that the Licensor has authority to license.
+
+    h. __Licensor__ means the individual(s) or entity(ies) granting rights under this Public License.
+
+    i. __NonCommercial__ means not primarily intended for or directed towards commercial advantage or monetary compensation. For purposes of this Public License, the exchange of the Licensed Material for other material subject to Copyright and Similar Rights by digital file-sharing or similar means is NonCommercial provided there is no payment of monetary compensation in connection with the exchange.
+
+    j. __Share__ means to provide material to the public by any means or process that requires permission under the Licensed Rights, such as reproduction, public display, public performance, distribution, dissemination, communication, or importation, and to make material available to the public including in ways that members of the public may access the material from a place and at a time individually chosen by them.
+
+    k. __Sui Generis Database Rights__ means rights other than copyright resulting from Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, as amended and/or succeeded, as well as other essentially equivalent rights anywhere in the world.
+
+    l. __You__ means the individual or entity exercising the Licensed Rights under this Public License. __Your__ has a corresponding meaning.
+
+    ### Section 2 – Scope.
+
+    a. ___License grant.___
+
+        1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:
+
+            A. reproduce and Share the Licensed Material, in whole or in part, for NonCommercial purposes only; and
+
+            B. produce, reproduce, and Share Adapted Material for NonCommercial purposes only.
+
+        2. __Exceptions and Limitations.__ For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.
+
+        3. __Term.__ The term of this Public License is specified in Section 6(a).
+
+        4. __Media and formats; technical modifications allowed.__ The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)(4) never produces Adapted Material.
+
+        5. __Downstream recipients.__
+
+            A. __Offer from the Licensor – Licensed Material.__ Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
+
+            B. __No downstream restrictions.__ You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
+
+        6. __No endorsement.__ Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).
+
+    b. ___Other rights.___
+
+        1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
+
+        2. Patent and trademark rights are not licensed under this Public License.
+
+        3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
+
+    ### Section 3 – License Conditions.
+
+    Your exercise of the Licensed Rights is expressly made subject to the following conditions.
+
+    a. ___Attribution.___
+
+        1. If You Share the Licensed Material (including in modified form), You must:
+
+            A. retain the following if it is supplied by the Licensor with the Licensed Material:
+
+              i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
+
+              ii. a copyright notice;
+
+              iii. a notice that refers to this Public License;
+
+              iv. a notice that refers to the disclaimer of warranties;
+
+              v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable;
+
+            B. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and
+
+            C. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.
+
+        2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.
+
+        3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.
+
+        4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.
+
+    ### Section 4 – Sui Generis Database Rights.
+
+    Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material:
+
+    a. for the avoidance of doubt, Section 2(a)(1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database for NonCommercial purposes only;
+
+    b. if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material; and
+
+    c. You must comply with the conditions in Section 3(a) if You Share all or a substantial portion of the contents of the database.
+
+    For the avoidance of doubt, this Section 4 supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights.
+
+    ### Section 5 – Disclaimer of Warranties and Limitation of Liability.
+
+    a. __Unless otherwise separately undertaken by the Licensor, to the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.__
+
+    b. __To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.__
+
+    c. The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
+
+    ### Section 6 – Term and Termination.
+
+    a. This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.
+
+    b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
+
+        1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
+
+        2. upon express reinstatement by the Licensor.
+
+        For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.
+
+    c. For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.
+
+    d. Sections 1, 5, 6, 7, and 8 survive termination of this Public License.
+
+    ### Section 7 – Other Terms and Conditions.
+
+    a. The Licensor shall not be bound by any additional or different terms or conditions communicated by You unless expressly agreed.
+
+    b. Any arrangements, understandings, or agreements regarding the Licensed Material not stated herein are separate from and independent of the terms and conditions of this Public License.
+
+    ### Section 8 – Interpretation.
+
+    a. For the avoidance of doubt, this Public License does not, and shall not be interpreted to, reduce, limit, restrict, or impose conditions on any use of the Licensed Material that could lawfully be made without permission under this Public License.
+
+    b. To the extent possible, if any provision of this Public License is deemed unenforceable, it shall be automatically reformed to the minimum extent necessary to make it enforceable. If the provision cannot be reformed, it shall be severed from this Public License without affecting the enforceability of the remaining terms and conditions.
+
+    c. No term or condition of this Public License will be waived and no failure to comply consented to unless expressly agreed to by the Licensor.
+
+    d. Nothing in this Public License constitutes or may be interpreted as a limitation upon, or waiver of, any privileges and immunities that apply to the Licensor or You, including from the legal processes of any jurisdiction or authority.
+
+    > Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
+    >
+    > Creative Commons may be contacted at creativecommons.org
+
+  text_ru: |
+    # Creative Commons С указанием авторства-Некоммерческая версии 4.0 Международная
+
+    Creative Commons Corporation («Creative Commons») не является юридической фирмой и не оказывает юридических услуг или юридических консультаций. Распространение публичных лицензий Creative Commons не создает отношений «адвокат-клиент» или иных подобных отношений. Creative Commons предоставляет свои лицензии и сопутствующую информацию на условиях «как есть» (as-is). Creative Commons не дает никаких гарантий в отношении своих лицензий, любых материалов, лицензируемых на их условиях, или любой сопутствующей информации. Creative Commons отказывается от любой ответственности за ущерб, возникший в результате их использования, в максимально возможной степени.
+
+    **Использование публичных лицензий Creative Commons**
+
+    Публичные лицензии Creative Commons предоставляют стандартный набор условий, которые авторы и иные правообладатели могут использовать для распространения оригинальных авторских произведений и иных материалов, охраняемых авторским правом и некоторыми другими правами, указанными в тексте публичной лицензии ниже. Следующие положения приводятся исключительно в информационных целях, не являются исчерпывающими и не являются частью наших лицензий.
+
+    * __Положения для лицензиаров:__ Наши публичные лицензии предназначены для использования лицами, уполномоченными давать публике разрешение на использование материала способами, которые в противном случае ограничены авторским правом и некоторыми другими правами. Наши лицензии являются безотзывными. Лицензиары должны прочитать и понять условия выбранной ими лицензии перед ее применением. Лицензиары также должны обеспечить наличие всех необходимых прав перед применением наших лицензий, чтобы публика могла повторно использовать материал так, как это предполагается. Лицензиары должны четко обозначать любой материал, на который не распространяется действие лицензии. Это включает в себя другой материал, лицензированный на условиях CC, или материал, используемый в рамках исключений или ограничений авторского права. [Дополнительные положения для лицензиаров](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
+
+    * __Положения для публики:__ Используя одну из наших публичных лицензий, лицензиар предоставляет публике разрешение на использование лицензируемого материала на определенных условиях. Если разрешение лицензиара по какой-либо причине не требуется — например, вследствие применимого исключения или ограничения авторского права — то такое использование не регулируется лицензией. Наши лицензии предоставляют разрешения только в рамках авторского права и некоторых других прав, которые лицензиар имеет право предоставлять. Использование лицензируемого материала может быть ограничено по другим причинам, в том числе из-за наличия у других лиц авторских или иных прав на материал. Лицензиар может высказывать особые просьбы, например, просить помечать или описывать все изменения. Хотя это и не требуется нашими лицензиями, вам рекомендуется уважать такие просьбы, если они разумны. [Дополнительные положения для публики](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+
+    ## Публичная лицензия Creative Commons Attribution-NonCommercial (Атрибуция — Некоммерческое использование) 4.0 Всемирная
+
+    Осуществляя Лицензируемые права (определенные ниже), Вы принимаете и соглашаетесь быть связанным условиями настоящей Публичной лицензии Creative Commons Attribution-NonCommercial (Атрибуция — Некоммерческое использование) 4.0 Всемирная («Публичная лицензия»). В той степени, в которой настоящая Публичная лицензия может толковаться как договор, Вы наделяетесь Лицензируемыми правами в обмен на Ваше согласие с настоящими условиями, а Лицензиар предоставляет Вам такие права в обмен на выгоду, которую Лицензиар получает от предоставления Лицензируемого материала на настоящих условиях.
+
+    ### Раздел 1 – Определения.
+
+    a. __Адаптированный материал__ означает материал, охраняемый Авторским правом и Аналогичными правами, который является производным от Лицензируемого материала или основан на нем, и в котором Лицензируемый материал переведен, изменен, аранжирован, преобразован или иным образом модифицирован таким способом, который требует разрешения в соответствии с Авторским правом и Аналогичными правами, принадлежащими Лицензиару. Для целей настоящей Публичной лицензии, если Лицензируемым материалом является музыкальное произведение, исполнение или фонограмма, Адаптированный материал создается всегда, когда Лицензируемый материал синхронизируется во временном отношении с движущимся изображением.
+
+    b. __Лицензия Адаптера__ означает лицензию, которую Вы применяете к Вашим Авторским и Аналогичным правам на Ваш вклад в Адаптированный материал в соответствии с условиями настоящей Публичной лицензии.
+
+    c. __Авторское право и Аналогичные права__ означают авторское право и/или аналогичные права, тесно связанные с авторским правом, включая, без ограничений, права на исполнение, вещание, фонограмму и Права изготовителя базы данных (Sui Generis Database Rights), независимо от того, как эти права обозначены или классифицированы. Для целей настоящей Публичной лицензии права, указанные в Разделе 2(b)(1)-(2), не являются Авторским правом и Аналогичными правами.
+
+    d. __Эффективные технические средства защиты__ означают такие средства, которые, при отсутствии надлежащего разрешения, не могут быть обойдены в соответствии с законами, исполняющими обязательства по Статье 11 Договора ВОИС по авторскому праву, принятого 20 декабря 1996 года, и/или аналогичными международными соглашениями.
+
+    e. __Исключения и ограничения__ означают добросовестное использование (fair use), честное поведение (fair dealing) и/или любые другие исключения или ограничения Авторского права и Аналогичных прав, применимые к Вашему использованию Лицензируемого материала.
+
+    f. __Лицензируемый материал__ означает художественное или литературное произведение, базу данных или иной материал, к которому Лицензиар применил настоящую Публичную лицензию.
+
+    g. __Лицензируемые права__ означают права, предоставленные Вам на условиях настоящей Публичной лицензии, которые ограничены всеми Авторскими и Аналогичными правами, применимые к Вашему использованию Лицензируемого материала, и которые Лицензиар имеет право лицензировать.
+
+    h. __Лицензиар__ означает физическое(их) или юридическое(их) лицо (лиц), предоставляющее(их) права по настоящей Публичной лицензии.
+
+    i. __Некоммерческий__ означает не предназначенный преимущественно для получения коммерческой выгоды или денежного вознаграждения и не направленный на это. Для целей настоящей Публичной лицензии обмен Лицензируемым материалом на другой материал, охраняемый Авторским правом и Аналогичными правами, посредством цифрового обмена файлами или аналогичными способами является Некоммерческим, при условии отсутствия выплаты денежного вознаграждения в связи с таким обменом.
+
+    j. __Делиться (обмениваться)__ означает предоставлять материал публике любым средством или способом, требующим разрешения в рамках Лицензируемых прав, например, путем воспроизведения, публичного показа, публичного исполнения, распространения, проката, сообщения в эфир или по кабелю или импорта, а также делать материал доступным для публики, включая способы, при которых представители публики могут осуществлять доступ к материалу из любого места и в любое время по их собственному выбору.
+
+    k. __Права изготовителя базы данных (Sui Generis Database Rights)__ означают права, отличные от авторского права, проистекающие из Директивы 96/9/EC Европейского Парламента и Совета от 11 марта 1996 года о правовой защите баз данных, с поправками и/или заменами, а также другие по существу эквивалентные права в любой части мира.
+
+    l. __Вы__ означает физическое или юридическое лицо, осуществляющее Лицензируемые права по настоящей Публичной лицензии.
+
+    ### Раздел 2 – Объем лицензии.
+
+    a. ___Предоставление лицензии.___
+
+      1. В соответствии с условиями настоящей Публичной лицензии Лицензиар настоящим предоставляет Вам всемирную, безвозмездную, не подлежащую сублицензированию, неисключительную, безотзывную лицензию на осуществление Лицензируемых прав на Лицензируемый материал для того, чтобы:
+
+          A. воспроизводить и Делиться Лицензируемым материалом полностью или частично, исключительно в Некоммерческих целях; и
+
+          B. создавать, воспроизводить и Делиться Адаптированным материалом, исключительно в Некоммерческих целях.
+
+      2. __Исключения и ограничения.__ Во избежание сомнений: если к Вашему использованию применяются Исключения и ограничения, настоящая Публичная лицензия не применяется, и Вам не нужно соблюдать ее условия.
+
+      3. __Срок действия.__ Срок действия настоящей Публичной лицензии указан в Разделе 6(a).
+
+      4. __Носители и форматы; разрешенные технические модификации.__ Лицензиар разрешает Вам осуществлять Лицензируемые права на любых носителях и в любых форматах, как известных ныне, так и созданных впоследствии, а также производить технические модификации, необходимые для этого. Лицензиар отказывается и/или соглашается не отстаивать какое-либо право или полномочие запрещать Вам производить технические модификации, необходимые для осуществления Лицензируемых прав, включая технические модификации, необходимые для обхода Эффективных технических средств защиты. Для целей настоящей Публичной лицензии простое создание модификаций, разрешенных настоящим Разделом 2(a)(4), никогда не создает Адаптированный материал.
+
+      5. __Получатели на последующих этапах.__
+
+            A. __Предложение от Лицензиара – Лицензируемый материал.__ Каждый получатель Лицензируемого материала автоматически получает предложение от Лицензиара осуществлять Лицензируемые права в соответствии с условиями настоящей Публичной лицензии.
+
+            B. __Отсутствие ограничений на последующих этапах.__ Вы не вправе предлагать или налагать какие-либо дополнительные или иные условия, а также применять какие-либо Эффективные технические средства защиты к Лицензируемому материалу, если это ограничивает осуществление Лицензируемых прав любым получателем Лицензируемого материала.
+
+      6. __Отсутствие одобрения.__ Ничто в настоящей Публичной лицензии не составляет и не может быть истолковано как разрешение утверждать или подразумевать, что Вы или Ваше использование Лицензируемого материала связаны с Лицензиаром или иными лицами, указанными для атрибуции в соответствии с Разделом 3(a)(1)(A)(i), спонсируются ими, одобрены ими или получили от них официальный статус.
+
+    b. ___Другие права.___
+
+      1. Личные неимущественные права (моральные права), такие как право на неприкосновенность произведения, не лицензируются по настоящей Публичной лицензии, равно как и права на публичность, неприкосновенность частной жизни и/или иные аналогичные личные права; однако, в той мере, в какой это возможно, Лицензиар отказывается и/или соглашается не отстаивать любые такие права, принадлежащие Лицензиару, в ограниченной степени, необходимой для того, чтобы позволить Вам осуществлять Лицензируемые права, но не более того.
+
+      2. Патентные права и права на товарные знаки не лицензируются по настоящей Публичной лицензии.
+
+      3. В той мере, в какой это возможно, Лицензиар отказывается от любого права взимать с Вас роялти (вознаграждение) за осуществление Лицензируемых прав, будь то напрямую или через организацию по коллективному управлению правами в рамках любой добровольной, отменимой установленной законом или обязательной схемы лицензирования. Во всех остальных случаях Лицензиар прямо сохраняет за собой право взимать такие роялти, в том числе, когда Лицензируемый материал используется не в Некоммерческих целях.
+
+    ### Раздел 3 – Условия лицензии.
+
+    Ваше осуществление Лицензируемых прав прямо обусловлено соблюдением следующих условий.
+
+    a. ___Атрибуция.___
+
+      1. Если Вы Делитесь Лицензируемым материалом (в том числе в модифицированной форме), Вы должны:
+
+          A. сохранить следующее, если это предоставлено Лицензиаром вместе с Лицензируемым материалом:
+
+            i. идентификацию создателя(ей) Лицензируемого материала и любых других лиц, указанных для получения атрибуции, любым разумным способом, запрошенным Лицензиаром (включая псевдоним, если он указан);
+
+            ii. уведомление об авторском праве;
+
+            iii. уведомление, содержащее ссылку на настоящую Публичную лицензию;
+
+            iv. уведомление, содержащее ссылку на отказ от гарантий;
+
+            v. URI или гиперссылку на Лицензируемый материал в той мере, в какой это разумно практически осуществимо;
+
+          B. указать, если Вы изменили Лицензируемый материал, и сохранить указание на любые предыдущие изменения; и
+
+          C. указать, что Лицензируемый материал лицензируется по настоящей Публичной лицензии, и включить текст настоящей Публичной лицензии или URI или гиперссылку на нее.
+
+      2. Вы можете выполнить условия Раздела 3(a)(1) любым разумным способом, исходя из носителя, средства и контекста, в котором Вы Делитесь Лицензируемым материалом. Например, может быть разумным выполнить условия путем предоставления URI или гиперссылки на ресурс, который содержит требуемую информацию.
+
+      3. Если Лицензиар попросит об этом, Вы должны удалить любую информацию, требуемую Разделом 3(a)(1)(A), в той мере, в какой это разумно практически осуществимо.
+
+      4. Если Вы Делитесь созданным Вами Адаптированным материалом, применяемая Вами Лицензия Адаптера не должна препятствовать получателям Адаптированного материала соблюдать настоящую Публичную лицензию.
+
+    ### Раздел 4 – Права изготовителя базы данных (Sui Generis Database Rights).
+
+    Если Лицензируемые права включают Права изготовителя базы данных, которые применяются к Вашему использованию Лицензируемого материала:
+
+    a. во избежание сомнений, Раздел 2(a)(1) предоставляет Вам право извлекать, повторно использовать, воспроизводить и Делиться всем содержимым базы данных или его существенной частью исключительно в Некоммерческих целях;
+
+    b. если Вы включаете все содержимое базы данных или его существенную часть в базу данных, на которую у Вас есть Права изготовителя базы данных, то база данных, на которую у Вас есть Права изготовителя базы данных (но не ее отдельное содержимое), считается Адаптированным материалом; и
+
+    c. Вы должны соблюдать условия Раздела 3(a), если Вы Делитесь всем содержимым базы данных или его существенной частью.
+
+    Во избежание сомнений, настоящий Раздел 4 дополняет и не заменяет Ваши обязательства по настоящей Публичной лицензии, если Лицензируемые права включают другие Авторские и Аналогичные права.
+
+    ### Раздел 5 – Отказ от гарантий и ограничение ответственности.
+
+    a. __Если иное отдельно не принято на себя Лицензиаром, то в той мере, в какой это возможно, Лицензиар предлагает Лицензируемый материал «как есть» и «как доступно» и не делает никаких заявлений и не дает никаких гарантий любого рода касательно Лицензируемого материала, будь то явные, подразумеваемые, установленные законом или иные. Это включает, без ограничений, гарантии правового титула, товарной пригодности, пригодности для конкретной цели, ненарушения прав, отсутствия скрытых или иных дефектов, точности или наличия или отсутствия ошибок, независимо от того, известны они или обнаружимы. Если отказ от гарантий не допускается полностью или частично, этот отказ может к Вам не применяться.__
+
+    b. __В той мере, в какой это возможно, ни при каких обстоятельствах Лицензиар не будет нести перед Вами ответственность по какой-либо правовой теории (включая, без ограничений, халатность) или иным образом за любые прямые, специальные, косвенные, случайные, штрафные, показательные или иные убытки, затраты, расходы или ущерб, возникающие из настоящей Публичной лицензии или использования Лицензируемого материала, даже если Лицензиар был уведомлен о возможности таких убытков, затрат, расходов или ущерба. Если ограничение ответственности не допускается полностью или частично, это ограничение может к Вам не применяться.__
+
+    c. Отказ от гарантий и ограничение ответственности, предусмотренные выше, должны толковаться таким образом, чтобы в максимально возможной степени приближаться к абсолютному отказу от ответственности и освобождению от нее.
+
+    ### Раздел 6 – Срок действия и прекращение действия.
+
+    a. Настоящая Публичная лицензия действует в течение срока действия Авторского права и Аналогичных прав, лицензируемых здесь. Однако, если Вы не соблюдаете условия настоящей Публичной лицензии, то Ваши права по настоящей Публичной лицензии прекращаются автоматически.
+
+    b. Если Ваше право на использование Лицензируемого материала прекратилось согласно Разделу 6(a), оно восстанавливается:
+
+      1. автоматически с даты устранения нарушения, при условии, что оно устранено в течение 30 дней с момента обнаружения Вами нарушения; или
+
+      2. после прямого восстановления Лицензиаром.
+
+      Во избежание сомнений, этот Раздел 6(b) не влияет на любое право Лицензиара требовать возмещения средств правовой защиты за Ваши нарушения настоящей Публичной лицензии.
+
+    c. Во избежание сомнений, Лицензиар может также предлагать Лицензируемый материал на других условиях или прекратить распространение Лицензируемого материала в любое время; однако это не приведет к прекращению действия настоящей Публичной лицензии.
+
+    d. Разделы 1, 5, 6, 7 и 8 сохраняют силу после прекращения действия настоящей Публичной лицензии.
+
+    ### Раздел 7 – Прочие условия.
+
+    a. Лицензиар не связан никакими дополнительными или иными условиями, сообщенными Вами, если только на это не было прямого согласия.
+
+    b. Любые договоренности, понимания или соглашения относительно Лицензируемого материала, не указанные в настоящем документе, являются отдельными и независимыми от условий настоящей Публичной лицензии.
+
+    ### Раздел 8 – Толкование.
+
+    a. Во избежание сомнений, настоящая Публичная лицензия не уменьшает, не ограничивает, не сужает и не налагает условий на любое использование Лицензируемого материала, которое могло бы законно осуществляться без разрешения по настоящей Публичной лицензии.
+
+    b. В той мере, в какой это возможно, если какое-либо положение настоящей Публичной лицензии будет признано не имеющим исковой силы, оно должно быть автоматически изменено в минимальной степени, необходимой для придания ему исковой силы. Если положение не может быть изменено, оно должно быть отделено от настоящей Публичной лицензии, не затрагивая исковую силу остальных условий.
+
+    c. Ни одно условие настоящей Публичной лицензии не будет считаться отмененным, и никакое несоблюдение не будет считаться согласованным, если на это не будет прямого согласия Лицензиара.
+
+    d. Ничто в настоящей Публичной лицензии не составляет и не может толковаться как ограничение или отказ от любых привилегий и иммунитетов, применимых к Лицензиару или Вам, в том числе от судебных процессов любой юрисдикции или органа власти.
+
+    > Creative Commons не является стороной своих публичных лицензий. Тем не менее, Creative Commons может принять решение применить одну из своих публичных лицензий к публикуемому ею материалу, и в таких случаях будет считаться «Лицензиаром». За исключением ограниченной цели указания на то, что материал предоставляется по публичной лицензии Creative Commons, или как иначе разрешено политиками Creative Commons, опубликованными по адресу [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons не разрешает использование товарного знака «Creative Commons» или любого другого товарного знака или логотипа Creative Commons без своего предварительного письменного согласия, включая, без ограничений, в связи с любыми несанкционированными модификациями любой из ее публичных лицензий или любыми другими договоренностями, пониманиями или соглашениями, касающимися использования лицензируемого материала. Во избежание сомнений, этот абзац не является частью публичных лицензий.
+    >
+    > С Creative Commons можно связаться по адресу creativecommons.org

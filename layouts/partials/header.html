@@ -65,17 +65,18 @@
                 {{ $currentPage := . }}
                 {{ $currentLang := site.Language.Lang }}
                 {{ range hugo.Sites }}
-                    {{ if ne .Language.Lang $currentLang }}
+                    {{ $targetLang := .Language.Lang }}
+                    {{ if ne $targetLang $currentLang }}
                         {{ $targetURL := .Home.RelPermalink }}
                         {{ with $currentPage.Translations }}
-                            {{ $match := index (where . "Language.Lang" $.Language.Lang) 0 }}
+                            {{ $match := index (where . "Language.Lang" $targetLang) 0 }}
                             {{ with $match }}{{ $targetURL = .RelPermalink }}{{ end }}
                         {{ end }}
-                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ .Language.Label | default .Language.Lang }}">
+                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ .Language.LanguageName | default $targetLang }}">
                             <svg width="18" height="18" aria-hidden="true">
                                 <use href="{{ "icons.svg#icon-globe" | relURL }}"></use>
                             </svg>
-                            <span>{{ .Language.Lang | upper }}</span>
+                            <span>{{ $targetLang | upper }}</span>
                         </a>
                     {{ end }}
                 {{ end }}

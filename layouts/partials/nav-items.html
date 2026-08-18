@@ -4,12 +4,21 @@
 
 {{- $groups := slice -}}
 {{- range $rawGrouped -}}
-    {{- $groupPages := .Pages.ByWeight -}}
-    {{- $firstPage := index $groupPages 0 -}}
-    {{- $minWeight := $firstPage.Weight | default 999999 -}}
-    {{- $groups = $groups | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) -}}
+    {{- if ne .Key "" -}}
+        {{- $groupPages := .Pages.ByWeight -}}
+        {{- $firstPage := index $groupPages 0 -}}
+        {{- $minWeight := $firstPage.Weight | default 999999 -}}
+        {{- $groups = $groups | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) -}}
+    {{- end -}}
 {{- end -}}
 {{- $groups = sort $groups "Weight" "asc" -}}
+
+{{- $ungroupedPages := slice -}}
+{{- range $pages -}}
+    {{- if or (not .Params.group) (eq .Params.group "") -}}
+        {{- $ungroupedPages = $ungroupedPages | append . -}}
+    {{- end -}}
+{{- end -}}
 
 <ul class="nav-list">
     {{ range $groups }}
@@ -39,7 +48,7 @@
         </li>
     {{ end }}
 
-    {{ range where $pages ".Params.group" nil }}
+    {{ range $ungroupedPages }}
         {{ partial "nav-item.html" (dict "page" . "currentPage" $currentPage) }}
     {{ end }}
 </ul>

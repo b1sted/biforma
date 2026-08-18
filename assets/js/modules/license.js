@@ -11,7 +11,8 @@ export function initLicenseModal() {
 
     let licenseData = {};
     let currentLicense = null;
-    let currentLang = 'ru';
+    const docLang = document.documentElement.lang || document.documentElement.getAttribute('lang') || 'ru';
+    let currentLang = docLang.startsWith('en') ? 'en' : 'ru';
     let currentView = 'permissions';
 
     try {
@@ -67,9 +68,9 @@ export function initLicenseModal() {
         const must = p['must' + suffix] || [];
 
         const labels = {
-            can: window.i18n?.permCan || (currentLang === 'ru' ? 'Можно' : 'Can'),
-            cannot: window.i18n?.permCannot || (currentLang === 'ru' ? 'Нельзя' : 'Cannot'),
-            must: window.i18n?.permMust || (currentLang === 'ru' ? 'Нужно' : 'Must')
+            can: currentLang === 'ru' ? 'Можно' : 'Can',
+            cannot: currentLang === 'ru' ? 'Нельзя' : 'Cannot',
+            must: currentLang === 'ru' ? 'Нужно' : 'Must'
         };
 
         const renderList = (items) => items.length ? `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>` : '';

@@ -14,9 +14,18 @@
         <div class="docs-container">
             {{- partial "sidebar.html" . -}}
 
-            {{- $tocEnabled := .Params.toc | default true -}}
-            {{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
-            {{- if or (in (slice "section" "taxonomy" "term" "home") .Kind) (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") }}{{ $tocEnabled = false }}{{ end -}}
+            {{- $tocEnabled := true -}}
+            {{- if eq .Params.toc false -}}
+                {{- $tocEnabled = false -}}
+            {{- else if or .Params.tocDisable .Params.hideToc -}}
+                {{- $tocEnabled = false -}}
+            {{- end -}}
+            {{- if or (in (slice "section" "taxonomy" "term" "home") .Kind) (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+                {{- $tocEnabled = false -}}
+            {{- end -}}
+            {{- if or (not .TableOfContents) (le (len .TableOfContents) 100) -}}
+                {{- $tocEnabled = false -}}
+            {{- end -}}
 
             <main class="main-content {{ if not $tocEnabled }}no-toc{{ end }}"
                 {{- if .Params.searchHidden }} data-pagefind-ignore="all"{{ end }}>

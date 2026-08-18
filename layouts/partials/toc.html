@@ -1,8 +1,6 @@
-{{ if and (not .Params.hideToc) .TableOfContents (gt (len .TableOfContents) 100) }}
 <aside class="toc-sidebar" aria-label="{{ i18n "toc_title" }}">
     <h3 class="toc-title" id="toc-title">{{ i18n "toc_title" }}</h3>
     <nav class="toc-nav" aria-labelledby="toc-title">
         {{ .TableOfContents }}
     </nav>
 </aside>
-{{ end }}

@@ -26,8 +26,12 @@
     {{ end }}
 </header>
 
-{{- $tocEnabled := .Params.toc | default true -}}
-{{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
+{{- $tocEnabled := true -}}
+{{- if eq .Params.toc false -}}
+    {{- $tocEnabled = false -}}
+{{- else if or .Params.tocDisable .Params.hideToc -}}
+    {{- $tocEnabled = false -}}
+{{- end -}}
 
 {{- if and $tocEnabled .TableOfContents (gt (len .TableOfContents) 100) -}}
 <details class="toc-mobile">

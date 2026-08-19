@@ -88,7 +88,7 @@ function configureMermaid(mermaid, force = false) {
         startOnLoad: false,
         theme: mermaidTheme,
         themeVariables,
-        securityLevel: 'loose',
+        securityLevel: 'strict',
         fontFamily: 'Inter, -apple-system, sans-serif'
     });
 }
@@ -120,7 +120,6 @@ async function renderMermaidElement(el, index = 0) {
             svgEl.style.margin = '0 auto';
             svgEl.style.display = 'block';
 
-            // Natural scale preservation based on calculated SVG viewBox width
             const viewBoxWidth = svgEl.viewBox?.baseVal?.width;
             const inlineMax = parseFloat(svgEl.style.maxWidth);
             const baseWidth = viewBoxWidth > 0 ? viewBoxWidth : (!isNaN(inlineMax) && inlineMax > 0 ? inlineMax : 0);

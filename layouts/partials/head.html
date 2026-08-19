@@ -41,24 +41,19 @@ window.i18n = {{ dict
 
 {{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
 {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-{{- $bundleName := "css/main.page.bundle.css" -}}
 {{- $pageModules := $coreModules -}}
 
 {{- if eq .Kind "404" -}}
     {{- $pageModules = $pageModules | append "error-page" -}}
-    {{- $bundleName = "css/main.error.bundle.css" -}}
 {{- else if $isAbout -}}
     {{- $pageModules = $pageModules | append "about" -}}
-    {{- $bundleName = "css/main.about.bundle.css" -}}
 {{- else if and .IsPage (not $isAbout) -}}
     {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox") -}}
     {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
         {{- $pageModules = $pageModules | append "donation" -}}
     {{- end -}}
-    {{- $bundleName = "css/main.article.bundle.css" -}}
 {{- else if or (in (slice "section" "taxonomy" "term") .Kind) (and .IsHome (not $isBlog)) -}}
     {{- $pageModules = $pageModules | append "section-page" -}}
-    {{- $bundleName = "css/main.section.bundle.css" -}}
 {{- end -}}
 
 {{- if $isBlog -}}
@@ -83,13 +78,14 @@ window.i18n = {{ dict
 {{- end -}}
 
 {{- if $bundleFiles -}}
+    {{- $bundleHash := md5 (delimit ($pageModules | uniq | sort) ",") -}}
+    {{- $bundleName := printf "css/main.%s.bundle.css" (substr $bundleHash 0 8) -}}
     {{- $pageBundle := $bundleFiles | resources.Concat $bundleName | minify | fingerprint -}}
     <link rel="preload" href="{{ $pageBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ $pageBundle.RelPermalink }}"></noscript>
 {{- end -}}
 
 {{- if .Params.math -}}
-{{/* Preload non-blocking stylesheet to eliminate render-blocking delay */}}
 <link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
 <script defer src="{{ "js/katex.min.js" | relURL }}"></script>

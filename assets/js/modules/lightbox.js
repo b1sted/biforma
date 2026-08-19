@@ -1,8 +1,11 @@
 let lightboxCreated = false;
 let isZoomed = false;
 let isDragging = false;
-let startX, startY, currentX = 0, currentY = 0;
+let startX = 0, startY = 0, currentX = 0, currentY = 0;
 let currentScale = 1;
+let initialPinchDistance = 0;
+let initialPinchScale = 1;
+let lastTapTime = 0;
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
 
@@ -124,6 +127,7 @@ function createLightbox() {
     image.addEventListener('wheel', handleWheel, { passive: false });
     svgWrapper.addEventListener('wheel', handleWheel, { passive: false });
 
+    // Mouse Panning
     const handleMouseDown = (e) => {
         if (!isZoomed) return;
         e.preventDefault();
@@ -149,6 +153,66 @@ function createLightbox() {
 
     image.addEventListener('mousedown', handleMouseDown);
     svgWrapper.addEventListener('mousedown', handleMouseDown);
+
+    // Touch Support: Double Tap, Pinch-to-Zoom, and Touch Drag
+    const handleTouchStart = (e) => {
+        if (e.touches.length === 1) {
+            const now = Date.now();
+            if (now - lastTapTime < 300) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                currentScale <= MIN_SCALE ? setZoom(touch, 2.5) : resetZoomState();
+                lastTapTime = 0;
+                return;
+            }
+            lastTapTime = now;
+
+            if (isZoomed) {
+                startX = e.touches[0].clientX - currentX;
+                startY = e.touches[0].clientY - currentY;
+            }
+        } else if (e.touches.length === 2) {
+            initialPinchDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            initialPinchScale = currentScale;
+        }
+    };
+
+    const handleTouchMove = (e) => {
+        if (e.touches.length === 1 && isZoomed) {
+            e.preventDefault();
+            isDragging = true;
+            currentX = e.touches[0].clientX - startX;
+            currentY = e.touches[0].clientY - startY;
+            requestAnimationFrame(updateTransform);
+        } else if (e.touches.length === 2 && initialPinchDistance > 0) {
+            e.preventDefault();
+            const currentDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            const pinchRatio = currentDistance / initialPinchDistance;
+            const targetScale = Math.min(Math.max(MIN_SCALE, initialPinchScale * pinchRatio), MAX_SCALE);
+            const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+            setZoom({ clientX: midX, clientY: midY }, targetScale);
+        }
+    };
+
+    const handleTouchEnd = (e) => {
+        if (e.touches.length === 0) {
+            setTimeout(() => { isDragging = false; }, 50);
+            initialPinchDistance = 0;
+        }
+    };
+
+    [image, svgWrapper].forEach((targetEl) => {
+        targetEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+        targetEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+        targetEl.addEventListener('touchend', handleTouchEnd, { passive: true });
+    });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('active')) {
@@ -262,35 +326,7 @@ export function openLightboxSvg(svgElement, caption) {
         svgWrapper.style.display = 'flex';
         svgWrapper.innerHTML = '';
 
-        let clonedSvg = svgElement.cloneNode(true);
-        const prefix = `lb-${Date.now()}-`;
-        const idMap = new Map();
-
-        clonedSvg.querySelectorAll('[id]').forEach((node) => {
-            const oldId = node.id;
-            const newId = `${prefix}${oldId}`;
-            idMap.set(oldId, newId);
-            node.id = newId;
-        });
-
-        if (idMap.size > 0) {
-            let serialized = clonedSvg.outerHTML;
-            idMap.forEach((newId, oldId) => {
-                const urlPattern = new RegExp(`url\\((['"]?)#${oldId}(['"]?)\\)`, 'g');
-                serialized = serialized.replace(urlPattern, `url($1#${newId}$2)`);
-
-                const hrefPattern = new RegExp(`(href|xlink:href)=(["'])#${oldId}(["'])`, 'g');
-                serialized = serialized.replace(hrefPattern, `$1=$2#${newId}$3`);
-            });
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(serialized, 'image/svg+xml');
-            const sanitizedSvg = doc.documentElement;
-            if (sanitizedSvg && sanitizedSvg.nodeName.toLowerCase() === 'svg') {
-                clonedSvg = sanitizedSvg;
-            }
-        }
-
+        const clonedSvg = svgElement.cloneNode(true);
         const rect = svgElement.getBoundingClientRect();
         const baseWidth = parseFloat(svgElement.style.maxWidth) || svgElement.viewBox?.baseVal?.width || rect.width;
 

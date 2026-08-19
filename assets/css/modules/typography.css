@@ -9,12 +9,10 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
-
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 4px;
-
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -339,13 +337,27 @@
     justify-content: flex-end;
 }
 
+/* Adaptive Theme Images */
 [data-theme="dark"] .img-light-only,
 :root:not([data-theme="light"]) .img-light-only {
     display: none !important;
 }
 
+[data-theme="dark"] .img-dark-only,
+:root:not([data-theme="light"]) .img-dark-only {
+    display: block !important;
+}
+
 [data-theme="light"] .img-dark-only {
     display: none !important;
+}
+
+[data-theme="light"] .img-light-only {
+    display: block !important;
+}
+
+.article-figure-adaptive .article-figure-img {
+    margin: 0 auto;
 }
 
 .article-figure-adaptive .article-figure-img + .article-figure-img {

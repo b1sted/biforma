@@ -11,7 +11,7 @@ export function initCopyButtons() {
 
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.copy-code-button, .tab-copy-btn, .rss-copy-btn');
-        if (!btn || btn.closest('.code-compare-header')) return;
+        if (!btn || btn.closest('.code-compare-header') || btn.classList.contains('copied')) return;
 
         let text = '';
         if (btn.closest('.rss-feed-card')) {

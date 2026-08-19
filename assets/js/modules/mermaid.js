@@ -1,5 +1,6 @@
 let renderCounter = 0;
 let mermaidPromise = null;
+let currentConfiguredTheme = null;
 
 function loadMermaid() {
     if (typeof window.mermaid !== 'undefined') {
@@ -9,7 +10,6 @@ function loadMermaid() {
         const basePath = document.documentElement.dataset.baseUrl || '/';
         const url = `${basePath.endsWith('/') ? basePath : basePath + '/'}js/mermaid.min.js`;
 
-        // Lazy-load script on demand to avoid blocking main thread and optimize LCP/TBT
         mermaidPromise = new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = url;
@@ -35,11 +35,15 @@ function decodeDiagram(encoded) {
     }
 }
 
-function configureMermaid(mermaid) {
+function configureMermaid(mermaid, force = false) {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const mermaidTheme = isLight ? 'default' : 'dark';
 
-    // Theme variables enforcing WCAG AA color contrast ratio (>= 4.5:1)
+    if (!force && currentConfiguredTheme === mermaidTheme) {
+        return;
+    }
+    currentConfiguredTheme = mermaidTheme;
+
     const themeVariables = isLight ? {
         primaryColor: '#eef2ff',
         primaryTextColor: '#0f172a',
@@ -122,7 +126,6 @@ export function initMermaid() {
         }
     });
 
-    // Defer script download and rendering until diagrams are near viewport
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(async (entry) => {
@@ -154,7 +157,7 @@ export async function renderAllMermaid() {
         return;
     }
 
-    configureMermaid(mermaid);
+    configureMermaid(mermaid, true);
 
     for (let i = 0; i < elements.length; i++) {
         await renderMermaidElement(elements[i], i);

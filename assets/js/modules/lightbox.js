@@ -24,7 +24,6 @@ export function setupLightboxTriggers() {
             return;
         }
 
-        // Only open modal for mermaid blocks instantiated via shortcode
         const mermaidContainer = e.target.closest('.mermaid.js-mermaid-lightbox');
         if (mermaidContainer) {
             const svg = mermaidContainer.querySelector('svg');
@@ -263,7 +262,35 @@ export function openLightboxSvg(svgElement, caption) {
         svgWrapper.style.display = 'flex';
         svgWrapper.innerHTML = '';
 
-        const clonedSvg = svgElement.cloneNode(true);
+        let clonedSvg = svgElement.cloneNode(true);
+        const prefix = `lb-${Date.now()}-`;
+        const idMap = new Map();
+
+        clonedSvg.querySelectorAll('[id]').forEach((node) => {
+            const oldId = node.id;
+            const newId = `${prefix}${oldId}`;
+            idMap.set(oldId, newId);
+            node.id = newId;
+        });
+
+        if (idMap.size > 0) {
+            let serialized = clonedSvg.outerHTML;
+            idMap.forEach((newId, oldId) => {
+                const urlPattern = new RegExp(`url\\((['"]?)#${oldId}(['"]?)\\)`, 'g');
+                serialized = serialized.replace(urlPattern, `url($1#${newId}$2)`);
+
+                const hrefPattern = new RegExp(`(href|xlink:href)=(["'])#${oldId}(["'])`, 'g');
+                serialized = serialized.replace(hrefPattern, `$1=$2#${newId}$3`);
+            });
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(serialized, 'image/svg+xml');
+            const sanitizedSvg = doc.documentElement;
+            if (sanitizedSvg && sanitizedSvg.nodeName.toLowerCase() === 'svg') {
+                clonedSvg = sanitizedSvg;
+            }
+        }
+
         const rect = svgElement.getBoundingClientRect();
         const baseWidth = parseFloat(svgElement.style.maxWidth) || svgElement.viewBox?.baseVal?.width || rect.width;
 

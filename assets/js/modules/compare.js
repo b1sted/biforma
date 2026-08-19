@@ -10,19 +10,20 @@ function initCompareScrollSync() {
         const rightContent = compareBlock.querySelector('.code-compare-right .code-compare-content');
         if (!leftContent || !rightContent) return;
 
-        let activeSide = null;
+        let isSyncing = false;
 
         const syncScroll = (source, target) => {
-            if (activeSide && activeSide !== source) return;
-            activeSide = source;
+            if (isSyncing) return;
+            isSyncing = true;
+
+            const maxSource = source.scrollHeight - source.clientHeight;
+            const maxTarget = target.scrollHeight - target.clientHeight;
+            if (maxSource > 0 && maxTarget > 0) {
+                target.scrollTop = (source.scrollTop / maxSource) * maxTarget;
+            }
 
             requestAnimationFrame(() => {
-                const maxSource = source.scrollHeight - source.clientHeight;
-                const maxTarget = target.scrollHeight - target.clientHeight;
-                if (maxSource > 0) {
-                    target.scrollTop = (source.scrollTop / maxSource) * maxTarget;
-                }
-                activeSide = null;
+                isSyncing = false;
             });
         };
 

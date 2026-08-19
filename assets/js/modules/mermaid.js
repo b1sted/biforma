@@ -45,21 +45,43 @@ function configureMermaid(mermaid, force = false) {
     currentConfiguredTheme = mermaidTheme;
 
     const themeVariables = isLight ? {
-        primaryColor: '#eef2ff',
+        primaryColor: '#f1f5f9',
         primaryTextColor: '#0f172a',
-        primaryBorderColor: '#6366f1',
-        lineColor: '#475569',
+        primaryBorderColor: '#3b82f6',
+        lineColor: '#64748b',
         textColor: '#0f172a',
-        edgeLabelBackground: '#ffffff',
-        nodeTextColor: '#0f172a'
+        edgeLabelBackground: 'transparent',
+        nodeTextColor: '#0f172a',
+        mainBkg: '#f8fafc',
+        nodeBorder: '#94a3b8',
+        actorBkg: '#f1f5f9',
+        actorBorder: '#3b82f6',
+        actorTextColor: '#0f172a',
+        signalColor: '#64748b',
+        signalTextColor: '#0f172a',
+        labelBoxBkgColor: 'transparent',
+        labelBoxBorderColor: '#cbd5e1',
+        labelTextColor: '#0f172a',
+        loopTextColor: '#0f172a'
     } : {
-        primaryColor: '#1e1b4b',
+        primaryColor: '#1a1a1a',
         primaryTextColor: '#ffffff',
-        primaryBorderColor: '#818cf8',
-        lineColor: '#cbd5e1',
-        textColor: '#ffffff',
-        edgeLabelBackground: '#1e293b',
-        nodeTextColor: '#ffffff'
+        primaryBorderColor: '#5ca1f1',
+        lineColor: '#888888',
+        textColor: '#e0e0e0',
+        edgeLabelBackground: 'transparent',
+        nodeTextColor: '#ffffff',
+        mainBkg: '#141414',
+        nodeBorder: '#3a3a3a',
+        actorBkg: '#1a1a1a',
+        actorBorder: '#5ca1f1',
+        actorTextColor: '#ffffff',
+        signalColor: '#888888',
+        signalTextColor: '#e0e0e0',
+        labelBoxBkgColor: 'transparent',
+        labelBoxBorderColor: '#3a3a3a',
+        labelTextColor: '#e0e0e0',
+        loopTextColor: '#e0e0e0'
     };
 
     mermaid.initialize({
@@ -98,17 +120,19 @@ async function renderMermaidElement(el, index = 0) {
             svgEl.style.margin = '0 auto';
             svgEl.style.display = 'block';
 
-            const scaleFactor = parseFloat(el.dataset.scale);
-            if (!isNaN(scaleFactor) && scaleFactor > 0) {
-                const inlineMax = parseFloat(svgEl.style.maxWidth);
-                const baseWidth = !isNaN(inlineMax) && inlineMax > 0
-                    ? inlineMax
-                    : (svgEl.viewBox?.baseVal?.width || svgEl.getBoundingClientRect().width);
+            // Natural scale preservation based on calculated SVG viewBox width
+            const viewBoxWidth = svgEl.viewBox?.baseVal?.width;
+            const inlineMax = parseFloat(svgEl.style.maxWidth);
+            const baseWidth = viewBoxWidth > 0 ? viewBoxWidth : (!isNaN(inlineMax) && inlineMax > 0 ? inlineMax : 0);
 
-                if (baseWidth > 0) {
-                    svgEl.style.maxWidth = `${baseWidth * scaleFactor}px`;
-                    svgEl.style.width = '100%';
-                }
+            const scaleFactor = parseFloat(el.dataset.scale);
+            const factor = (!isNaN(scaleFactor) && scaleFactor > 0) ? scaleFactor : 1;
+
+            if (baseWidth > 0) {
+                svgEl.style.maxWidth = `${baseWidth * factor}px`;
+                svgEl.style.width = '100%';
+            } else {
+                svgEl.style.maxWidth = '100%';
             }
         }
     } catch (err) {

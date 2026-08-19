@@ -10,7 +10,7 @@
 
     <div class="about-main">
         <section class="about-bio">
-            <p class="about-bio-text">{{ .Params.bio.text | safeHTML }}</p>
+            <div class="about-bio-text">{{ .Params.bio.text | markdownify }}</div>
 
             {{ with .Params.tech_stack }}
             <div class="tech-stack">

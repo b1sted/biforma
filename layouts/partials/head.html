@@ -147,28 +147,36 @@ window.i18n = {{ dict
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 
-{{- if not .IsHome }}
-{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-{{- $schemaType := "WebSite" -}}
-{{- if .IsPage -}}
-    {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
-{{- end -}}
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "{{ $schemaType }}",
-    "headline": "{{ .Title }}",
-    "description": "{{ $description }}",
-    "url": "{{ .Permalink }}"{{ if .IsPage }},
-    "author": { "@type": "Person", "name": "{{ site.Params.author }}" }
-    {{- with .Date }},
-    "datePublished": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
-    {{- end }}
-    {{- with .Lastmod }},
-    "dateModified": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
-    {{- end -}}{{ end }}
-}
-</script>
+{{- if not .IsHome -}}
+    {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+    {{- $schemaType := "WebSite" -}}
+    {{- if .IsPage -}}
+        {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
+    {{- end -}}
+
+    {{- $schema := dict
+        "@context" "https://schema.org"
+        "@type" $schemaType
+        "headline" .Title
+        "description" $description
+        "url" .Permalink
+    -}}
+
+    {{- if .IsPage -}}
+        {{- with site.Params.author -}}
+            {{- $schema = merge $schema (dict "author" (dict "@type" "Person" "name" .)) -}}
+        {{- end -}}
+        {{- if not .Date.IsZero -}}
+            {{- $schema = merge $schema (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) -}}
+        {{- end -}}
+        {{- if not .Lastmod.IsZero -}}
+            {{- $schema = merge $schema (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) -}}
+        {{- end -}}
+    {{- end -}}
+
+    <script type="application/ld+json">
+        {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+    </script>
 {{- end }}
 
 {{ hugo.Generator -}}

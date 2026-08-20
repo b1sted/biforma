@@ -127,23 +127,29 @@ window.i18n = {{ dict
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="{{ i18n "og_locale" | default site.Language.Lang }}">
-{{- $ogImage := site.Params.defaultImage | default "/icons/icon-512.png" -}}
-{{- if .Params.image -}}{{- $ogImage = .Params.image -}}{{- end -}}
-<meta property="og:image" content="{{ $ogImage | absURL }}">
+
+{{- $ogImage := .Params.image | default site.Params.defaultImage | default site.Params.ogImage | default site.Params.avatar -}}
+{{- with $ogImage -}}
+<meta property="og:image" content="{{ . | absURL }}">
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end -}}
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ .Title }}">
 <meta name="twitter:description" content="{{ $description }}">
-<meta name="twitter:image" content="{{ $ogImage | absURL }}">
 
 {{- range .AlternativeOutputFormats -}}
 <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
 {{- end }}
 
 <link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+{{- if fileExists "static/icons/icon-192.png" -}}
 <link rel="apple-touch-icon" href="{{ "icons/icon-192.png" | relURL }}">
 <link rel="icon" type="image/png" sizes="192x192" href="{{ "icons/icon-192.png" | relURL }}">
+{{- end -}}
+{{- if fileExists "static/icons/icon-512.png" -}}
 <link rel="icon" type="image/png" sizes="512x512" href="{{ "icons/icon-512.png" | relURL }}">
+{{- end -}}
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 

@@ -29,9 +29,11 @@
                     <article class="blog-bento-hero">
                         <div class="blog-hero-top-row">
                             <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Свежая публикация" }}</span>
-                            <time class="blog-hero-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                                {{ .Date.Format "02.01.2006" }}
-                            </time>
+                            {{ if not .Date.IsZero }}
+                                <time class="blog-hero-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                                    {{ .Date.Format "02.01.2006" }}
+                                </time>
+                            {{ end }}
                         </div>
 
                         <h2 class="blog-hero-title">
@@ -65,8 +67,10 @@
                     <article class="blog-bento-wide">
                         <div class="card-meta-top">
                             <div class="card-meta-info">
-                                <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
-                                <span class="card-meta-sep">•</span>
+                                {{ if not .Date.IsZero }}
+                                    <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
+                                    <span class="card-meta-sep">•</span>
+                                {{ end }}
                                 <span class="card-reading-time">⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
                             </div>
                             {{ with $secTitle }}
@@ -100,8 +104,10 @@
                     <article class="blog-bento-card">
                         <div class="card-meta-top">
                             <div class="card-meta-info">
-                                <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
-                                <span class="card-meta-sep">•</span>
+                                {{ if not .Date.IsZero }}
+                                    <time datetime="{{ .Date.Format "2006-01-02" }}" class="card-date">{{ .Date.Format "02.01.2006" }}</time>
+                                    <span class="card-meta-sep">•</span>
+                                {{ end }}
                                 <span class="card-reading-time">⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
                             </div>
                             {{ with $secTitle }}

@@ -14,7 +14,6 @@
 {{- end -}}
 
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-{{/* xmlns:dc lets us set an author name without requiring an email (RSS 2.0's own author field needs one) */}}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>{{ if eq .Title site.Title }}{{ site.Title | transform.XMLEscape }}{{ else }}{{ with .Title }}{{ . | transform.XMLEscape }} | {{ end }}{{ site.Title | transform.XMLEscape }}{{ end }}</title>
@@ -30,15 +29,18 @@
     {{ end -}}
 
     {{ range $pages }}
+    {{- $itemDate := .Date -}}
+    {{- if $itemDate.IsZero }}{{ $itemDate = .Lastmod }}{{ end -}}
+    {{- if $itemDate.IsZero }}{{ $itemDate = now }}{{ end -}}
     <item>
       <title>{{ .Title | transform.XMLEscape }}</title>
       <link>{{ .Permalink }}</link>
-      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <pubDate>{{ $itemDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{ with site.Params.author }}
       <dc:creator>{{ . | transform.XMLEscape }}</dc:creator>
       {{ end }}
       <guid>{{ .Permalink }}</guid>
-      <description><![CDATA[{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}]]></description>
+      <description>{{ with .Description }}{{ . | transform.XMLEscape }}{{ else }}{{ .Summary | transform.XMLEscape }}{{ end }}</description>
       {{ with .Params.tags }}
       {{ range . }}
       <category>{{ . | transform.XMLEscape }}</category>

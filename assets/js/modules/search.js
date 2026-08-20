@@ -8,6 +8,7 @@ export function initSearch() {
 
     let pagefind = null;
     let timeoutId = null;
+    let currentSearchId = 0;
 
     const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
     const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
@@ -41,9 +42,12 @@ export function initSearch() {
         document.body.style.overflow = '';
         if (input) input.value = '';
         if (resultsContainer) resultsContainer.innerHTML = '';
+        currentSearchId++;
     };
 
-    const renderResults = async (searchResult) => {
+    const renderResults = async (searchResult, searchId) => {
+        if (searchId !== currentSearchId) return;
+
         if (!searchResult.results.length) {
             resultsContainer.innerHTML = `<div class="search-no-results"><div class="search-no-results-icon">😕</div><div class="search-no-results-text">${noResultsText}</div></div>`;
             return;
@@ -51,6 +55,7 @@ export function initSearch() {
 
         const topResults = searchResult.results.slice(0, 10);
         const data = await Promise.all(topResults.map((r) => r.data()));
+        if (searchId !== currentSearchId) return;
 
         resultsContainer.innerHTML = data.map((item) => `
             <a href="${item.url}" class="search-result-item">
@@ -68,15 +73,19 @@ export function initSearch() {
         clearTimeout(timeoutId);
 
         if (!query) {
+            currentSearchId++;
             resultsContainer.innerHTML = '';
             return;
         }
 
         timeoutId = setTimeout(async () => {
+            const searchId = ++currentSearchId;
             if (!pagefind) await loadPagefind();
             if (pagefind) {
                 const search = await pagefind.search(query);
-                renderResults(search);
+                if (searchId === currentSearchId && search) {
+                    renderResults(search, searchId);
+                }
             }
         }, 150);
     };

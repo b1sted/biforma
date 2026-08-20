@@ -26,6 +26,7 @@ export function initSearch() {
     let pagefind = null;
     let timeoutId = null;
     let currentSearchId = 0;
+    let previousActiveElement = null;
 
     const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
     const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
@@ -47,6 +48,7 @@ export function initSearch() {
 
     const openModal = async () => {
         if (!modal) return;
+        previousActiveElement = document.activeElement;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => { if (input) input.focus(); }, 50);
@@ -60,6 +62,9 @@ export function initSearch() {
         if (input) input.value = '';
         if (resultsContainer) resultsContainer.innerHTML = '';
         currentSearchId++;
+        if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+            previousActiveElement.focus();
+        }
     };
 
     const renderResults = async (searchResult, searchId) => {
@@ -99,7 +104,6 @@ export function initSearch() {
             const searchId = ++currentSearchId;
             if (!pagefind) await loadPagefind();
             if (pagefind) {
-                // Normalize wrapped query punctuation so <vector>, (main), \cmd match indexed tokens
                 const cleanQuery = query.replace(/^[<(\[{'"`\\/]+|[>)}\]'"`\\/]+$/g, '').trim() || query;
                 const search = await pagefind.search(cleanQuery);
                 if (searchId === currentSearchId && search) {
@@ -127,9 +131,30 @@ export function initSearch() {
         if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
             e.preventDefault();
             modal?.classList.contains('active') ? closeModal() : openModal();
+            return;
         }
-        if (e.key === 'Escape' && modal?.classList.contains('active')) {
+
+        if (!modal?.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
             closeModal();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+            if (!focusables.length) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
 }

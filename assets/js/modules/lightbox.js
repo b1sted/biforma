@@ -6,6 +6,7 @@ let currentScale = 1;
 let initialPinchDistance = 0;
 let initialPinchScale = 1;
 let lastTapTime = 0;
+let previousActiveElement = null;
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
 
@@ -127,7 +128,6 @@ function createLightbox() {
     image.addEventListener('wheel', handleWheel, { passive: false });
     svgWrapper.addEventListener('wheel', handleWheel, { passive: false });
 
-    // Mouse Panning
     const handleMouseDown = (e) => {
         if (!isZoomed) return;
         e.preventDefault();
@@ -154,7 +154,6 @@ function createLightbox() {
     image.addEventListener('mousedown', handleMouseDown);
     svgWrapper.addEventListener('mousedown', handleMouseDown);
 
-    // Touch Support: Double Tap, Pinch-to-Zoom, and Touch Drag
     const handleTouchStart = (e) => {
         if (e.touches.length === 1) {
             const now = Date.now();
@@ -215,8 +214,27 @@ function createLightbox() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        if (!lightbox.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
             closeLightbox();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const focusables = lightbox.querySelectorAll('button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])');
+            if (!focusables.length) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
 }
@@ -294,6 +312,7 @@ function resetZoomState() {
 
 export function openLightbox(imageSrc, caption) {
     if (!lightboxCreated) createLightbox();
+    previousActiveElement = document.activeElement;
 
     const lightbox = document.getElementById('lightbox');
     const image = document.getElementById('lightbox-image');
@@ -311,10 +330,16 @@ export function openLightbox(imageSrc, caption) {
     resetZoomState();
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        closeBtn?.focus();
+    }, 50);
 }
 
 export function openLightboxSvg(svgElement, caption) {
     if (!lightboxCreated) createLightbox();
+    previousActiveElement = document.activeElement;
 
     const lightbox = document.getElementById('lightbox');
     const image = document.getElementById('lightbox-image');
@@ -343,6 +368,11 @@ export function openLightboxSvg(svgElement, caption) {
     resetZoomState();
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        closeBtn?.focus();
+    }, 50);
 }
 
 export function closeLightbox() {
@@ -351,5 +381,8 @@ export function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
         setTimeout(resetZoomState, 250);
+        if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+            previousActiveElement.focus();
+        }
     }
 }

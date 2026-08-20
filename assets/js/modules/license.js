@@ -14,6 +14,7 @@ export function initLicenseModal() {
     const docLang = document.documentElement.lang || document.documentElement.getAttribute('lang') || 'ru';
     let currentLang = docLang.startsWith('en') ? 'en' : 'ru';
     let currentView = 'permissions';
+    let previousActiveElement = null;
 
     try {
         const dataEl = document.getElementById('license-data');
@@ -26,12 +27,18 @@ export function initLicenseModal() {
     }
 
     function openModal(licenseKey) {
+        previousActiveElement = document.activeElement;
         currentLicense = licenseKey;
         renderContent();
         modal.style.display = 'flex';
         modal.offsetHeight;
         modal.classList.add('visible');
         document.body.style.overflow = 'hidden';
+
+        setTimeout(() => {
+            const activeTab = modal.querySelector('.modal-tab.active') || closeBtn;
+            activeTab?.focus();
+        }, 50);
     }
 
     function closeModal() {
@@ -39,6 +46,9 @@ export function initLicenseModal() {
         setTimeout(() => {
             modal.style.display = 'none';
             document.body.style.overflow = '';
+            if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+                previousActiveElement.focus();
+            }
         }, 200);
     }
 
@@ -106,7 +116,28 @@ export function initLicenseModal() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('visible')) closeModal();
+        if (!modal.classList.contains('visible')) return;
+
+        if (e.key === 'Escape') {
+            closeModal();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+            if (!focusables.length) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
     });
 
     langTabs.forEach(tab => {

@@ -1,8 +1,8 @@
 {{- $gaID := site.Params.googleAnalytics | default site.Config.Services.GoogleAnalytics.ID -}}
 {{- $ymID := site.Params.yandexMetrika -}}
+{{- $webvisor := site.Params.yandexWebvisor | default false -}}
 
 {{- if and (or $gaID $ymID) (not hugo.IsServer) -}}
-{{- /* Preconnect / DNS prefetch for analytics services */ -}}
 {{- if $gaID }}
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
@@ -15,64 +15,40 @@
 <script>
 (function () {
     'use strict';
-    let loaded = false;
-    const events = ['mousemove', 'touchstart', 'scroll', 'keydown', 'click'];
 
-    function loadAnalytics() {
-        if (loaded) return;
-        loaded = true;
+    {{- if $gaID }}
+    (function () {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id={{ $gaID }}';
+        document.head.appendChild(script);
 
-        events.forEach((e) => {
-            window.removeEventListener(e, loadAnalytics);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', '{{ $gaID }}');
+    })();
+    {{- end }}
+
+    {{- if $ymID }}
+    (function () {
+        window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+        window.ym.l = 1 * new Date();
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://mc.yandex.ru/metrika/tag.js';
+        document.head.appendChild(script);
+
+        ym('{{ $ymID }}', 'init', {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: {{ $webvisor }}
         });
-
-        {{- if $gaID }}
-        (function () {
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id={{ $gaID }}';
-            document.head.appendChild(script);
-
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            window.gtag = gtag;
-            gtag('js', new Date());
-            gtag('config', '{{ $gaID }}');
-        })();
-        {{- end }}
-
-        {{- if $ymID }}
-        (function () {
-            window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
-            window.ym.l = 1 * new Date();
-
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://mc.yandex.ru/metrika/tag.js';
-            document.head.appendChild(script);
-
-            ym('{{ $ymID }}', 'init', {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true
-            });
-        })();
-        {{- end }}
-    }
-
-    /* Load analytics on first user interaction or fallback timer */
-    events.forEach((e) => {
-        window.addEventListener(e, loadAnalytics, { passive: true, once: true });
-    });
-
-    if (document.readyState === 'complete') {
-        setTimeout(loadAnalytics, 3500);
-    } else {
-        window.addEventListener('load', () => {
-            setTimeout(loadAnalytics, 3500);
-        });
-    }
+    })();
+    {{- end }}
 })();
 </script>
 

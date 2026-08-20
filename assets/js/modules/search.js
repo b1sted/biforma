@@ -1,3 +1,20 @@
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function sanitizeTitle(str) {
+    if (!str) return '';
+    const txt = document.createElement('textarea');
+    txt.innerHTML = str;
+    return escapeHTML(txt.value);
+}
+
 export function initSearch() {
     const searchTrigger = document.querySelector('.search-trigger');
     const modal = document.getElementById('search-modal');
@@ -61,7 +78,7 @@ export function initSearch() {
             <a href="${item.url}" class="search-result-item">
                 <div class="search-result-header">
                     <div class="search-result-icon">📄</div>
-                    <div class="search-result-title">${item.meta.title}</div>
+                    <div class="search-result-title">${sanitizeTitle(item.meta.title)}</div>
                 </div>
                 <div class="search-result-preview">${item.excerpt}</div>
             </a>
@@ -82,7 +99,9 @@ export function initSearch() {
             const searchId = ++currentSearchId;
             if (!pagefind) await loadPagefind();
             if (pagefind) {
-                const search = await pagefind.search(query);
+                // Normalize wrapped query punctuation so <vector>, (main), \cmd match indexed tokens
+                const cleanQuery = query.replace(/^[<(\[{'"`\\/]+|[>)}\]'"`\\/]+$/g, '').trim() || query;
+                const search = await pagefind.search(cleanQuery);
                 if (searchId === currentSearchId && search) {
                     renderResults(search, searchId);
                 }

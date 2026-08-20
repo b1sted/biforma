@@ -19,7 +19,6 @@ function runCriticalInit() {
     initEmailProtection();
     if (document.getElementById('academic-toggle')) initAboutFilter();
 
-    // Time-sliced non-critical initialization to prevent long tasks (TBT optimization)
     const tasks = [
         () => { if (document.getElementById('TableOfContents') || document.querySelector('.toc-nav')) initTocAndScroll(); },
         () => { if (document.querySelector('.code-tabs, .content-tabs')) initTabs(); },
@@ -62,7 +61,11 @@ function initScrollTop() {
     let isVisible = false;
 
     const toggleBtn = () => {
-        const top = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
+        const top = Math.max(
+            window.scrollY || 0,
+            document.documentElement.scrollTop || 0,
+            scrollContainer ? scrollContainer.scrollTop : 0
+        );
         const shouldShow = top > 250;
         if (shouldShow !== isVisible) {
             isVisible = shouldShow;
@@ -73,6 +76,7 @@ function initScrollTop() {
     btn.addEventListener('click', (e) => {
         if (e && e.cancelable) e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
         if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -80,6 +84,7 @@ function initScrollTop() {
     if (scrollContainer) {
         scrollContainer.addEventListener('scroll', toggleBtn, { passive: true });
     }
+    toggleBtn();
 }
 
 function initSectionFilter() {

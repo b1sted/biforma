@@ -5,7 +5,7 @@
 {{ with site.Params.yandexVerification }}<meta name="yandex-verification" content="{{ . }}">{{ end }}
 {{ with site.Params.googleVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
 
-<script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark')})();</script>
+<script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();</script>
 
 <script>
 window.i18n = {{ dict

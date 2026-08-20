@@ -6,7 +6,6 @@ import { initEmailProtection } from './modules/email-protection.js';
 import { initAboutFilter } from './modules/about-filter.js';
 import { initSearch } from './modules/search.js';
 import { initCopyButtons } from './modules/code-copy.js';
-import { initRssFeeds } from './modules/rss-feeds.js';
 import { initCompareBlocks } from './modules/compare.js';
 import { initLicenseModal } from './modules/license.js';
 import { initResponsiveTables } from './modules/tables.js';
@@ -29,7 +28,6 @@ function runCriticalInit() {
         () => { setupLightboxTriggers(); },
         () => { initScrollTop(); },
         () => { if (document.querySelector('.section-filter-bar')) initSectionFilter(); },
-        () => { if (document.querySelector('.rss-feed-card')) initRssFeeds(); },
         () => { if (document.querySelector('.js-license-trigger')) initLicenseModal(); },
         () => { if (document.querySelector('.mermaid')) initMermaid(); }
     ];

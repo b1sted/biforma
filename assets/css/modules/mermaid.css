@@ -18,6 +18,7 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    min-height: 48px;
 }
 
 .mermaid.js-mermaid-lightbox {

@@ -149,22 +149,11 @@ export function initMermaid() {
         }
     });
 
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(async (entry) => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    observer.unobserve(el);
-                    await renderMermaidElement(el);
-                }
-            });
-        }, {
-            rootMargin: '300px 0px'
-        });
-
-        elements.forEach((el) => observer.observe(el));
+    // Pre-render in background idle time to establish layout heights before user scrolls
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => renderAllMermaid(), { timeout: 1500 });
     } else {
-        renderAllMermaid();
+        setTimeout(renderAllMermaid, 60);
     }
 }
 

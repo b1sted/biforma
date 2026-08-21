@@ -1,8 +1,8 @@
 export function initTocAndScroll() {
-    const tocContainer = document.getElementById('TableOfContents') || document.querySelector('.toc-nav');
+    const tocContainer = document.getElementById('TableOfContents') || document.getElementById('TableOfContentsMobile') || document.querySelector('.toc-nav');
     if (!tocContainer) return;
 
-    const tocLinks = document.querySelectorAll('#TableOfContents a, .toc-nav a, .sidebar-toc-nav a');
+    const tocLinks = document.querySelectorAll('#TableOfContents a, #TableOfContentsMobile a, .toc-nav a, .sidebar-toc-nav a, .toc-mobile-nav a');
     if (!tocLinks.length) return;
 
     const headings = Array.from(document.querySelectorAll('.article h1, .article h2, .article h3, .article h4, .article h5, .article h6'));

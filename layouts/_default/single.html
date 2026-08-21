@@ -47,7 +47,7 @@
         </svg>
     </summary>
     <nav class="toc-mobile-nav">
-        {{ .TableOfContents }}
+        {{ replace .TableOfContents "id=\"TableOfContents\"" "id=\"TableOfContentsMobile\"" | safeHTML }}
     </nav>
 </details>
 {{- end -}}

@@ -7,7 +7,7 @@
 </p>
 <p align="center">
     <a href="https://gohugo.io">
-        <img src="https://img.shields.io/badge/Hugo-v0.123.0%2B-blue?style=flat-square&logo=hugo" alt="Hugo Version">
+        <img src="https://img.shields.io/badge/Hugo-v0.156.0%2B-blue?style=flat-square&logo=hugo" alt="Hugo Version">
     </a>
     <a href="#license">
         <img src="https://img.shields.io/badge/License-GPL--3.0-green?style=flat-square" alt="License" />
@@ -36,7 +36,11 @@
 - **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), and lazy-loaded analytics.
 - **Instant Search**: Powered by Pagefind for zero-config, ultra-fast client-side search.
 - **Math & Typography**: Built-in KaTeX math rendering, Chroma syntax highlighting, side-by-side code comparison, tabs, and admonitions.
+- **Diagrams (Mermaid.js)**: Lazy-loaded (IntersectionObserver) offline Mermaid rendering that auto-switches between dark/light themes, with a zoom & pan lightbox for every diagram.
 - **Enhanced Media**: Auto-calculated image dimensions (prevents CLS) and built-in image zoom lightbox.
+- **Heading Anchors**: Hover-revealed anchor links next to headings (up to the configured TOC depth), with TOC-consistent smooth scrolling.
+- **License Modal & Footer Credit**: Per-page code/content license disclosure via modal, plus an optional "Theme: Biforma" credit line in the footer.
+- **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
 ## Quick Start
@@ -103,10 +107,31 @@ defaultContentLanguage = "ru"
   googleVerification = "your-google-verification-code"
   yandexVerification = "your-yandex-verification-code"
 
+  # Table of Contents
+  tocMaxLevel = 3   # Deepest heading level (h2=2 ... h6=6) that gets a hover anchor link;
+                    # should match markup.tableOfContents.endLevel
+
+  # Blog pagination (only used when themeMode = "blog")
+  blogPageSize = 14  # Posts per page on the blog home (default: 14). The bento grid
+                     # layout assumes a full page (hero + wide cards at fixed positions),
+                     # so keep this >= 8 or the layout will look sparse on the last page.
+
+  # Footer Theme Credit
+  showThemeCredit = true                            # Set false to hide the "Theme: Biforma" footer line
+  themeName = "Biforma"                             # Override the displayed theme name
+  themeURL = "https://github.com/b1sted/biforma"    # Override the link target
+
   # Sidebar customization
   [params.sidebar]
     generalTitle = "General"           # Rename root section (default: "Общее")
     hideGeneralTitle = false           # Set true to hide root section title
+
+# Optional: customize how deep headings are collected into the sidebar TOC.
+# If you change this, update params.tocMaxLevel above to match — Hugo doesn't
+# expose this section to templates, so the theme can't read it directly.
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
 ```
 
 ---
@@ -118,14 +143,26 @@ Supported page parameters in Markdown headers:
 ```yaml
 ---
 title: "Article Title"
+subtitle: "Optional subtitle shown under the title" # Falls back to `description` if omitted
 description: "Brief summary of the article"
-icon: "🚀"           # Emoji icon displayed in cards and sidebar
+icon: "🚀"            # Emoji icon displayed in cards and sidebar
 group: "Getting Started" # Group notes into collapsible sections & filters
 group_description: "Core guides for beginners"
-difficulty: "Easy"   # Difficulty level displayed on article cards
-math: true           # Enable KaTeX math rendering ($E = mc^2$)
-toc: true            # Enable/disable Table of Contents sidebar
-searchHidden: false  # Exclude page from Pagefind search & search engines
+difficulty: "Easy"    # Difficulty level badge shown on article cards.
+                      # "Easy"/"Medium"/"Hard" (or "Легко"/"Средне"/"Сложно") get a colored badge;
+                      # any other value is shown with a neutral badge.
+tags: ["hugo", "css"] # Shown as chips on cards and at the bottom of the article
+featured: true        # Pins the article into the "Featured" block of the blog sidebar
+                      # (up to 3 posts; if none are marked, the 3 most recent are shown instead)
+math: true            # Enable KaTeX math rendering ($E = mc^2$)
+toc: true             # Enable/disable Table of Contents sidebar
+tocDisable: false     # Alternative way to hide the TOC (either this or `hideToc`)
+hideToc: false        # Alias for `tocDisable`
+searchHidden: false   # Exclude page from Pagefind search & site search engines.
+                      # Also adds <meta name="robots" content="noindex, nofollow">
+                      # (same effect as `noindex`, see below).
+noindex: false        # Add <meta name="robots" content="noindex, nofollow"> to the page
+                      # without excluding it from the on-site Pagefind search.
 ---
 ```
 
@@ -140,6 +177,15 @@ searchHidden: false  # Exclude page from Pagefind search & search engines
 - **Custom Code Block (`code.html`)**:  
   `{{< code lang="c" title="main.c" >}}code{{< /code >}}`  
   *(Options: `noheader="true"`, `center="true"`)*
+
+- **Diagrams (Mermaid.js)**: use a fenced code block with the `mermaid` language — no shortcode needed:
+  ````markdown
+  ```mermaid
+  graph TD
+    A[Start] --> B[End]
+  ```
+  ````
+  *(Optional attributes: `scale="1.5"` to resize, `caption="..."` / `title="..."` for a figure caption. Diagrams lazy-load on scroll and re-render automatically on theme switch, with a zoom & pan lightbox on click.)*
 
 - **Code Compare (`compare.html`, `compare-left.html`, `compare-right.html`)**:  
   ```markdown

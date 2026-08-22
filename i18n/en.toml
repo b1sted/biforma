@@ -161,6 +161,9 @@ other = "Code:"
 [footer_content_license]
 other = "Content:"
 
+[footer_powered_by]
+other = "Theme:"
+
 # License Modal
 
 [license_modal_title]

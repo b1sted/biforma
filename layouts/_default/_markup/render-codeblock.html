@@ -5,11 +5,15 @@
 {{- $scale := .Attributes.scale | default "" -}}
 {{- $caption := .Attributes.caption | default .Attributes.title | default "" -}}
 {{- $raw := trim .Inner "\n\r" -}}
+{{- $captionID := "" -}}
+{{- with $caption -}}
+    {{- $captionID = . | md5 | printf "mmd-cap-%s" -}}
+{{- end -}}
 
 <figure class="article-figure mermaid-wrapper" data-pagefind-ignore>
-    <div class="mermaid js-mermaid-lightbox" data-diagram="{{ $raw | base64Encode }}"{{ with $scale }} data-scale="{{ . }}"{{ end }}></div>
+    <div class="mermaid js-mermaid-lightbox" data-diagram="{{ $raw | base64Encode }}"{{ with $scale }} data-scale="{{ . }}"{{ end }}{{ with $captionID }} data-caption-id="{{ . }}"{{ end }}></div>
     {{- with $caption -}}
-    <figcaption class="figure-caption">{{ . }}</figcaption>
+    <figcaption class="figure-caption" id="{{ $captionID }}">{{ . }}</figcaption>
     {{- end -}}
 </figure>
 {{- else -}}

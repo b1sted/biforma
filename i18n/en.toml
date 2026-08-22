@@ -161,6 +161,9 @@ other = "Code:"
 [footer_content_license]
 other = "Content:"
 
+[footer_powered_by]
+other = "Theme:"
+
 # License Modal
 
 [license_modal_title]
@@ -251,3 +254,6 @@ other = "opens in a new tab"
 
 [aria_pagination]
 other = "Pagination"
+
+[heading_anchor_link]
+other = "Copy link to section"

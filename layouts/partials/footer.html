@@ -33,7 +33,23 @@
                     <span class="footer-license-item">{{ i18n "footer_code_license" }} <a href="#" class="js-license-trigger" data-license="{{ $codeKey }}" aria-label="{{ $codeName }}">{{ $codeName }}</a></span>
                     <span class="footer-separator">•</span>
                     <span class="footer-license-item">{{ i18n "footer_content_license" }} <a href="#" class="js-license-trigger" data-license="{{ $contentKey }}" aria-label="{{ $contentName }}">{{ $contentName }}</a></span>
+                    {{- $showThemeCredit := site.Params.showThemeCredit | default true -}}
+                    {{- if $showThemeCredit -}}
+                        {{- $themeName := site.Params.themeName | default "Biforma" -}}
+                        {{- $themeURL := site.Params.themeURL | default "https://github.com/b1sted/biforma" -}}
+                        <span class="footer-separator">•</span>
+                        <span class="footer-license-item">{{ i18n "footer_powered_by" }} <a href="{{ $themeURL }}" target="_blank" rel="noopener noreferrer">{{ $themeName }}</a></span>
+                    {{- end -}}
                 </p>
+            {{- else -}}
+                {{- $showThemeCredit := site.Params.showThemeCredit | default true -}}
+                {{- if $showThemeCredit -}}
+                    {{- $themeName := site.Params.themeName | default "Biforma" -}}
+                    {{- $themeURL := site.Params.themeURL | default "https://github.com/b1sted/biforma" -}}
+                    <p class="footer-text footer-license">
+                        <span class="footer-license-item">{{ i18n "footer_powered_by" }} <a href="{{ $themeURL }}" target="_blank" rel="noopener noreferrer">{{ $themeName }}</a></span>
+                    </p>
+                {{- end -}}
             {{- end -}}
         </div>
 

@@ -1,0 +1,21 @@
+{{- /*
+    Рендер-хук заголовков: добавляет якорную ссылку (#) справа от заголовка,
+    но только для уровней, которые попадают в оглавление (TOC).
+
+    Максимальный уровень задаётся параметром site.Params.tocMaxLevel (по умолчанию 3)
+    и должен соответствовать markup.tableOfContents.endLevel в hugo.toml,
+    чтобы якоря показывались ровно там же, где заголовки видны в TOC.
+*/ -}}
+{{- $maxLevel := site.Params.tocMaxLevel | default 3 -}}
+{{- $showAnchor := le .Level $maxLevel -}}
+
+<h{{ .Level }} id="{{ .Anchor }}" class="heading-with-anchor">
+    {{- .Text | safeHTML -}}
+    {{- if $showAnchor -}}
+        <a href="#{{ .Anchor }}" class="heading-anchor-link" aria-label="{{ i18n "heading_anchor_link" }}">
+            <svg width="16" height="16" aria-hidden="true">
+                <use href="{{ "icons.svg#icon-link" | relURL }}"></use>
+            </svg>
+        </a>
+    {{- end -}}
+</h{{ .Level }}>

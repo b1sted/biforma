@@ -1,6 +1,6 @@
 import { initTheme } from './modules/theme.js';
 import { initSidebar } from './modules/sidebar.js';
-import { initTocAndScroll } from './modules/toc.js';
+import { initTocAndScroll, initHeadingAnchors } from './modules/toc.js';
 import { initTabs } from './modules/tabs.js';
 import { initEmailProtection } from './modules/email-protection.js';
 import { initAboutFilter } from './modules/about-filter.js';
@@ -30,6 +30,7 @@ function runCriticalInit() {
 
     const tasks = [
         () => { if (document.getElementById('TableOfContents') || document.querySelector('.toc-nav')) initTocAndScroll(); },
+        () => { if (document.querySelector('.heading-anchor-link')) initHeadingAnchors(); },
         () => { if (document.querySelector('.code-tabs, .content-tabs')) initTabs(); },
         () => { if (document.querySelector('.code-compare')) initCompareBlocks(); },
         () => { if (document.querySelector('.article table')) initResponsiveTables(); },

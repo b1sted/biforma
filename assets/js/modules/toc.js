@@ -1,3 +1,40 @@
+function scrollToElement(targetElement, smooth = true) {
+    if (!targetElement) return;
+
+    const scrollContainer = document.querySelector('.main-content');
+    const isMobile = window.innerWidth <= 1024;
+    const behavior = smooth ? 'smooth' : 'auto';
+
+    if (isMobile || !scrollContainer) {
+        const headerOffset = 70;
+        const top = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top, behavior });
+    } else {
+        const offset = 24;
+        const top = targetElement.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top + scrollContainer.scrollTop - offset;
+        scrollContainer.scrollTo({ top, behavior });
+    }
+}
+
+export function initHeadingAnchors() {
+    const anchorLinks = document.querySelectorAll('.heading-anchor-link');
+    if (!anchorLinks.length) return;
+
+    anchorLinks.forEach((anchorLink) => {
+        const href = anchorLink.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+
+        anchorLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const heading = anchorLink.closest('h1, h2, h3, h4, h5, h6');
+            if (!heading) return;
+
+            history.pushState(null, null, href);
+            scrollToElement(heading, true);
+        });
+    });
+}
+
 export function initTocAndScroll() {
     const tocContainer = document.getElementById('TableOfContents') || document.getElementById('TableOfContentsMobile') || document.querySelector('.toc-nav');
     if (!tocContainer) return;
@@ -13,24 +50,6 @@ export function initTocAndScroll() {
 
     const headerToLinksMap = new Map();
     const observedHeadings = [];
-
-    function scrollToElement(targetElement, smooth = true) {
-        if (!targetElement) return;
-
-        const scrollContainer = document.querySelector('.main-content');
-        const isMobile = window.innerWidth <= 1024;
-        const behavior = smooth ? 'smooth' : 'auto';
-
-        if (isMobile || !scrollContainer) {
-            const headerOffset = 70;
-            const top = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-            window.scrollTo({ top, behavior });
-        } else {
-            const offset = 24;
-            const top = targetElement.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top + scrollContainer.scrollTop - offset;
-            scrollContainer.scrollTo({ top, behavior });
-        }
-    }
 
     function handleInitialHash() {
         if (!window.location.hash) return;

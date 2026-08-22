@@ -254,3 +254,6 @@ other = "opens in a new tab"
 
 [aria_pagination]
 other = "Pagination"
+
+[heading_anchor_link]
+other = "Copy link to section"

@@ -258,3 +258,6 @@ other = "открывается в новой вкладке"
 
 [aria_pagination]
 other = "Пагинация"
+
+[heading_anchor_link]
+other = "Скопировать ссылку на раздел"

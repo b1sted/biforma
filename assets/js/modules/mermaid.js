@@ -25,7 +25,7 @@ function loadMermaid() {
     return mermaidPromise;
 }
 
-function decodeDiagram(encoded) {
+export function decodeDiagram(encoded) {
     try {
         const binString = atob(encoded);
         const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
@@ -89,7 +89,10 @@ function configureMermaid(mermaid, force = false) {
         theme: mermaidTheme,
         themeVariables,
         securityLevel: 'strict',
-        fontFamily: 'Inter, -apple-system, sans-serif'
+        fontFamily: 'Inter, -apple-system, sans-serif',
+        flowchart: { htmlLabels: false },
+        state: { htmlLabels: false },
+        class: { htmlLabels: false }
     });
 }
 
@@ -117,8 +120,7 @@ async function renderMermaidElement(el, index = 0) {
 
         const svgEl = el.querySelector('svg');
         if (svgEl) {
-            svgEl.style.margin = '0 auto';
-            svgEl.style.display = 'block';
+            svgEl.classList.add('mermaid-diagram-svg');
 
             const viewBoxWidth = svgEl.viewBox?.baseVal?.width;
             const inlineMax = parseFloat(svgEl.style.maxWidth);
@@ -139,8 +141,18 @@ async function renderMermaidElement(el, index = 0) {
     }
 }
 
+export async function renderMermaidToSvgString(source) {
+    const mermaid = await loadMermaid();
+    configureMermaid(mermaid, true);
+
+    renderCounter++;
+    const renderId = `mermaid-lightbox-${Date.now()}-${renderCounter}`;
+    const { svg } = await mermaid.render(renderId, source);
+    return svg;
+}
+
 export function initMermaid() {
-    const elements = document.querySelectorAll('.mermaid');
+    const elements = document.querySelectorAll('.mermaid:not([data-rendered="true"])');
     if (!elements.length) return;
 
     elements.forEach((el) => {
@@ -149,7 +161,6 @@ export function initMermaid() {
         }
     });
 
-    // Pre-render in background idle time to establish layout heights before user scrolls
     if ('requestIdleCallback' in window) {
         requestIdleCallback(() => renderAllMermaid(), { timeout: 1500 });
     } else {
@@ -158,7 +169,7 @@ export function initMermaid() {
 }
 
 export async function renderAllMermaid() {
-    const elements = document.querySelectorAll('.mermaid');
+    const elements = document.querySelectorAll('.mermaid:not([data-rendered="true"])');
     if (!elements.length) return;
 
     let mermaid;

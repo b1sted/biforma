@@ -31,21 +31,38 @@
     transform: scale(1.005);
 }
 
-.mermaid svg {
+/*
+ * Scoped directly to the <svg> element so styles persist
+ * when the node is cloned into the modal lightbox.
+ */
+.mermaid-diagram-svg {
     display: block;
     margin: 0 auto;
     height: auto;
     background: transparent !important;
 }
 
-/* Transparent Edge Labels */
-.mermaid .edgeLabel,
-.mermaid .labelBkg,
-.mermaid .edgeLabel p,
-.mermaid .edgeLabel span {
+/* Clear background artifacts on transition labels and edge descriptions across all diagram types */
+.mermaid-diagram-svg .edgeLabel,
+.mermaid-diagram-svg .labelBkg,
+.mermaid-diagram-svg .edgeLabel p,
+.mermaid-diagram-svg .edgeLabel span,
+.mermaid-diagram-svg .edgeLabel div,
+.mermaid-diagram-svg .stateLabel div,
+.mermaid-diagram-svg .messageText,
+.mermaid-diagram-svg .noteText {
     background-color: transparent !important;
     background: transparent !important;
     color: var(--text-secondary) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure transition label backgrounds in state diagrams remain transparent */
+.mermaid-diagram-svg .transition rect,
+.mermaid-diagram-svg .stateLabel rect {
+    fill: transparent !important;
+    stroke: transparent !important;
 }
 
 .mermaid-wrapper .figure-caption {
@@ -56,4 +73,26 @@
     font-style: italic;
     text-align: center;
     width: 100%;
+}
+
+/*
+ * SSR embeds both light and dark theme SVGs. Visibility is toggled via [data-theme].
+ * Explicit width: 100% prevents flexbox shrink-to-fit container collapse.
+ */
+.mermaid-svg-light,
+.mermaid-svg-dark {
+    width: 100%;
+    display: none;
+}
+
+.mermaid-svg-dark {
+    display: block;
+}
+
+[data-theme="light"] .mermaid-svg-light {
+    display: block;
+}
+
+[data-theme="light"] .mermaid-svg-dark {
+    display: none;
 }

@@ -1,5 +1,9 @@
 import { renderAllMermaid } from './mermaid.js';
 
+function hasUnrenderedMermaid() {
+    return document.querySelector('.mermaid:not([data-rendered="true"])') !== null;
+}
+
 export function initTheme() {
     const toggleBtn = document.querySelector('.theme-toggle');
     if (!toggleBtn) return;
@@ -13,7 +17,7 @@ export function initTheme() {
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
 
-        if (document.querySelector('.mermaid')) {
+        if (hasUnrenderedMermaid()) {
             renderAllMermaid();
         }
 
@@ -26,7 +30,7 @@ export function initTheme() {
         if (!localStorage.getItem('theme')) {
             const newTheme = e.matches ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
-            if (document.querySelector('.mermaid')) {
+            if (hasUnrenderedMermaid()) {
                 renderAllMermaid();
             }
         }

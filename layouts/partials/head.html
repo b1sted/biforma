@@ -29,7 +29,13 @@ window.i18n = {{ dict
 | jsonify | safeJS }};
 </script>
 
+{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+{{- $hasCodeBlocks := and .IsPage (not $isAbout) -}}
+
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- if $hasCodeBlocks }}
+<link rel="preload" href="{{ "fonts/JetBrainsMono-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- end }}
 
 {{ partial "critical.html" . }}
 
@@ -39,7 +45,6 @@ window.i18n = {{ dict
     "sidebar-overlay" "responsive"
 -}}
 
-{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
 {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
 {{- $pageModules := $coreModules -}}
 
@@ -47,7 +52,7 @@ window.i18n = {{ dict
     {{- $pageModules = $pageModules | append "error-page" -}}
 {{- else if $isAbout -}}
     {{- $pageModules = $pageModules | append "about" -}}
-{{- else if and .IsPage (not $isAbout) -}}
+{{- else if $hasCodeBlocks -}}
     {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox") -}}
     {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
         {{- $pageModules = $pageModules | append "donation" -}}

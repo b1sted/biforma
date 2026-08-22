@@ -543,6 +543,44 @@
     user-select: none;
 }
 
+.difficulty-badge {
+    flex-shrink: 0;
+    margin-left: auto;
+    align-self: flex-end;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+}
+
+/* Inside .card-tags (blog-bento-hero) the badge is grouped with the tag
+   chips rather than pinned to the far edge of the (very wide) footer. */
+.card-tags .difficulty-badge {
+    margin-left: 0;
+}
+
+.difficulty-easy {
+    color: var(--accent-success);
+}
+
+.difficulty-medium {
+    color: var(--accent-warning);
+}
+
+.difficulty-hard {
+    color: var(--accent-danger);
+}
+
+.difficulty-neutral {
+    color: var(--text-tertiary);
+}
+
 .blog-single-header {
     margin-bottom: 28px;
     padding-bottom: 16px;

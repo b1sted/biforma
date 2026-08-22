@@ -13,7 +13,11 @@
     {{ $blogPages = where $blogPages "Type" "ne" "about" }}
     {{ $blogPages = $blogPages.ByDate.Reverse }}
 
-    {{ $paginator := .Paginate $blogPages 12 }}
+    {{/* Posts per page on the blog home. Override via params.blogPageSize in hugo.toml.
+         Note: the bento grid below assumes a full page (hero at index 0, wide cards at
+         1 and 7), so pick a size >= 8 for the layout to look right. */}}
+    {{ $pageSize := site.Params.blogPageSize | default 14 }}
+    {{ $paginator := .Paginate $blogPages $pageSize }}
 
     <div class="blog-home-wrapper">
         <div class="blog-bento-grid">
@@ -53,11 +57,14 @@
                                     <a href="{{ $secObj.RelPermalink }}" class="card-category">📁 {{ . }}</a>
                                 {{ end }}
                             </div>
-                            {{ with .Params.tags }}
+                            {{ if or .Params.tags .Params.difficulty }}
                                 <div class="card-tags">
-                                    {{ range first 3 . }}
-                                        <span class="tag-chip">#{{ . }}</span>
+                                    {{ with .Params.tags }}
+                                        {{ range first 3 . }}
+                                            <span class="tag-chip">#{{ . }}</span>
+                                        {{ end }}
                                     {{ end }}
+                                    {{ partial "difficulty-badge.html" . }}
                                 </div>
                             {{ end }}
                         </div>
@@ -97,6 +104,7 @@
                                     {{ end }}
                                 </div>
                             {{ end }}
+                            {{ partial "difficulty-badge.html" . }}
                         </div>
                     </article>
 
@@ -134,6 +142,7 @@
                                     {{ end }}
                                 </div>
                             {{ end }}
+                            {{ partial "difficulty-badge.html" . }}
                         </div>
                     </article>
                 {{ end }}

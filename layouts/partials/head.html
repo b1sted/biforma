@@ -5,7 +5,7 @@
 {{ with site.Params.yandexVerification }}<meta name="yandex-verification" content="{{ . }}">{{ end }}
 {{ with site.Params.googleVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
 
-<script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark')})();</script>
+<script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();</script>
 
 <script>
 window.i18n = {{ dict
@@ -29,7 +29,13 @@ window.i18n = {{ dict
 | jsonify | safeJS }};
 </script>
 
+{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+{{- $hasCodeBlocks := and .IsPage (not $isAbout) -}}
+
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- if $hasCodeBlocks }}
+<link rel="preload" href="{{ "fonts/JetBrainsMono-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- end }}
 
 {{ partial "critical.html" . }}
 
@@ -39,26 +45,20 @@ window.i18n = {{ dict
     "sidebar-overlay" "responsive"
 -}}
 
-{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
 {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-{{- $bundleName := "css/main.page.bundle.css" -}}
 {{- $pageModules := $coreModules -}}
 
 {{- if eq .Kind "404" -}}
     {{- $pageModules = $pageModules | append "error-page" -}}
-    {{- $bundleName = "css/main.error.bundle.css" -}}
 {{- else if $isAbout -}}
     {{- $pageModules = $pageModules | append "about" -}}
-    {{- $bundleName = "css/main.about.bundle.css" -}}
-{{- else if and .IsPage (not $isAbout) -}}
+{{- else if $hasCodeBlocks -}}
     {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox") -}}
     {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
         {{- $pageModules = $pageModules | append "donation" -}}
     {{- end -}}
-    {{- $bundleName = "css/main.article.bundle.css" -}}
 {{- else if or (in (slice "section" "taxonomy" "term") .Kind) (and .IsHome (not $isBlog)) -}}
     {{- $pageModules = $pageModules | append "section-page" -}}
-    {{- $bundleName = "css/main.section.bundle.css" -}}
 {{- end -}}
 
 {{- if $isBlog -}}
@@ -83,13 +83,14 @@ window.i18n = {{ dict
 {{- end -}}
 
 {{- if $bundleFiles -}}
+    {{- $bundleHash := md5 (delimit ($pageModules | uniq | sort) ",") -}}
+    {{- $bundleName := printf "css/main.%s.bundle.css" (substr $bundleHash 0 8) -}}
     {{- $pageBundle := $bundleFiles | resources.Concat $bundleName | minify | fingerprint -}}
     <link rel="preload" href="{{ $pageBundle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ $pageBundle.RelPermalink }}"></noscript>
 {{- end -}}
 
 {{- if .Params.math -}}
-{{/* Preload non-blocking stylesheet to eliminate render-blocking delay */}}
 <link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
 <script defer src="{{ "js/katex.min.js" | relURL }}"></script>
@@ -131,48 +132,62 @@ window.i18n = {{ dict
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="{{ i18n "og_locale" | default site.Language.Lang }}">
-{{- $ogImage := site.Params.defaultImage | default "/icons/icon-512.png" -}}
-{{- if .Params.image -}}{{- $ogImage = .Params.image -}}{{- end -}}
-<meta property="og:image" content="{{ $ogImage | absURL }}">
+
+{{- $ogImage := .Params.image | default site.Params.defaultImage | default site.Params.ogImage | default site.Params.avatar -}}
+{{- with $ogImage -}}
+<meta property="og:image" content="{{ . | absURL }}">
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end -}}
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ .Title }}">
 <meta name="twitter:description" content="{{ $description }}">
-<meta name="twitter:image" content="{{ $ogImage | absURL }}">
 
 {{- range .AlternativeOutputFormats -}}
 <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
 {{- end }}
 
 <link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+{{- if fileExists "static/icons/icon-192.png" -}}
 <link rel="apple-touch-icon" href="{{ "icons/icon-192.png" | relURL }}">
 <link rel="icon" type="image/png" sizes="192x192" href="{{ "icons/icon-192.png" | relURL }}">
+{{- end -}}
+{{- if fileExists "static/icons/icon-512.png" -}}
 <link rel="icon" type="image/png" sizes="512x512" href="{{ "icons/icon-512.png" | relURL }}">
+{{- end -}}
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 
-{{- if not .IsHome }}
-{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-{{- $schemaType := "WebSite" -}}
-{{- if .IsPage -}}
-    {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
-{{- end -}}
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "{{ $schemaType }}",
-    "headline": "{{ .Title }}",
-    "description": "{{ $description }}",
-    "url": "{{ .Permalink }}"{{ if .IsPage }},
-    "author": { "@type": "Person", "name": "{{ site.Params.author }}" }
-    {{- with .Date }},
-    "datePublished": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
-    {{- end }}
-    {{- with .Lastmod }},
-    "dateModified": "{{ .Format "2006-01-02T15:04:05Z07:00" }}"
-    {{- end -}}{{ end }}
-}
-</script>
+{{- if not .IsHome -}}
+    {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+    {{- $schemaType := "WebSite" -}}
+    {{- if .IsPage -}}
+        {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
+    {{- end -}}
+
+    {{- $schema := dict
+        "@context" "https://schema.org"
+        "@type" $schemaType
+        "headline" .Title
+        "description" $description
+        "url" .Permalink
+    -}}
+
+    {{- if .IsPage -}}
+        {{- with site.Params.author -}}
+            {{- $schema = merge $schema (dict "author" (dict "@type" "Person" "name" .)) -}}
+        {{- end -}}
+        {{- if not .Date.IsZero -}}
+            {{- $schema = merge $schema (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) -}}
+        {{- end -}}
+        {{- if not .Lastmod.IsZero -}}
+            {{- $schema = merge $schema (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) -}}
+        {{- end -}}
+    {{- end -}}
+
+    <script type="application/ld+json">
+        {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+    </script>
 {{- end }}
 
 {{ hugo.Generator -}}

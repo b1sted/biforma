@@ -4,7 +4,7 @@ licenselink = "https://github.com/b1sted/biforma/blob/main/LICENSE"
 description = "Dual-mode Hugo theme for Documentation, Knowledge Bases, and Personal Blogs"
 homepage = "https://github.com/b1sted/biforma"
 
-min_version = "0.123.0"
+min_version = "0.156.0"
 
 tags = [
   "documentation",

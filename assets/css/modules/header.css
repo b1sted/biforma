@@ -169,6 +169,20 @@ button.header-link {
     outline-offset: 2px;
 }
 
+/* Pure Declarative Theme Icons (No JS inline-styles, No !important) */
+#theme-icon-sun,
+#theme-icon-moon {
+    display: none;
+}
+
+[data-theme="dark"] #theme-icon-sun {
+    display: block;
+}
+
+[data-theme="light"] #theme-icon-moon {
+    display: block;
+}
+
 .header-search {
     flex: 1;
     max-width: 400px;
@@ -238,7 +252,6 @@ button.header-link {
         justify-content: center;
     }
 
-    /* Preserve language toggle link visibility on mobile screens */
     .header-link:not(.search-trigger-mobile):not(.lang-toggle) {
         display: none;
     }

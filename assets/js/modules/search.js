@@ -1,3 +1,20 @@
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function sanitizeTitle(str) {
+    if (!str) return '';
+    const txt = document.createElement('textarea');
+    txt.innerHTML = str;
+    return escapeHTML(txt.value);
+}
+
 export function initSearch() {
     const searchTrigger = document.querySelector('.search-trigger');
     const modal = document.getElementById('search-modal');
@@ -8,6 +25,8 @@ export function initSearch() {
 
     let pagefind = null;
     let timeoutId = null;
+    let currentSearchId = 0;
+    let previousActiveElement = null;
 
     const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
     const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
@@ -29,6 +48,7 @@ export function initSearch() {
 
     const openModal = async () => {
         if (!modal) return;
+        previousActiveElement = document.activeElement;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => { if (input) input.focus(); }, 50);
@@ -41,9 +61,15 @@ export function initSearch() {
         document.body.style.overflow = '';
         if (input) input.value = '';
         if (resultsContainer) resultsContainer.innerHTML = '';
+        currentSearchId++;
+        if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+            previousActiveElement.focus();
+        }
     };
 
-    const renderResults = async (searchResult) => {
+    const renderResults = async (searchResult, searchId) => {
+        if (searchId !== currentSearchId) return;
+
         if (!searchResult.results.length) {
             resultsContainer.innerHTML = `<div class="search-no-results"><div class="search-no-results-icon">😕</div><div class="search-no-results-text">${noResultsText}</div></div>`;
             return;
@@ -51,12 +77,13 @@ export function initSearch() {
 
         const topResults = searchResult.results.slice(0, 10);
         const data = await Promise.all(topResults.map((r) => r.data()));
+        if (searchId !== currentSearchId) return;
 
         resultsContainer.innerHTML = data.map((item) => `
             <a href="${item.url}" class="search-result-item">
                 <div class="search-result-header">
                     <div class="search-result-icon">📄</div>
-                    <div class="search-result-title">${item.meta.title}</div>
+                    <div class="search-result-title">${sanitizeTitle(item.meta.title)}</div>
                 </div>
                 <div class="search-result-preview">${item.excerpt}</div>
             </a>
@@ -68,15 +95,20 @@ export function initSearch() {
         clearTimeout(timeoutId);
 
         if (!query) {
+            currentSearchId++;
             resultsContainer.innerHTML = '';
             return;
         }
 
         timeoutId = setTimeout(async () => {
+            const searchId = ++currentSearchId;
             if (!pagefind) await loadPagefind();
             if (pagefind) {
-                const search = await pagefind.search(query);
-                renderResults(search);
+                const cleanQuery = query.replace(/^[<(\[{'"`\\/]+|[>)}\]'"`\\/]+$/g, '').trim() || query;
+                const search = await pagefind.search(cleanQuery);
+                if (searchId === currentSearchId && search) {
+                    renderResults(search, searchId);
+                }
             }
         }, 150);
     };
@@ -99,9 +131,30 @@ export function initSearch() {
         if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
             e.preventDefault();
             modal?.classList.contains('active') ? closeModal() : openModal();
+            return;
         }
-        if (e.key === 'Escape' && modal?.classList.contains('active')) {
+
+        if (!modal?.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
             closeModal();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+            if (!focusables.length) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
 }

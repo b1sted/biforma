@@ -1,5 +1,6 @@
 let renderCounter = 0;
 let mermaidPromise = null;
+let currentConfiguredTheme = null;
 
 function loadMermaid() {
     if (typeof window.mermaid !== 'undefined') {
@@ -9,7 +10,6 @@ function loadMermaid() {
         const basePath = document.documentElement.dataset.baseUrl || '/';
         const url = `${basePath.endsWith('/') ? basePath : basePath + '/'}js/mermaid.min.js`;
 
-        // Lazy-load script on demand to avoid blocking main thread and optimize LCP/TBT
         mermaidPromise = new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = url;
@@ -25,7 +25,7 @@ function loadMermaid() {
     return mermaidPromise;
 }
 
-function decodeDiagram(encoded) {
+export function decodeDiagram(encoded) {
     try {
         const binString = atob(encoded);
         const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
@@ -35,35 +35,64 @@ function decodeDiagram(encoded) {
     }
 }
 
-function configureMermaid(mermaid) {
+function configureMermaid(mermaid, force = false) {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const mermaidTheme = isLight ? 'default' : 'dark';
 
-    // Theme variables enforcing WCAG AA color contrast ratio (>= 4.5:1)
+    if (!force && currentConfiguredTheme === mermaidTheme) {
+        return;
+    }
+    currentConfiguredTheme = mermaidTheme;
+
     const themeVariables = isLight ? {
-        primaryColor: '#eef2ff',
+        primaryColor: '#f1f5f9',
         primaryTextColor: '#0f172a',
-        primaryBorderColor: '#6366f1',
-        lineColor: '#475569',
+        primaryBorderColor: '#3b82f6',
+        lineColor: '#64748b',
         textColor: '#0f172a',
-        edgeLabelBackground: '#ffffff',
-        nodeTextColor: '#0f172a'
+        edgeLabelBackground: 'transparent',
+        nodeTextColor: '#0f172a',
+        mainBkg: '#f8fafc',
+        nodeBorder: '#94a3b8',
+        actorBkg: '#f1f5f9',
+        actorBorder: '#3b82f6',
+        actorTextColor: '#0f172a',
+        signalColor: '#64748b',
+        signalTextColor: '#0f172a',
+        labelBoxBkgColor: 'transparent',
+        labelBoxBorderColor: '#cbd5e1',
+        labelTextColor: '#0f172a',
+        loopTextColor: '#0f172a'
     } : {
-        primaryColor: '#1e1b4b',
+        primaryColor: '#1a1a1a',
         primaryTextColor: '#ffffff',
-        primaryBorderColor: '#818cf8',
-        lineColor: '#cbd5e1',
-        textColor: '#ffffff',
-        edgeLabelBackground: '#1e293b',
-        nodeTextColor: '#ffffff'
+        primaryBorderColor: '#5ca1f1',
+        lineColor: '#888888',
+        textColor: '#e0e0e0',
+        edgeLabelBackground: 'transparent',
+        nodeTextColor: '#ffffff',
+        mainBkg: '#141414',
+        nodeBorder: '#3a3a3a',
+        actorBkg: '#1a1a1a',
+        actorBorder: '#5ca1f1',
+        actorTextColor: '#ffffff',
+        signalColor: '#888888',
+        signalTextColor: '#e0e0e0',
+        labelBoxBkgColor: 'transparent',
+        labelBoxBorderColor: '#3a3a3a',
+        labelTextColor: '#e0e0e0',
+        loopTextColor: '#e0e0e0'
     };
 
     mermaid.initialize({
         startOnLoad: false,
         theme: mermaidTheme,
         themeVariables,
-        securityLevel: 'loose',
-        fontFamily: 'Inter, -apple-system, sans-serif'
+        securityLevel: 'strict',
+        fontFamily: 'Inter, -apple-system, sans-serif',
+        flowchart: { htmlLabels: false },
+        state: { htmlLabels: false },
+        class: { htmlLabels: false }
     });
 }
 
@@ -91,20 +120,20 @@ async function renderMermaidElement(el, index = 0) {
 
         const svgEl = el.querySelector('svg');
         if (svgEl) {
-            svgEl.style.margin = '0 auto';
-            svgEl.style.display = 'block';
+            svgEl.classList.add('mermaid-diagram-svg');
+
+            const viewBoxWidth = svgEl.viewBox?.baseVal?.width;
+            const inlineMax = parseFloat(svgEl.style.maxWidth);
+            const baseWidth = viewBoxWidth > 0 ? viewBoxWidth : (!isNaN(inlineMax) && inlineMax > 0 ? inlineMax : 0);
 
             const scaleFactor = parseFloat(el.dataset.scale);
-            if (!isNaN(scaleFactor) && scaleFactor > 0) {
-                const inlineMax = parseFloat(svgEl.style.maxWidth);
-                const baseWidth = !isNaN(inlineMax) && inlineMax > 0
-                    ? inlineMax
-                    : (svgEl.viewBox?.baseVal?.width || svgEl.getBoundingClientRect().width);
+            const factor = (!isNaN(scaleFactor) && scaleFactor > 0) ? scaleFactor : 1;
 
-                if (baseWidth > 0) {
-                    svgEl.style.maxWidth = `${baseWidth * scaleFactor}px`;
-                    svgEl.style.width = '100%';
-                }
+            if (baseWidth > 0) {
+                svgEl.style.maxWidth = `${baseWidth * factor}px`;
+                svgEl.style.width = '100%';
+            } else {
+                svgEl.style.maxWidth = '100%';
             }
         }
     } catch (err) {
@@ -112,8 +141,18 @@ async function renderMermaidElement(el, index = 0) {
     }
 }
 
+export async function renderMermaidToSvgString(source) {
+    const mermaid = await loadMermaid();
+    configureMermaid(mermaid, true);
+
+    renderCounter++;
+    const renderId = `mermaid-lightbox-${Date.now()}-${renderCounter}`;
+    const { svg } = await mermaid.render(renderId, source);
+    return svg;
+}
+
 export function initMermaid() {
-    const elements = document.querySelectorAll('.mermaid');
+    const elements = document.querySelectorAll('.mermaid:not([data-rendered="true"])');
     if (!elements.length) return;
 
     elements.forEach((el) => {
@@ -122,28 +161,15 @@ export function initMermaid() {
         }
     });
 
-    // Defer script download and rendering until diagrams are near viewport
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(async (entry) => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    observer.unobserve(el);
-                    await renderMermaidElement(el);
-                }
-            });
-        }, {
-            rootMargin: '300px 0px'
-        });
-
-        elements.forEach((el) => observer.observe(el));
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => renderAllMermaid(), { timeout: 1500 });
     } else {
-        renderAllMermaid();
+        setTimeout(renderAllMermaid, 60);
     }
 }
 
 export async function renderAllMermaid() {
-    const elements = document.querySelectorAll('.mermaid');
+    const elements = document.querySelectorAll('.mermaid:not([data-rendered="true"])');
     if (!elements.length) return;
 
     let mermaid;
@@ -154,7 +180,7 @@ export async function renderAllMermaid() {
         return;
     }
 
-    configureMermaid(mermaid);
+    configureMermaid(mermaid, true);
 
     for (let i = 0; i < elements.length; i++) {
         await renderMermaidElement(elements[i], i);

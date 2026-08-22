@@ -3,7 +3,7 @@
     <div class="search-modal-content">
         <div class="search-modal-header">
             <svg width="20" height="20" aria-hidden="true">
-                <use href="/icons.svg#icon-search"></use>
+                <use href="{{ "icons.svg#icon-search" | relURL }}"></use>
             </svg>
             <input type="search" id="search-input" placeholder="{{ site.Params.searchPlaceholder | default (i18n "search_placeholder") }}" autocomplete="off" aria-label="{{ i18n "aria_search" }}">
             <button type="button" class="search-modal-close" aria-label="{{ i18n "close" }}"><kbd>Esc</kbd></button>

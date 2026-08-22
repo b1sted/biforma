@@ -147,6 +147,9 @@ other = "RSS Feed"
 [rss_open_feed]
 other = "🔗 Open Feed"
 
+[rss_open_feed_named]
+other = "Open RSS feed: %s"
+
 [rss_all_articles]
 other = "All site articles"
 

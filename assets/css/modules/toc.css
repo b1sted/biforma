@@ -151,23 +151,25 @@
     border-top: 1px solid var(--border-primary);
 }
 
-.toc-mobile-nav #TableOfContents {
+.toc-mobile-nav #TableOfContents,
+.toc-mobile-nav #TableOfContentsMobile,
+.toc-mobile-nav nav {
     border-left: none;
     margin: 0;
     padding: 0;
 }
 
-.toc-mobile-nav #TableOfContents ul {
+.toc-mobile-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.toc-mobile-nav #TableOfContents li {
+.toc-mobile-nav li {
     margin: 2px 0;
 }
 
-.toc-mobile-nav #TableOfContents a {
+.toc-mobile-nav a {
     display: flex;
     align-items: center;
     padding: 6px 10px;
@@ -183,21 +185,19 @@
     font-weight: 500;
 }
 
-.toc-mobile-nav #TableOfContents a:hover {
+.toc-mobile-nav a:hover {
     color: var(--text-primary);
     background: var(--bg-hover);
 }
 
-.toc-mobile-nav #TableOfContents a.active {
-    color: #5ca1f1 !important;
+.toc-mobile-nav a.active {
     color: var(--accent-primary) !important;
     background: rgba(92, 161, 241, 0.12) !important;
-    border-left: 3px solid #5ca1f1 !important;
     border-left: 3px solid var(--accent-primary) !important;
     font-weight: 700 !important;
 }
 
-.toc-mobile-nav #TableOfContents ul ul {
+.toc-mobile-nav ul ul {
     margin-left: 14px;
     padding-left: 6px;
     border-left: 1px solid var(--border-primary);
@@ -205,7 +205,7 @@
     margin-bottom: 4px;
 }
 
-.toc-mobile-nav #TableOfContents ul ul a {
+.toc-mobile-nav ul ul a {
     font-size: var(--font-size-2xs);
     padding: 5px 8px;
     min-height: 32px;
@@ -219,17 +219,18 @@
     margin-top: 4px;
 }
 
-.sidebar-toc-nav #TableOfContents {
+.sidebar-toc-nav #TableOfContents,
+.sidebar-toc-nav nav {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.sidebar-toc-nav #TableOfContents li {
+.sidebar-toc-nav li {
     margin: 3px 0;
 }
 
-.sidebar-toc-nav #TableOfContents a {
+.sidebar-toc-nav a {
     display: block;
     font-size: var(--font-size-2xs);
     color: var(--text-muted);
@@ -243,41 +244,41 @@
     font-weight: 500;
 }
 
-.sidebar-toc-nav #TableOfContents a:hover {
+.sidebar-toc-nav a:hover {
     color: var(--text-primary);
     background: var(--bg-hover);
     border-left-color: var(--border-secondary);
 }
 
-.sidebar-toc-nav #TableOfContents a.active {
-    color: #5ca1f1 !important;
+.sidebar-toc-nav a.active {
     color: var(--accent-primary) !important;
     background: rgba(92, 161, 241, 0.12) !important;
-    border-left: 3px solid #5ca1f1 !important;
     border-left: 3px solid var(--accent-primary) !important;
     font-weight: 700 !important;
 }
 
-.sidebar-toc-nav #TableOfContents ul {
+.sidebar-toc-nav ul {
     list-style: none;
     margin: 0;
     padding-left: 0;
 }
 
-.sidebar-toc-nav > #TableOfContents > ul > li > a {
+.sidebar-toc-nav > #TableOfContents > ul > li > a,
+.sidebar-toc-nav > nav > ul > li > a {
     padding-left: 16px;
 }
 
-.sidebar-toc-nav #TableOfContents ul ul {
+.sidebar-toc-nav ul ul {
     margin-left: 12px;
     border-left: 1px solid var(--border-primary);
 }
 
-.sidebar-toc-nav > #TableOfContents > ul > li > ul {
+.sidebar-toc-nav > #TableOfContents > ul > li > ul,
+.sidebar-toc-nav > nav > ul > li > ul {
     margin-left: 16px;
 }
 
-.sidebar-toc-nav #TableOfContents ul ul a {
+.sidebar-toc-nav ul ul a {
     padding-left: 12px;
     color: var(--text-tertiary);
     font-weight: 400;
@@ -351,10 +352,8 @@
 }
 
 #TableOfContents a.active {
-    color: #5ca1f1 !important;
     color: var(--accent-primary) !important;
     background: rgba(92, 161, 241, 0.12) !important;
-    border-left: 3px solid #5ca1f1 !important;
     border-left: 3px solid var(--accent-primary) !important;
     font-weight: 700 !important;
 }

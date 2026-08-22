@@ -1,11 +1,10 @@
 export function initTocAndScroll() {
-    const tocContainer = document.getElementById('TableOfContents') || document.querySelector('.toc-nav');
+    const tocContainer = document.getElementById('TableOfContents') || document.getElementById('TableOfContentsMobile') || document.querySelector('.toc-nav');
     if (!tocContainer) return;
 
-    const tocLinks = document.querySelectorAll('#TableOfContents a, .toc-nav a, .sidebar-toc-nav a');
+    const tocLinks = document.querySelectorAll('#TableOfContents a, #TableOfContentsMobile a, .toc-nav a, .sidebar-toc-nav a, .toc-mobile-nav a');
     if (!tocLinks.length) return;
 
-    // Single-pass DOM map creation for O(1) ID lookups without triggering layout reflow
     const headings = Array.from(document.querySelectorAll('.article h1, .article h2, .article h3, .article h4, .article h5, .article h6'));
     const idToHeaderMap = new Map();
     headings.forEach((h) => {
@@ -38,9 +37,7 @@ export function initTocAndScroll() {
         const id = decodeURIComponent(window.location.hash.substring(1));
         const target = idToHeaderMap.get(id);
         if (target) {
-            // Scroll internal container to anchor on initial load / reload
-            setTimeout(() => scrollToElement(target, false), 50);
-            setTimeout(() => scrollToElement(target, false), 300);
+            requestAnimationFrame(() => scrollToElement(target, false));
         }
     }
 
@@ -144,23 +141,44 @@ export function initTocAndScroll() {
         setActiveHeading(currentActive);
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                visibleHeadings.add(entry.target);
-            } else {
-                visibleHeadings.delete(entry.target);
-            }
-        });
-        updateActive();
-    }, {
-        root: window.innerWidth <= 1024 ? null : scrollContainer,
-        rootMargin: '-20px 0px -65% 0px',
-        threshold: 0
-    });
+    let observer = null;
 
-    observedHeadings.forEach((h) => observer.observe(h));
+    function setupObserver() {
+        if (observer) {
+            observer.disconnect();
+            visibleHeadings.clear();
+        }
+
+        const isMobile = window.innerWidth <= 1024;
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    visibleHeadings.add(entry.target);
+                } else {
+                    visibleHeadings.delete(entry.target);
+                }
+            });
+            updateActive();
+        }, {
+            root: isMobile ? null : scrollContainer,
+            rootMargin: '-20px 0px -65% 0px',
+            threshold: 0
+        });
+
+        observedHeadings.forEach((h) => observer.observe(h));
+    }
+
+    setupObserver();
     updateActive();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            setupObserver();
+            updateActive();
+        }, 100);
+    }, { passive: true });
 
     let ticking = false;
     const onScroll = () => {

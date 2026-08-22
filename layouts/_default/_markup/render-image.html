@@ -26,7 +26,7 @@
 
 {{- if not $u.IsAbs -}}
     {{- $cleanPath := strings.TrimPrefix "/" $u.Path -}}
-    {{- $pageRes := .Page.Resources.GetMatch $u.Path -}}
+    {{- $pageRes := or (.Page.Resources.GetMatch $cleanPath) (.Page.Resources.GetMatch $u.Path) -}}
     {{- if $pageRes -}}
         {{- $width = $pageRes.Width -}}
         {{- $height = $pageRes.Height -}}
@@ -37,7 +37,7 @@
             {{- $width = $cfg.Width -}}
             {{- $height = $cfg.Height -}}
         {{- else if .Page.File -}}
-            {{- $contentPath := printf "content/%s/%s" .Page.File.Dir $cleanPath -}}
+            {{- $contentPath := path.Join "content" .Page.File.Dir $cleanPath -}}
             {{- if fileExists $contentPath -}}
                 {{- $cfg := imageConfig $contentPath -}}
                 {{- $width = $cfg.Width -}}

@@ -22,8 +22,10 @@
                     <article class="blog-stream-item">
                         <div class="blog-stream-body">
                             <div class="blog-item-meta-top">
-                                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
-                                <span class="meta-sep">•</span>
+                                {{ if not .Date.IsZero }}
+                                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
+                                    <span class="meta-sep">•</span>
+                                {{ end }}
                                 <span>⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>
                                 {{ $secObj := site.GetPage .Section }}
                                 {{ with $secObj }}

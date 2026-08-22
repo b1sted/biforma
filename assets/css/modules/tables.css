@@ -66,8 +66,6 @@
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 200px;
 }
 
 .table-scroll-wrapper table {

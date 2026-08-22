@@ -27,6 +27,5 @@ export function initAboutFilter() {
     }
 
     toggle.addEventListener('change', applyFilter);
-    toggle.addEventListener('input', applyFilter);
     applyFilter();
 }

@@ -1,37 +1,38 @@
 import { renderAllMermaid } from './mermaid.js';
 
+function hasUnrenderedMermaid() {
+    return document.querySelector('.mermaid:not([data-rendered="true"])') !== null;
+}
+
 export function initTheme() {
     const toggleBtn = document.querySelector('.theme-toggle');
     if (!toggleBtn) return;
 
-    const updateIcons = (theme) => {
-        const sun = document.getElementById('theme-icon-sun');
-        const moon = document.getElementById('theme-icon-moon');
-        if (sun && moon) {
-            sun.style.display = theme === 'light' ? 'block' : 'none';
-            moon.style.display = theme === 'dark' ? 'block' : 'none';
-        }
-    };
-
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    updateIcons(currentTheme);
-
     toggleBtn.addEventListener('click', () => {
         const html = document.documentElement;
-        const current = html.getAttribute('data-theme');
+        const current = html.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
 
         html.classList.add('theme-transition');
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
-        updateIcons(next);
 
-        if (document.querySelector('.mermaid')) {
+        if (hasUnrenderedMermaid()) {
             renderAllMermaid();
         }
 
         setTimeout(() => {
             html.classList.remove('theme-transition');
         }, 150);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            if (hasUnrenderedMermaid()) {
+                renderAllMermaid();
+            }
+        }
     });
 }

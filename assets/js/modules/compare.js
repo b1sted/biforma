@@ -1,3 +1,10 @@
+function extractCleanCode(codeElement) {
+    if (!codeElement) return '';
+    const clone = codeElement.cloneNode(true);
+    clone.querySelectorAll('.lnt, .ln, .lntd:first-child').forEach((el) => el.remove());
+    return clone.innerText.replace(/^\n+|\n+$/g, '');
+}
+
 export function initCompareBlocks() {
     initCompareScrollSync();
     initCompareCopyButtons();
@@ -10,19 +17,20 @@ function initCompareScrollSync() {
         const rightContent = compareBlock.querySelector('.code-compare-right .code-compare-content');
         if (!leftContent || !rightContent) return;
 
-        let activeSide = null;
+        let isSyncing = false;
 
         const syncScroll = (source, target) => {
-            if (activeSide && activeSide !== source) return;
-            activeSide = source;
+            if (isSyncing) return;
+            isSyncing = true;
+
+            const maxSource = source.scrollHeight - source.clientHeight;
+            const maxTarget = target.scrollHeight - target.clientHeight;
+            if (maxSource > 0 && maxTarget > 0) {
+                target.scrollTop = (source.scrollTop / maxSource) * maxTarget;
+            }
 
             requestAnimationFrame(() => {
-                const maxSource = source.scrollHeight - source.clientHeight;
-                const maxTarget = target.scrollHeight - target.clientHeight;
-                if (maxSource > 0) {
-                    target.scrollTop = (source.scrollTop / maxSource) * maxTarget;
-                }
-                activeSide = null;
+                isSyncing = false;
             });
         };
 
@@ -33,28 +41,37 @@ function initCompareScrollSync() {
 
 function initCompareCopyButtons() {
     const copiedText = window.i18n?.copiedText || 'Скопировано!';
+    const defaultCopy = window.i18n?.copyText || 'Копировать';
 
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.code-compare-header .copy-code-button');
-        if (!btn) return;
+        if (!btn || btn.classList.contains('copied')) return;
 
         const compareBlock = btn.closest('.code-compare-left, .code-compare-right');
         if (!compareBlock) return;
 
         const content = compareBlock.querySelector('.code-compare-content');
         const codeElement = content.querySelector('pre code, .chroma code');
-        const textToCopy = codeElement ? codeElement.innerText : content.innerText;
+        const textToCopy = codeElement ? extractCleanCode(codeElement) : content.innerText.trim();
         if (!textToCopy) return;
 
         try {
             await navigator.clipboard.writeText(textToCopy);
-            const originalContent = btn.innerHTML;
             btn.classList.add('copied');
-            btn.innerHTML = `<span>✓</span><span>${copiedText}</span>`;
+
+            const textSpan = btn.querySelector('.copy-text') || btn.querySelector('span:last-child');
+            const iconSpan = btn.querySelector('span:first-child');
+            const oldText = textSpan ? textSpan.textContent : defaultCopy;
+            const oldIcon = iconSpan ? iconSpan.textContent : '📋';
+
+            if (textSpan) textSpan.textContent = copiedText;
+            if (iconSpan) iconSpan.textContent = '✓';
+
             setTimeout(() => {
                 btn.classList.remove('copied');
-                btn.innerHTML = originalContent;
-            }, 2000);
+                if (textSpan) textSpan.textContent = oldText;
+                if (iconSpan) iconSpan.textContent = oldIcon;
+            }, 1500);
         } catch (err) {
             console.error('Failed to copy code:', err);
         }

@@ -9,8 +9,15 @@
     z-index: 10000;
     justify-content: center;
     align-items: center;
-    padding: var(--spacing-3xl);
+    padding: var(--spacing-3xl) var(--spacing-lg);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-sizing: border-box;
+}
+
+/* Lightbox backdrop and controls adapt to active site theme for natural SVG contrast */
+[data-theme="light"] .lightbox {
+    background: rgba(250, 250, 250, 0.96);
 }
 
 .lightbox.active {
@@ -27,42 +34,68 @@
     position: relative;
     max-width: 1200px;
     width: 90%;
-    max-height: 90vh;
+    max-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     animation: lightboxZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    padding-bottom: 70px;
+    box-sizing: border-box;
 }
 
 .lightbox-close {
     position: fixed;
-    top: var(--spacing-xl);
-    right: var(--spacing-xl);
+    top: var(--spacing-xl, 24px);
+    right: var(--spacing-xl, 24px);
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 50%;
-    color: white;
-    font-size: 28px;
+    color: #ffffff;
     cursor: pointer;
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition);
+    transition: background-color var(--transition, 0.15s ease), border-color var(--transition, 0.15s ease), transform var(--transition, 0.15s ease);
     z-index: 10001;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .lightbox-close:hover {
     background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
+}
+
+.lightbox-close:active {
+    transform: scale(0.95);
+}
+
+.lightbox-close:focus-visible,
+.lightbox-btn:focus-visible {
+    outline: 2px solid var(--accent-primary, #5ca1f1);
+    outline-offset: 2px;
+}
+
+[data-theme="light"] .lightbox-close {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: var(--text-primary, #0a0a0a);
+}
+
+[data-theme="light"] .lightbox-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 .lightbox-image {
     max-width: 100%;
-    max-height: 80vh;
+    max-height: 75vh;
     object-fit: contain;
     border-radius: var(--radius-md);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -70,44 +103,19 @@
     transition: transform 0.1s ease-out;
 }
 
-.lightbox-svg-wrapper {
-    max-width: 90vw;
-    max-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    padding: 0;
-    box-shadow: none;
-    transform-origin: center center;
-    transition: transform 0.1s ease-out;
-    box-sizing: border-box;
-    width: fit-content;
-}
-
-.lightbox-svg-wrapper svg {
-    max-width: 90vw !important;
-    max-height: 80vh !important;
-    height: auto !important;
-    display: block !important;
-    margin: 0 auto;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
-}
-
 .lightbox-image.zoomable,
-.lightbox-svg-wrapper.zoomable {
+.lightbox-media svg.zoomable {
     cursor: zoom-in;
 }
 
 .lightbox-image.zoomed,
-.lightbox-svg-wrapper.zoomed {
+.lightbox-media svg.zoomed {
     cursor: grab;
     transition: transform 0.05s linear;
 }
 
 .lightbox-image.zoomed:active,
-.lightbox-svg-wrapper.zoomed:active {
+.lightbox-media svg.zoomed:active {
     cursor: grabbing;
 }
 
@@ -123,84 +131,150 @@
 }
 
 .lightbox-caption {
-    margin-top: var(--spacing-xl);
+    margin-top: 14px;
     color: rgba(255, 255, 255, 0.9);
     text-align: center;
-    font-size: var(--font-size-md);
+    font-size: 14px;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.4;
     max-width: 800px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    z-index: 10001;
+    padding: 0 16px;
+    word-break: break-word;
+}
+
+[data-theme="light"] .lightbox-caption {
+    color: var(--text-secondary);
+    text-shadow: none;
 }
 
 .lightbox-toolbar {
     position: fixed;
-    bottom: 32px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: rgba(26, 26, 26, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    gap: 10px;
+    background: rgba(20, 20, 20, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 6px 10px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    z-index: 10002;
+    pointer-events: auto;
+    box-sizing: border-box;
 }
 
-.lightbox.active .lightbox-toolbar {
-    opacity: 1;
-    visibility: visible;
+[data-theme="light"] .lightbox-toolbar {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
 }
 
 .lightbox-btn {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid transparent;
-    color: rgba(255, 255, 255, 0.9);
-    width: 36px;
-    height: 36px;
+    color: rgba(255, 255, 255, 0.95);
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color var(--transition, 0.15s ease), border-color var(--transition, 0.15s ease), transform var(--transition, 0.15s ease), color var(--transition, 0.15s ease);
     padding: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.lightbox-btn svg {
+    display: block;
+    pointer-events: none;
 }
 
 .lightbox-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
     transform: scale(1.05);
-    color: #fff;
 }
 
 .lightbox-btn:active {
     transform: scale(0.95);
 }
 
+[data-theme="light"] .lightbox-btn {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary, #0a0a0a);
+}
+
+[data-theme="light"] .lightbox-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: var(--text-primary, #0a0a0a);
+}
+
 .lightbox-btn.zoom-reset {
-    font-size: 0.85rem;
     width: auto;
+    height: 38px;
     padding: 0 14px;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    border-radius: 9999px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
 }
 
 .lightbox-scale {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-variant-numeric: tabular-nums;
-    min-width: 48px;
+    min-width: 52px;
     text-align: center;
     user-select: none;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 4px;
+}
+
+[data-theme="light"] .lightbox-scale {
+    color: var(--text-primary, #0a0a0a);
+}
+
+/* Scoped lightbox adjustments for Mermaid */
+#lightbox foreignObject {
+    overflow: visible !important;
+}
+
+#lightbox .node foreignObject > div,
+#lightbox .statediagram-state foreignObject > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    text-align: center !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+}
+
+#lightbox .edgeLabel,
+#lightbox .edgeLabel foreignObject,
+#lightbox .edgeLabel foreignObject > div,
+#lightbox .edgeLabel span,
+#lightbox .edgeLabel p,
+#lightbox .labelBkg {
+    background: transparent !important;
+    background-color: transparent !important;
 }

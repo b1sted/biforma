@@ -14,20 +14,26 @@
 
     {{ if $isBlog }}
         <div class="single-meta-info">
-            <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
-                {{ .Date.Format "02.01.2006" }}
-            </time>
+            {{ if not .Date.IsZero }}
+                <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
+                    {{ .Date.Format "02.01.2006" }}
+                </time>
+                <span class="single-meta-sep">•</span>
+            {{ end }}
 
             {{ with .ReadingTime }}
-                <span class="single-meta-sep">•</span>
                 <span class="single-meta-item">⏱ {{ . }} {{ i18n "reading_time_min" }}</span>
             {{ end }}
         </div>
     {{ end }}
 </header>
 
-{{- $tocEnabled := .Params.toc | default true -}}
-{{- if .Params.tocDisable }}{{ $tocEnabled = false }}{{ end -}}
+{{- $tocEnabled := true -}}
+{{- if eq .Params.toc false -}}
+    {{- $tocEnabled = false -}}
+{{- else if or .Params.tocDisable .Params.hideToc -}}
+    {{- $tocEnabled = false -}}
+{{- end -}}
 
 {{- if and $tocEnabled .TableOfContents (gt (len .TableOfContents) 100) -}}
 <details class="toc-mobile">
@@ -41,7 +47,7 @@
         </svg>
     </summary>
     <nav class="toc-mobile-nav">
-        {{ .TableOfContents }}
+        {{ replace .TableOfContents "id=\"TableOfContents\"" "id=\"TableOfContentsMobile\"" | safeHTML }}
     </nav>
 </details>
 {{- end -}}

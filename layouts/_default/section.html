@@ -21,16 +21,25 @@
         {{ $totalCount := len $pages }}
         {{ $rawGrouped := $pages.GroupByParam "group" }}
 
-        {{ if gt (len $rawGrouped) 0 }}
-            {{ $grouped := slice }}
-            {{ range $rawGrouped }}
+        {{ $grouped := slice }}
+        {{ range $rawGrouped }}
+            {{ if ne .Key "" }}
                 {{ $groupPages := .Pages.ByWeight }}
                 {{ $firstPage := index $groupPages 0 }}
                 {{ $minWeight := $firstPage.Weight | default 999999 }}
                 {{ $grouped = $grouped | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) }}
             {{ end }}
-            {{ $grouped = sort $grouped "Weight" "asc" }}
+        {{ end }}
+        {{ $grouped = sort $grouped "Weight" "asc" }}
 
+        {{ $ungroupedPages := slice }}
+        {{ range $pages }}
+            {{ if or (not .Params.group) (eq .Params.group "") }}
+                {{ $ungroupedPages = $ungroupedPages | append . }}
+            {{ end }}
+        {{ end }}
+
+        {{ if gt (len $grouped) 0 }}
             <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
                 <button class="section-filter-btn active" data-group="all" type="button">
                     <span>{{ i18n "filter_all" }}</span>
@@ -41,6 +50,12 @@
                     <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
                         <span>{{ $displayTitle }}</span>
                         <span class="section-filter-count">{{ len .Pages }}</span>
+                    </button>
+                {{ end }}
+                {{ if gt (len $ungroupedPages) 0 }}
+                    <button class="section-filter-btn" data-group="ungrouped" type="button">
+                        <span>{{ i18n "section_ungrouped" }}</span>
+                        <span class="section-filter-count">{{ len $ungroupedPages }}</span>
                     </button>
                 {{ end }}
             </nav>
@@ -69,7 +84,6 @@
                 </section>
             {{ end }}
 
-            {{ $ungroupedPages := where $pages ".Params.group" nil }}
             {{ if gt (len $ungroupedPages) 0 }}
                 <section class="section-group-block" data-group="ungrouped">
                     <div class="section-group-header">

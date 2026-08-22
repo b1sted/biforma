@@ -1,10 +1,17 @@
+function extractCleanCode(codeElement) {
+    if (!codeElement) return '';
+    const clone = codeElement.cloneNode(true);
+    clone.querySelectorAll('.lnt, .ln, .lntd:first-child').forEach((el) => el.remove());
+    return clone.innerText.replace(/^\n+|\n+$/g, '');
+}
+
 export function initCopyButtons() {
     const defaultDone = window.i18n?.doneText || 'Готово!';
     const defaultCopy = window.i18n?.copyText || 'Копировать';
 
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.copy-code-button, .tab-copy-btn, .rss-copy-btn');
-        if (!btn) return;
+        if (!btn || btn.closest('.code-compare-header') || btn.classList.contains('copied')) return;
 
         let text = '';
         if (btn.closest('.rss-feed-card')) {
@@ -12,7 +19,7 @@ export function initCopyButtons() {
         } else {
             const wrapper = btn.closest('.code-block-wrapper, .code-tabs, .content-tabs');
             const code = wrapper ? (wrapper.querySelector('.tab-panel.active code') || wrapper.querySelector('code')) : null;
-            text = code ? code.innerText : '';
+            text = extractCleanCode(code);
         }
 
         if (text) {

@@ -151,6 +151,9 @@ other = "RSS-лента"
 [rss_open_feed]
 other = "🔗 Открыть ленту"
 
+[rss_open_feed_named]
+other = "Открыть RSS-ленту: %s"
+
 [rss_all_articles]
 other = "Все статьи сайта"
 

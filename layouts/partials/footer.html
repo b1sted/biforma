@@ -11,11 +11,30 @@
                     {{ $author }}
                 {{- end }}
             </p>
-            <p class="footer-text footer-license">
-                <span class="footer-license-item">{{ i18n "footer_code_license" }} <a href="#" class="js-license-trigger" data-license="polyform" aria-label="PolyForm NC 1.0">PolyForm NC 1.0</a></span>
-                <span class="footer-separator">•</span>
-                <span class="footer-license-item">{{ i18n "footer_content_license" }} <a href="#" class="js-license-trigger" data-license="cc_by_nc" aria-label="CC BY-NC 4.0">CC BY-NC 4.0</a></span>
-            </p>
+            {{- $licenseConfig := site.Params.license -}}
+            {{- $showLicenses := true -}}
+            {{- with $licenseConfig -}}
+                {{- if isset . "enable" -}}
+                    {{- $showLicenses = .enable -}}
+                {{- end -}}
+            {{- end -}}
+            {{- if $showLicenses -}}
+                {{- $codeKey := "polyform" -}}
+                {{- $codeName := "PolyForm NC 1.0" -}}
+                {{- $contentKey := "cc_by_nc" -}}
+                {{- $contentName := "CC BY-NC 4.0" -}}
+                {{- with $licenseConfig -}}
+                    {{- with .code }}{{ $codeKey = . }}{{ end -}}
+                    {{- with .codeName }}{{ $codeName = . }}{{ end -}}
+                    {{- with .content }}{{ $contentKey = . }}{{ end -}}
+                    {{- with .contentName }}{{ $contentName = . }}{{ end -}}
+                {{- end -}}
+                <p class="footer-text footer-license">
+                    <span class="footer-license-item">{{ i18n "footer_code_license" }} <a href="#" class="js-license-trigger" data-license="{{ $codeKey }}" aria-label="{{ $codeName }}">{{ $codeName }}</a></span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-license-item">{{ i18n "footer_content_license" }} <a href="#" class="js-license-trigger" data-license="{{ $contentKey }}" aria-label="{{ $contentName }}">{{ $contentName }}</a></span>
+                </p>
+            {{- end -}}
         </div>
 
         <div class="footer-links">
@@ -52,7 +71,6 @@
             {{- end -}}
 
             {{- if and (not $isBlog) site.Params.mainSite -}}
-            {{/* Distinct accessible label for external homepage to satisfy WCAG identical links check */}}
             <a href="{{ site.Params.mainSite }}" class="footer-link" aria-label="{{ site.Params.author }} ({{ i18n "nav_home" }})">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-home" | relURL }}"></use>

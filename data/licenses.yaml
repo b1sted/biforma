@@ -253,33 +253,31 @@ cc_by_nc:
 
     a. ___License grant.___
 
-        1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:
+    1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:
 
-            A. reproduce and Share the Licensed Material, in whole or in part, for NonCommercial purposes only; and
+        - A. reproduce and Share the Licensed Material, in whole or in part, for NonCommercial purposes only; and
+        - B. produce, reproduce, and Share Adapted Material for NonCommercial purposes only.
 
-            B. produce, reproduce, and Share Adapted Material for NonCommercial purposes only.
+    2. __Exceptions and Limitations.__ For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.
 
-        2. __Exceptions and Limitations.__ For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.
+    3. __Term.__ The term of this Public License is specified in Section 6(a).
 
-        3. __Term.__ The term of this Public License is specified in Section 6(a).
+    4. __Media and formats; technical modifications allowed.__ The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)(4) never produces Adapted Material.
 
-        4. __Media and formats; technical modifications allowed.__ The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)(4) never produces Adapted Material.
+    5. __Downstream recipients.__
 
-        5. __Downstream recipients.__
+        - A. __Offer from the Licensor – Licensed Material.__ Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
+        - B. __No downstream restrictions.__ You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
 
-            A. __Offer from the Licensor – Licensed Material.__ Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
-
-            B. __No downstream restrictions.__ You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
-
-        6. __No endorsement.__ Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).
+    6. __No endorsement.__ Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).
 
     b. ___Other rights.___
 
-        1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
+    1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
 
-        2. Patent and trademark rights are not licensed under this Public License.
+    2. Patent and trademark rights are not licensed under this Public License.
 
-        3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
+    3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
 
     ### Section 3 – License Conditions.
 
@@ -287,29 +285,24 @@ cc_by_nc:
 
     a. ___Attribution.___
 
-        1. If You Share the Licensed Material (including in modified form), You must:
+    1. If You Share the Licensed Material (including in modified form), You must:
 
-            A. retain the following if it is supplied by the Licensor with the Licensed Material:
+        - A. retain the following if it is supplied by the Licensor with the Licensed Material:
 
-              i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
+            - i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
+            - ii. a copyright notice;
+            - iii. a notice that refers to this Public License;
+            - iv. a notice that refers to the disclaimer of warranties;
+            - v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable;
 
-              ii. a copyright notice;
+        - B. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and
+        - C. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.
 
-              iii. a notice that refers to this Public License;
+    2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.
 
-              iv. a notice that refers to the disclaimer of warranties;
+    3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.
 
-              v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable;
-
-            B. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and
-
-            C. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.
-
-        2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.
-
-        3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.
-
-        4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.
+    4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.
 
     ### Section 4 – Sui Generis Database Rights.
 
@@ -337,11 +330,11 @@ cc_by_nc:
 
     b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
 
-        1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
+    1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
 
-        2. upon express reinstatement by the Licensor.
+    2. upon express reinstatement by the Licensor.
 
-        For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.
+    For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.
 
     c. For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.
 
@@ -414,33 +407,31 @@ cc_by_nc:
 
     a. ___Предоставление лицензии.___
 
-      1. В соответствии с условиями настоящей Публичной лицензии Лицензиар настоящим предоставляет Вам всемирную, безвозмездную, не подлежащую сублицензированию, неисключительную, безотзывную лицензию на осуществление Лицензируемых прав на Лицензируемый материал для того, чтобы:
+    1. В соответствии с условиями настоящей Публичной лицензии Лицензиар настоящим предоставляет Вам всемирную, безвозмездную, не подлежащую сублицензированию, неисключительную, безотзывную лицензию на осуществление Лицензируемых прав на Лицензируемый материал для того, чтобы:
 
-          A. воспроизводить и Делиться Лицензируемым материалом полностью или частично, исключительно в Некоммерческих целях; и
+        - A. воспроизводить и Делиться Лицензируемым материалом полностью или частично, исключительно в Некоммерческих целях; и
+        - B. создавать, воспроизводить и Делиться Адаптированным материалом, исключительно в Некоммерческих целях.
 
-          B. создавать, воспроизводить и Делиться Адаптированным материалом, исключительно в Некоммерческих целях.
+    2. __Исключения и ограничения.__ Во избежание сомнений: если к Вашему использованию применяются Исключения и ограничения, настоящая Публичная лицензия не применяется, и Вам не нужно соблюдать ее условия.
 
-      2. __Исключения и ограничения.__ Во избежание сомнений: если к Вашему использованию применяются Исключения и ограничения, настоящая Публичная лицензия не применяется, и Вам не нужно соблюдать ее условия.
+    3. __Срок действия.__ Срок действия настоящей Публичной лицензии указан в Разделе 6(a).
 
-      3. __Срок действия.__ Срок действия настоящей Публичной лицензии указан в Разделе 6(a).
+    4. __Носители и форматы; разрешенные технические модификации.__ Лицензиар разрешает Вам осуществлять Лицензируемые права на любых носителях и в любых форматах, как известных ныне, так и созданных впоследствии, а также производить технические модификации, необходимые для этого. Лицензиар отказывается и/или соглашается не отстаивать какое-либо право или полномочие запрещать Вам производить технические модификации, необходимые для осуществления Лицензируемых прав, включая технические модификации, необходимые для обхода Эффективных технических средств защиты. Для целей настоящей Публичной лицензии простое создание модификаций, разрешенных настоящим Разделом 2(a)(4), никогда не создает Адаптированный материал.
 
-      4. __Носители и форматы; разрешенные технические модификации.__ Лицензиар разрешает Вам осуществлять Лицензируемые права на любых носителях и в любых форматах, как известных ныне, так и созданных впоследствии, а также производить технические модификации, необходимые для этого. Лицензиар отказывается и/или соглашается не отстаивать какое-либо право или полномочие запрещать Вам производить технические модификации, необходимые для осуществления Лицензируемых прав, включая технические модификации, необходимые для обхода Эффективных технических средств защиты. Для целей настоящей Публичной лицензии простое создание модификаций, разрешенных настоящим Разделом 2(a)(4), никогда не создает Адаптированный материал.
+    5. __Получатели на последующих этапах.__
 
-      5. __Получатели на последующих этапах.__
+        - A. __Предложение от Лицензиара – Лицензируемый материал.__ Каждый получатель Лицензируемого материала автоматически получает предложение от Лицензиара осуществлять Лицензируемые права в соответствии с условиями настоящей Публичной лицензии.
+        - B. __Отсутствие ограничений на последующих этапах.__ Вы не вправе предлагать или налагать какие-либо дополнительные или иные условия, а также применять какие-либо Эффективные технические средства защиты к Лицензируемому материалу, если это ограничивает осуществление Лицензируемых прав любым получателем Лицензируемого материала.
 
-            A. __Предложение от Лицензиара – Лицензируемый материал.__ Каждый получатель Лицензируемого материала автоматически получает предложение от Лицензиара осуществлять Лицензируемые права в соответствии с условиями настоящей Публичной лицензии.
-
-            B. __Отсутствие ограничений на последующих этапах.__ Вы не вправе предлагать или налагать какие-либо дополнительные или иные условия, а также применять какие-либо Эффективные технические средства защиты к Лицензируемому материалу, если это ограничивает осуществление Лицензируемых прав любым получателем Лицензируемого материала.
-
-      6. __Отсутствие одобрения.__ Ничто в настоящей Публичной лицензии не составляет и не может быть истолковано как разрешение утверждать или подразумевать, что Вы или Ваше использование Лицензируемого материала связаны с Лицензиаром или иными лицами, указанными для атрибуции в соответствии с Разделом 3(a)(1)(A)(i), спонсируются ими, одобрены ими или получили от них официальный статус.
+    6. __Отсутствие одобрения.__ Ничто в настоящей Публичной лицензии не составляет и не может быть истолковано как разрешение утверждать или подразумевать, что Вы или Ваше использование Лицензируемого материала связаны с Лицензиаром или иными лицами, указанными для атрибуции в соответствии с Разделом 3(a)(1)(A)(i), спонсируются ими, одобрены ими или получили от них официальный статус.
 
     b. ___Другие права.___
 
-      1. Личные неимущественные права (моральные права), такие как право на неприкосновенность произведения, не лицензируются по настоящей Публичной лицензии, равно как и права на публичность, неприкосновенность частной жизни и/или иные аналогичные личные права; однако, в той мере, в какой это возможно, Лицензиар отказывается и/или соглашается не отстаивать любые такие права, принадлежащие Лицензиару, в ограниченной степени, необходимой для того, чтобы позволить Вам осуществлять Лицензируемые права, но не более того.
+    1. Личные неимущественные права (моральные права), такие как право на неприкосновенность произведения, не лицензируются по настоящей Публичной лицензии, равно как и права на публичность, неприкосновенность частной жизни и/или иные аналогичные личные права; однако, в той мере, в какой это возможно, Лицензиар отказывается и/или соглашается не отстаивать любые такие права, принадлежащие Лицензиару, в ограниченной степени, необходимой для того, чтобы позволить Вам осуществлять Лицензируемые права, но не более того.
 
-      2. Патентные права и права на товарные знаки не лицензируются по настоящей Публичной лицензии.
+    2. Патентные права и права на товарные знаки не лицензируются по настоящей Публичной лицензии.
 
-      3. В той мере, в какой это возможно, Лицензиар отказывается от любого права взимать с Вас роялти (вознаграждение) за осуществление Лицензируемых прав, будь то напрямую или через организацию по коллективному управлению правами в рамках любой добровольной, отменимой установленной законом или обязательной схемы лицензирования. Во всех остальных случаях Лицензиар прямо сохраняет за собой право взимать такие роялти, в том числе, когда Лицензируемый материал используется не в Некоммерческих целях.
+    3. В той мере, в какой это возможно, Лицензиар отказывается от любого права взимать с Вас роялти (вознаграждение) за осуществление Лицензируемых прав, будь то напрямую или через организацию по коллективному управлению правами в рамках любой добровольной, отменимой установленной законом или обязательной схемы лицензирования. Во всех остальных случаях Лицензиар прямо сохраняет за собой право взимать такие роялти, в том числе, когда Лицензируемый материал используется не в Некоммерческих целях.
 
     ### Раздел 3 – Условия лицензии.
 
@@ -448,29 +439,24 @@ cc_by_nc:
 
     a. ___Атрибуция.___
 
-      1. Если Вы Делитесь Лицензируемым материалом (в том числе в модифицированной форме), Вы должны:
+    1. Если Вы Делитесь Лицензируемым материалом (в том числе в модифицированной форме), Вы должны:
 
-          A. сохранить следующее, если это предоставлено Лицензиаром вместе с Лицензируемым материалом:
+        - A. сохранить следующее, если это предоставлено Лицензиаром вместе с Лицензируемым материалом:
 
-            i. идентификацию создателя(ей) Лицензируемого материала и любых других лиц, указанных для получения атрибуции, любым разумным способом, запрошенным Лицензиаром (включая псевдоним, если он указан);
+            - i. идентификацию создателя(ей) Лицензируемого материала и любых других лиц, указанных для получения атрибуции, любым разумным способом, запрошенным Лицензиаром (включая псевдоним, если он указан);
+            - ii. уведомление об авторском праве;
+            - iii. уведомление, содержащее ссылку на настоящую Публичную лицензию;
+            - iv. уведомление, содержащее ссылку на отказ от гарантий;
+            - v. URI или гиперссылку на Лицензируемый материал в той мере, в какой это разумно практически осуществимо;
 
-            ii. уведомление об авторском праве;
+        - B. указать, если Вы изменили Лицензируемый материал, и сохранить указание на любые предыдущие изменения; и
+        - C. указать, что Лицензируемый материал лицензируется по настоящей Публичной лицензии, и включить текст настоящей Публичной лицензии или URI или гиперссылку на нее.
 
-            iii. уведомление, содержащее ссылку на настоящую Публичную лицензию;
+    2. Вы можете выполнить условия Раздела 3(a)(1) любым разумным способом, исходя из носителя, средства и контекста, в котором Вы Делитесь Лицензируемым материалом. Например, может быть разумным выполнить условия путем предоставления URI или гиперссылки на ресурс, который содержит требуемую информацию.
 
-            iv. уведомление, содержащее ссылку на отказ от гарантий;
+    3. Если Лицензиар попросит об этом, Вы должны удалить любую информацию, требуемую Разделом 3(a)(1)(A), в той мере, в какой это разумно практически осуществимо.
 
-            v. URI или гиперссылку на Лицензируемый материал в той мере, в какой это разумно практически осуществимо;
-
-          B. указать, если Вы изменили Лицензируемый материал, и сохранить указание на любые предыдущие изменения; и
-
-          C. указать, что Лицензируемый материал лицензируется по настоящей Публичной лицензии, и включить текст настоящей Публичной лицензии или URI или гиперссылку на нее.
-
-      2. Вы можете выполнить условия Раздела 3(a)(1) любым разумным способом, исходя из носителя, средства и контекста, в котором Вы Делитесь Лицензируемым материалом. Например, может быть разумным выполнить условия путем предоставления URI или гиперссылки на ресурс, который содержит требуемую информацию.
-
-      3. Если Лицензиар попросит об этом, Вы должны удалить любую информацию, требуемую Разделом 3(a)(1)(A), в той мере, в какой это разумно практически осуществимо.
-
-      4. Если Вы Делитесь созданным Вами Адаптированным материалом, применяемая Вами Лицензия Адаптера не должна препятствовать получателям Адаптированного материала соблюдать настоящую Публичную лицензию.
+    4. Если Вы Делитесь созданным Вами Адаптированным материалом, применяемая Вами Лицензия Адаптера не должна препятствовать получателям Адаптированного материала соблюдать настоящую Публичную лицензию.
 
     ### Раздел 4 – Права изготовителя базы данных (Sui Generis Database Rights).
 
@@ -498,11 +484,11 @@ cc_by_nc:
 
     b. Если Ваше право на использование Лицензируемого материала прекратилось согласно Разделу 6(a), оно восстанавливается:
 
-      1. автоматически с даты устранения нарушения, при условии, что оно устранено в течение 30 дней с момента обнаружения Вами нарушения; или
+    1. автоматически с даты устранения нарушения, при условии, что оно устранено в течение 30 дней с момента обнаружения Вами нарушения; или
 
-      2. после прямого восстановления Лицензиаром.
+    2. после прямого восстановления Лицензиаром.
 
-      Во избежание сомнений, этот Раздел 6(b) не влияет на любое право Лицензиара требовать возмещения средств правовой защиты за Ваши нарушения настоящей Публичной лицензии.
+    Во избежание сомнений, этот Раздел 6(b) не влияет на любое право Лицензиара требовать возмещения средств правовой защиты за Ваши нарушения настоящей Публичной лицензии.
 
     c. Во избежание сомнений, Лицензиар может также предлагать Лицензируемый материал на других условиях или прекратить распространение Лицензируемого материала в любое время; однако это не приведет к прекращению действия настоящей Публичной лицензии.
 

@@ -1,0 +1,12 @@
+{{ with .Params.difficulty }}
+    {{ $level := . | lower }}
+    {{ $diffClass := "neutral" }}
+    {{ if in (slice "easy" "beginner" "легко" "начальный") $level }}
+        {{ $diffClass = "easy" }}
+    {{ else if in (slice "medium" "intermediate" "средне" "средний") $level }}
+        {{ $diffClass = "medium" }}
+    {{ else if in (slice "hard" "advanced" "сложно" "сложный") $level }}
+        {{ $diffClass = "hard" }}
+    {{ end }}
+    <span class="difficulty-badge difficulty-{{ $diffClass }}">{{ . }}</span>
+{{ end }}

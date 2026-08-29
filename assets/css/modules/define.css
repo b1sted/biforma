@@ -1,0 +1,340 @@
+.define-wrapper {
+    display: inline;
+    vertical-align: baseline;
+}
+
+.define-trigger {
+    display: inline;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    vertical-align: baseline;
+    text-decoration: underline dotted var(--text-muted);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: text-decoration-color 0.12s ease;
+    user-select: text;
+}
+
+.define-trigger:hover,
+.define-trigger[aria-expanded="true"] {
+    color: inherit;
+    text-decoration-style: solid;
+    text-decoration-color: currentColor;
+}
+
+.define-trigger .katex {
+    display: inline-block;
+    border-bottom: 1px dotted var(--text-muted);
+    padding-bottom: 1px;
+    line-height: 1.1;
+    transition: border-bottom-color 0.12s ease;
+}
+
+.define-trigger:hover .katex,
+.define-trigger[aria-expanded="true"] .katex {
+    border-bottom-style: solid;
+    border-bottom-color: currentColor;
+}
+
+.define-trigger code {
+    border-bottom: 1.5px dotted var(--text-muted) !important;
+    transition: border-bottom-color 0.12s ease;
+}
+
+.define-trigger:hover code,
+.define-trigger[aria-expanded="true"] code {
+    border-bottom-style: solid !important;
+    border-bottom-color: var(--accent-primary) !important;
+}
+
+.define-trigger:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.define-trigger:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.define-inline-content {
+    display: none;
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-decoration: none !important;
+}
+
+.define-inline-content.is-open {
+    display: inline !important;
+}
+
+.define-inline-content .define-glue,
+.define-inline-content .define-text,
+.define-inline-content .define-text *:not(a) {
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-decoration: none !important;
+}
+
+.define-inline-content .define-text a {
+    color: var(--accent-primary) !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.define-inline-content .define-text a:hover {
+    color: var(--accent-secondary) !important;
+}
+
+/* Prevent styling leakage when define-wrapper is inside or wrapping an anchor link */
+.article a:has(.define-wrapper),
+a:has(.define-wrapper) {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.article a:has(.define-wrapper):focus:not(:focus-visible),
+a:has(.define-wrapper):focus:not(:focus-visible) {
+    outline: none;
+}
+
+a .define-trigger {
+    color: var(--accent-primary);
+    text-decoration: underline dotted var(--accent-primary) !important;
+}
+
+a .define-inline-content.is-open {
+    display: inline !important;
+    color: var(--text-secondary) !important;
+    text-decoration: none !important;
+    cursor: text;
+}
+
+.heading-with-anchor .define-trigger {
+    font: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.heading-with-anchor .define-inline-content,
+.heading-with-anchor .define-inline-content .define-glue,
+.heading-with-anchor .define-inline-content .define-text {
+    font: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    font-style: inherit !important;
+    color: var(--text-secondary) !important;
+}
+
+table .define-trigger {
+    font: inherit;
+    font-size: inherit;
+}
+
+table .define-inline-content,
+table .define-inline-content .define-glue,
+table .define-inline-content .define-text,
+table .define-inline-content .define-text *:not(a) {
+    font: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    color: var(--text-tertiary) !important;
+}
+
+table .define-inline-content .define-text a {
+    font-size: inherit !important;
+}
+
+.define-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    padding: var(--spacing-md);
+    box-sizing: border-box;
+}
+
+.define-modal-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.define-modal-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 580px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+    overflow: hidden;
+}
+
+.define-modal-backdrop.visible .define-modal-container {
+    transform: scale(1);
+}
+
+.define-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-tertiary);
+}
+
+.define-modal-title {
+    margin: 0;
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.define-modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+
+.define-modal-close:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.define-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    font-size: var(--font-size-base);
+    line-height: 1.65;
+    color: var(--text-secondary);
+}
+
+.define-modal-body p {
+    margin-bottom: 12px;
+}
+
+.define-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.define-modal-body ul,
+.define-modal-body ol {
+    margin: 8px 0 12px;
+    padding-left: 22px;
+}
+
+.define-modal-body li {
+    margin-bottom: 6px;
+}
+
+.define-modal-body code:not(pre code) {
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm, 4px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+}
+
+.define-modal-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: var(--font-size-sub, 13.5px);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm, 4px);
+    overflow: hidden;
+    border: 1px solid var(--border-primary);
+}
+
+.define-modal-body th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    font-size: var(--font-size-xs, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.define-modal-body td {
+    padding: 10px 14px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    font-size: var(--font-size-sub, 13.5px);
+    line-height: 1.5;
+}
+
+.define-modal-body tr:last-child td {
+    border-bottom: none;
+}
+
+.define-modal-body tr:hover {
+    background: var(--bg-hover);
+}
+
+.define-modal-body .code-block-wrapper {
+    margin: 16px 0;
+    border-radius: var(--radius-md);
+    background: var(--bg-code, #0f0f0f);
+    border: 1px solid var(--border-code, #1f1f1f);
+    overflow: hidden;
+}
+
+.define-modal-body .code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-code-header, #0a0a0a);
+    border-bottom: 1px solid var(--border-code, #1f1f1f);
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.define-modal-body pre {
+    margin: 0;
+    padding: 12px 16px;
+    background: transparent;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}

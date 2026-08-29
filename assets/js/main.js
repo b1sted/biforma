@@ -11,11 +11,13 @@ import { initLicenseModal } from './modules/license.js';
 import { initResponsiveTables } from './modules/tables.js';
 import { setupLightboxTriggers } from './modules/lightbox.js';
 import { initMermaid } from './modules/mermaid.js';
+import { initDefine } from './modules/define.js';
 
 function runCriticalInit() {
     initTheme();
     initSidebar();
     initEmailProtection();
+    initDefine();
     if (document.getElementById('academic-toggle')) initAboutFilter();
 
     // Track last valid non-404 page for seamless back navigation

@@ -170,13 +170,10 @@ window.i18n = {{ dict
 {{- end }}
 
 <link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
-{{- if fileExists "static/icons/icon-192.png" -}}
 <link rel="apple-touch-icon" href="{{ "icons/icon-192.png" | relURL }}">
 <link rel="icon" type="image/png" sizes="192x192" href="{{ "icons/icon-192.png" | relURL }}">
-{{- end -}}
-{{- if fileExists "static/icons/icon-512.png" -}}
 <link rel="icon" type="image/png" sizes="512x512" href="{{ "icons/icon-512.png" | relURL }}">
-{{- end -}}
+<link rel="manifest" href="{{ "manifest.json" | relURL }}">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 

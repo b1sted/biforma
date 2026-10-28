@@ -8,91 +8,97 @@
         <h2 class="project-infobox-title">{{ $title }}</h2>
     </div>
 
-    {{- with $image }}
-    <div class="project-infobox-image-wrapper js-lightbox-trigger"
-         data-image="{{ . | absURL }}"
-         data-caption="{{ $title }}">
-        <img src="{{ . | absURL }}" alt="{{ $title }}" class="project-infobox-image" loading="lazy">
-        <div class="project-infobox-image-overlay">
-            <span class="project-infobox-image-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
+    <div class="project-infobox-body{{ if not $image }} project-infobox-body--no-image{{ end }}">
+        {{- with $image }}
+        <div class="project-infobox-media">
+            <div class="project-infobox-image-wrapper js-lightbox-trigger"
+                 data-image="{{ . | absURL }}"
+                 data-caption="{{ $title }}">
+                <img src="{{ . | absURL }}" alt="{{ $title }}" class="project-infobox-image" loading="lazy">
+                <div class="project-infobox-image-overlay">
+                    <span class="project-infobox-image-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
+                </div>
+            </div>
+        </div>
+        {{- end }}
+
+        <div class="project-infobox-content">
+            <dl class="project-infobox-specs">
+                {{- with .Get "type" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_type" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "status" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_status" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "year" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_year" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "language" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_language" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "framework" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_framework" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "platform" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_platform" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "architecture" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_architecture" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "lines" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_lines" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "files" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_files" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "modules" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_modules" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "dependencies" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_dependencies" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "database" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_database" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "api" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_api" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "performance" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_performance" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "accuracy" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_accuracy" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "coverage" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_coverage" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "grade" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_grade" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "team" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_team" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "duration" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_duration" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "license" }}
+                <div class="project-infobox-spec"><dt class="project-infobox-label">{{ i18n "project_license" }}</dt><dd class="project-infobox-value">{{ . }}</dd></div>
+                {{- end }}
+                {{- with .Get "tags" }}
+                <div class="project-infobox-spec project-infobox-spec--tags">
+                    <dt class="project-infobox-label">{{ i18n "project_tags" }}</dt>
+                    <dd class="project-infobox-value">
+                        <div class="project-infobox-tags">
+                            {{- range split . "," }}
+                            <span class="project-infobox-tag">{{ trim . " " }}</span>
+                            {{- end }}
+                        </div>
+                    </dd>
+                </div>
+                {{- end }}
+            </dl>
         </div>
     </div>
-    {{- end }}
-
-    <table class="project-infobox-table">
-        {{- with .Get "type" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_type" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "status" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_status" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "year" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_year" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "language" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_language" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "framework" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_framework" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "platform" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_platform" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "architecture" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_architecture" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "lines" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_lines" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "files" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_files" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "modules" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_modules" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "dependencies" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_dependencies" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "database" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_database" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "api" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_api" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "performance" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_performance" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "accuracy" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_accuracy" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "coverage" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_coverage" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "grade" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_grade" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "team" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_team" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "duration" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_duration" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "license" }}
-        <tr><td class="project-infobox-label">{{ i18n "project_license" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
-        {{- end }}
-        {{- with .Get "tags" }}
-        <tr>
-            <td class="project-infobox-label">{{ i18n "project_tags" }}</td>
-            <td class="project-infobox-value">
-                <div class="project-infobox-tags">
-                    {{- range split . "," }}
-                    <span class="project-infobox-tag">{{ trim . " " }}</span>
-                    {{- end }}
-                </div>
-            </td>
-        </tr>
-        {{- end }}
-    </table>
 
     {{- if or (.Get "github") (.Get "demo") (.Get "documentation") }}
     <div class="project-infobox-actions" aria-label="{{ i18n "project_infobox_actions" }}">

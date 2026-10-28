@@ -21,10 +21,10 @@ export function initHeadingAnchors() {
     if (!anchorLinks.length) return;
 
     anchorLinks.forEach((anchorLink) => {
-        const href = anchorLink.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
-
         anchorLink.addEventListener('click', (e) => {
+            const href = anchorLink.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
+
             e.preventDefault();
             const heading = anchorLink.closest('h1, h2, h3, h4, h5, h6');
             if (!heading) return;
@@ -33,6 +33,25 @@ export function initHeadingAnchors() {
             scrollToElement(heading, true);
         });
     });
+}
+
+function getCleanHeadingText(header) {
+    const clone = header.cloneNode(true);
+    clone.querySelectorAll('.heading-anchor-link, .define-inline-content, template').forEach((el) => el.remove());
+    return clone.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function slugify(text) {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\p{L}\p{N}\s-]/gu, '')
+        .replace(/[\s_]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function cleanIdKey(str) {
+    return decodeURIComponent(str).replace(/^-+|-+$/g, '');
 }
 
 export function initTocAndScroll() {
@@ -44,8 +63,29 @@ export function initTocAndScroll() {
 
     const headings = Array.from(document.querySelectorAll('.article h1, .article h2, .article h3, .article h4, .article h5, .article h6'));
     const idToHeaderMap = new Map();
+
     headings.forEach((h) => {
-        if (h.id) idToHeaderMap.set(h.id, h);
+        const cleanText = getCleanHeadingText(h);
+        const canonicalId = slugify(cleanText);
+        const oldId = h.id;
+
+        // Sync truncated Goldmark heading IDs caused by inline shortcodes with full canonical slug
+        if (canonicalId && canonicalId !== oldId && canonicalId.startsWith(oldId)) {
+            h.id = canonicalId;
+            const anchorLink = h.querySelector('.heading-anchor-link');
+            if (anchorLink) {
+                anchorLink.setAttribute('href', '#' + canonicalId);
+            }
+        }
+
+        if (h.id) {
+            idToHeaderMap.set(h.id, h);
+            idToHeaderMap.set(cleanIdKey(h.id), h);
+        }
+        if (oldId) {
+            idToHeaderMap.set(oldId, h);
+            idToHeaderMap.set(cleanIdKey(oldId), h);
+        }
     });
 
     const headerToLinksMap = new Map();
@@ -53,8 +93,8 @@ export function initTocAndScroll() {
 
     function handleInitialHash() {
         if (!window.location.hash) return;
-        const id = decodeURIComponent(window.location.hash.substring(1));
-        const target = idToHeaderMap.get(id);
+        const rawId = decodeURIComponent(window.location.hash.substring(1));
+        const target = idToHeaderMap.get(rawId) || idToHeaderMap.get(cleanIdKey(rawId)) || idToHeaderMap.get(slugify(rawId));
         if (target) {
             requestAnimationFrame(() => scrollToElement(target, false));
         }
@@ -63,10 +103,17 @@ export function initTocAndScroll() {
     tocLinks.forEach((link) => {
         const href = link.getAttribute('href');
         if (!href || !href.startsWith('#')) return;
-        const id = decodeURIComponent(href.substring(1));
-        const header = idToHeaderMap.get(id);
+        const rawId = decodeURIComponent(href.substring(1));
+        const header = idToHeaderMap.get(rawId) || idToHeaderMap.get(cleanIdKey(rawId));
 
         if (header) {
+            const cleanText = getCleanHeadingText(header);
+            if (cleanText) {
+                link.textContent = cleanText;
+            }
+
+            link.setAttribute('href', '#' + header.id);
+
             if (!headerToLinksMap.has(header)) {
                 headerToLinksMap.set(header, []);
                 observedHeadings.push(header);
@@ -75,7 +122,7 @@ export function initTocAndScroll() {
 
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                history.pushState(null, null, href);
+                history.pushState(null, null, '#' + header.id);
 
                 const mobileToc = link.closest('.toc-mobile');
                 if (mobileToc) mobileToc.removeAttribute('open');

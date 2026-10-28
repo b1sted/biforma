@@ -35,7 +35,7 @@
 - **Multilingual & i18n**: Built-in internationalization with localized UI strings and an optional header language switcher for multi-language sites.
 - **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), and lazy-loaded analytics.
 - **Instant Search**: Powered by Pagefind for zero-config, ultra-fast client-side search.
-- **Math & Typography**: Built-in KaTeX math rendering, Chroma syntax highlighting, side-by-side code comparison, tabs, and admonitions.
+- **Math & Typography**: Built-in KaTeX math rendering (including optional build-time SSR), Chroma syntax highlighting, side-by-side code comparison, tabs, inline/modal `define` explanations, and admonitions.
 - **Diagrams (Mermaid.js)**: Lazy-loaded (IntersectionObserver) offline Mermaid rendering that auto-switches between dark/light themes, with a zoom & pan lightbox for every diagram.
 - **Enhanced Media**: Auto-calculated image dimensions (prevents CLS) and built-in image zoom lightbox.
 - **Heading Anchors**: Hover-revealed anchor links next to headings (up to the configured TOC depth), with TOC-consistent smooth scrolling.
@@ -61,6 +61,26 @@ Generate the search index after building your site:
 hugo --gc --minify
 npx pagefind --site public
 ```
+
+### Build-time Rendering (Optional)
+
+The theme can pre-render KaTeX math and Mermaid diagrams to static HTML/SVG
+before deployment, eliminating client-side layout shift and flashes of
+unstyled content. Copy the scripts from `themes/biforma/scripts/` into your
+site's `scripts/` directory and run them after `hugo`:
+
+```bash
+node scripts/render-math.js public
+node scripts/render-mermaid.js public
+```
+
+- `render-math.js` pre-renders all formulas, including those inside `define`
+  modal templates. Requires `jsdom`.
+- `render-mermaid.js` renders both light and dark themes at build time.
+  Requires `jsdom` and `puppeteer-core` with a local Chromium/Chrome binary.
+
+Both scripts are optional: without them the client-side modules render the
+same content on demand.
 
 ---
 
@@ -178,7 +198,7 @@ noindex: false        # Add <meta name="robots" content="noindex, nofollow"> to 
   `{{< code lang="c" title="main.c" >}}code{{< /code >}}`  
   *(Options: `noheader="true"`, `center="true"`)*
 
-- **Diagrams (Mermaid.js)**: use a fenced code block with the `mermaid` language — no shortcode needed:
+- **Diagrams (Mermaid.js)**: use a fenced code block with the `mermaid` language:
   ````markdown
   ```mermaid
   graph TD
@@ -186,6 +206,15 @@ noindex: false        # Add <meta name="robots" content="noindex, nofollow"> to 
   ```
   ````
   *(Optional attributes: `scale="1.5"` to resize, `caption="..."` / `title="..."` for a figure caption. Diagrams lazy-load on scroll and re-render automatically on theme switch, with a zoom & pan lightbox on click.)*
+
+  The shortcode form is equivalent and is useful when attributes are easier to
+  pass explicitly:
+  ```markdown
+  {{< mermaid scale="1.5" caption="Request flow" >}}
+  graph TD
+    A[Start] --> B[End]
+  {{< /mermaid >}}
+  ```
 
 - **Code Compare (`compare.html`, `compare-left.html`, `compare-right.html`)**:  
   ```markdown
@@ -204,6 +233,29 @@ noindex: false        # Add <meta name="robots" content="noindex, nofollow"> to 
   {{< /tabs >}}
   ```  
   *(Use `style="content"` for Markdown content tabs)*
+
+- **Definitions (`define.html`)**: inline or modal explanations for terms,
+  with KaTeX support and keyboard-accessible triggers.
+
+  ```markdown
+  {{< define term="RAII" >}}Resource Acquisition Is Initialization — a C++
+  idiom that ties resource lifetime to object scope.{{< /define >}}
+  ```
+
+  The term itself is rendered as Markdown, so inline math works:
+  `{{< define term="$O(1)$" >}}Constant time.{{< /define >}}`
+
+  - `term` (or the first positional argument) — the visible term. Defaults to
+    the plain-text form of the argument.
+  - `mode` — `auto` (default), `inline`, or `modal`. In `auto` mode the theme
+    uses a modal for multi-paragraph content, lists, code blocks, or text
+    longer than 140 characters; otherwise the explanation is revealed inline.
+  - `title` — modal heading. Defaults to the plain-text term.
+  - `kind` — optional semantic label (defaults to `term`).
+
+  Inline definitions toggle on click, `Enter`, or `Space`. Modal definitions
+  open a focus-trapped dialog with `Escape` to close. Math inside both forms is
+  pre-rendered at build time when `scripts/render-math.js` is used.
 
 - **Dividers (`divider.html`)**:  
   `{{< divider type="dots" >}}` *(Types: `dots`, `decorated`, `section`, `thin`)*

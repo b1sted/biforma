@@ -2,13 +2,7 @@
 /**
  * scripts/render-math.js
  *
- * Pre-renders KaTeX math to static HTML at build time, instead of doing it
- * in the browser via auto-render.min.js after page load.
- *
- * It reuses the exact katex.min.js / auto-render.min.js shipped in the theme,
- * so the output matches what the client-side render produces.
- *
- * Usage: node scripts/render-math.js <path-to-public-dir>
+ * Pre-renders KaTeX math to static HTML at build time, including define templates.
  */
 
 const fs = require("fs");
@@ -17,8 +11,6 @@ const { JSDOM } = require("jsdom");
 
 const PUBLIC_DIR = process.argv[2] || "public";
 
-// Resolve theme assets whether this script runs from a site repo (theme as a
-// submodule) or from inside the theme repo itself.
 function findAssetPath(relativePath) {
   const candidates = [
     path.join(__dirname, "..", "themes", "biforma", "static", relativePath),
@@ -39,10 +31,6 @@ const KATEX_JS = fs.readFileSync(KATEX_JS_PATH, "utf8");
 const AUTO_RENDER_JS = fs.readFileSync(AUTO_RENDER_JS_PATH, "utf8");
 
 const RENDER_OPTIONS = {
-  // KaTeX marks its HTML output aria-hidden="true". With output: "html" that
-  // leaves formulas with no accessible representation at all. "htmlAndMathml"
-  // (KaTeX's own default) adds a MathML sibling for assistive tech without
-  // changing the visual output.
   output: "htmlAndMathml",
   delimiters: [
     { left: "$$", right: "$$", display: true },
@@ -62,6 +50,14 @@ function walk(dir, out = []) {
   return out;
 }
 
+function decodeBase64(str) {
+  return Buffer.from(str, "base64").toString("utf-8");
+}
+
+function encodeBase64(str) {
+  return Buffer.from(str, "utf-8").toString("base64");
+}
+
 function renderFile(filePath) {
   const html = fs.readFileSync(filePath, "utf8");
 
@@ -75,6 +71,15 @@ function renderFile(filePath) {
 
   const target = window.document.querySelector(".article") || window.document.body;
   window.renderMathInElement(target, RENDER_OPTIONS);
+
+  // Pre-render KaTeX inside Base64-encoded define modal templates at build time
+  window.document.querySelectorAll("template.define-modal-template[data-content]").forEach((tmpl) => {
+    const rawHtml = decodeBase64(tmpl.getAttribute("data-content"));
+    const div = window.document.createElement("div");
+    div.innerHTML = rawHtml;
+    window.renderMathInElement(div, RENDER_OPTIONS);
+    tmpl.setAttribute("data-content", encodeBase64(div.innerHTML));
+  });
 
   window.document.querySelectorAll('script[src*="katex.min.js"]').forEach((el) => el.remove());
   window.document.querySelectorAll('script[src*="auto-render.min.js"]').forEach((el) => el.remove());

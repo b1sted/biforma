@@ -1,0 +1,32 @@
+{{- $rawTerm := .Get "term" | default (.Get 0) -}}
+{{- $termHtml := $rawTerm | markdownify | replaceRE "^<p>|</p>$" "" -}}
+{{- $title := .Get "title" | default ($rawTerm | plainify) -}}
+{{- $kind := .Get "kind" | default "term" -}}
+{{- $modeParam := .Get "mode" | default "auto" -}}
+{{- $rawInner := trim .Inner " \n\r\t" -}}
+{{- $mode := $modeParam -}}
+{{- if eq $mode "auto" -}}
+    {{- if or (strings.Contains $rawInner "\n\n") (strings.Contains $rawInner "- ") (strings.Contains $rawInner "* ") (strings.Contains $rawInner "```") (gt (countrunes $rawInner) 140) -}}
+        {{- $mode = "modal" -}}
+    {{- else -}}
+        {{- $mode = "inline" -}}
+    {{- end -}}
+{{- end -}}
+{{- $res := "" -}}
+{{- if eq $mode "inline" -}}
+    {{- $firstChar := substr $rawInner 0 1 -}}
+    {{- $glue := " — " -}}
+    {{- if in (slice "," ":" ";" ".") $firstChar -}}
+        {{- $glue = "" -}}
+    {{- else if in (slice "—" "–" "-" "(" "[" "{" "«" "\"") $firstChar -}}
+        {{- $glue = " " -}}
+    {{- end -}}
+    {{- $cleanHtml := $rawInner | markdownify | replaceRE "^<p>|</p>$" "" -}}
+    {{- $cleanHtml = replace (replace $cleanHtml "\r" "") "\n" " " -}}
+    {{- $res = printf `<span class="define-wrapper define-mode-inline"><span role="button" tabindex="0" class="define-trigger" data-define-mode="inline" aria-expanded="false">%s</span><span class="define-inline-content" aria-hidden="true"><span class="define-glue">%s</span><span class="define-text">%s</span></span></span>` $termHtml $glue $cleanHtml -}}
+{{- else -}}
+    {{- $renderedModal := $rawInner | $.Page.RenderString -}}
+    {{- $encodedContent := $renderedModal | base64Encode -}}
+    {{- $res = printf `<span class="define-wrapper define-mode-modal"><span role="button" tabindex="0" class="define-trigger" data-define-mode="modal" aria-haspopup="dialog">%s</span><template class="define-modal-template" data-title="%s" data-content="%s"></template></span>` $termHtml ($title | htmlEscape) $encodedContent -}}
+{{- end -}}
+{{- $res | safeHTML -}}

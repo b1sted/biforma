@@ -100,7 +100,7 @@
     margin-bottom: 0 !important;
 }
 
-/* Native Fixed Header Scroll Offset (W3C Standard) */
+/* Native fixed header scroll offset */
 .article h1,
 .article h2,
 .article h3,
@@ -157,9 +157,8 @@
 }
 
 .heading-with-anchor {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4em;
+    position: relative;
+    display: block;
 }
 
 .heading-anchor-link {
@@ -168,7 +167,8 @@
     justify-content: center;
     color: var(--text-tertiary);
     opacity: 0;
-    flex-shrink: 0;
+    margin-left: 0.35em;
+    vertical-align: baseline;
     transition: opacity 0.15s ease, color var(--transition);
     text-decoration: none !important;
 }
@@ -178,6 +178,7 @@
     height: 0.7em;
     fill: none;
     stroke: currentColor;
+    vertical-align: -0.1em;
 }
 
 .heading-with-anchor:hover .heading-anchor-link,
@@ -388,7 +389,6 @@
     justify-content: flex-end;
 }
 
-/* Adaptive Theme Images */
 [data-theme="dark"] .img-light-only,
 :root:not([data-theme="light"]) .img-light-only {
     display: none !important;
@@ -415,7 +415,6 @@
     margin-top: 0;
 }
 
-/* Responsive 2-Column RSS Feeds Grid */
 .rss-feeds-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));

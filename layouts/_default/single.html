@@ -47,7 +47,9 @@
         </svg>
     </summary>
     <nav class="toc-mobile-nav">
-        {{ replace .TableOfContents "id=\"TableOfContents\"" "id=\"TableOfContentsMobile\"" | safeHTML }}
+        {{- $cleanToc := replace .TableOfContents "id=\"TableOfContents\"" "id=\"TableOfContentsMobile\"" -}}
+        {{- $cleanToc = replaceRE "(?i)-?hahahugoshortcode[0-9a-z]+hbhb-?" "" $cleanToc -}}
+        {{ $cleanToc | safeHTML }}
     </nav>
 </details>
 {{- end -}}

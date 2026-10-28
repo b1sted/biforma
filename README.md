@@ -42,6 +42,7 @@
 - **License Modal & Footer Credit**: Per-page code/content license disclosure via modal, plus an optional "Theme: Biforma" credit line in the footer.
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
 - **PWA & Offline**: Web app manifest, installable icons, a service worker with static-asset caching and an offline fallback page, plus intent-based link prefetching and deferred-image loading.
+- **Section Components**: Collapsible, filterable article groups with an expand-all control, persistent state, data-driven group metadata, and a per-section navigation box on article pages.
 - **Security & SEO**: Configurable Content-Security-Policy, robots.txt, Open Graph/Twitter metadata, and JSON-LD for articles, breadcrumbs and the author profile.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
@@ -224,6 +225,40 @@ noindex: false        # Add <meta name="robots" content="noindex, nofollow"> to 
                       # without excluding it from the on-site Pagefind search.
 ---
 ```
+
+---
+
+## Section Components
+
+Section pages group articles by the `group` front matter value. Groups are
+collapsible, have an expand/collapse-all control, and remember their state in
+`localStorage`. When a section has more than one article, article pages also
+show a collapsible navigation box for the current section.
+
+Group metadata is resolved in this order:
+
+1. `data/section_categories.yaml` in the site (overrides the theme file):
+   ```yaml
+   - key: "Getting Started"
+     icon: "🚀"
+     description: "Installation, configuration and first steps"
+   ```
+   The `key` must match the `group` value exactly.
+2. `group_icon` / `group_description` params on the first page in the group.
+3. Neutral defaults (`📌`, no description).
+
+```yaml
+---
+title: "Installation"
+group: "Getting Started"
+group_icon: "🚀"
+group_description: "Installation, configuration and first steps"
+---
+```
+
+The section filter bar, collapsible groups and the section navbox are rendered
+for every section regardless of `themeMode`; no assembly-specific markup is
+required.
 
 ---
 

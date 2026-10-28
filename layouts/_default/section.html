@@ -20,17 +20,40 @@
         {{ $pages := .RegularPages.ByWeight }}
         {{ $totalCount := len $pages }}
         {{ $rawGrouped := $pages.GroupByParam "group" }}
+        {{ $categories := hugo.Data.section_categories }}
 
-        {{ $grouped := slice }}
+        {{ $namedGroups := slice }}
         {{ range $rawGrouped }}
             {{ if ne .Key "" }}
+                {{ $groupKey := .Key }}
                 {{ $groupPages := .Pages.ByWeight }}
                 {{ $firstPage := index $groupPages 0 }}
                 {{ $minWeight := $firstPage.Weight | default 999999 }}
-                {{ $grouped = $grouped | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) }}
+                {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey }}
+
+                {{ $icon := "📌" }}
+                {{ $description := "" }}
+                {{ with $firstPage.Params.group_icon }}{{ $icon = . }}{{ end }}
+                {{ with $firstPage.Params.group_description }}{{ $description = . }}{{ end }}
+                {{ range $categories }}
+                    {{ if eq .key $groupKey }}
+                        {{ with .icon }}{{ $icon = . }}{{ end }}
+                        {{ with .description }}{{ $description = . }}{{ end }}
+                    {{ end }}
+                {{ end }}
+
+                {{ $namedGroups = $namedGroups | append (dict
+                    "Key" $groupKey
+                    "Title" $displayTitle
+                    "Pages" $groupPages
+                    "Weight" $minWeight
+                    "Icon" $icon
+                    "Description" $description
+                    "Ungrouped" false
+                ) }}
             {{ end }}
         {{ end }}
-        {{ $grouped = sort $grouped "Weight" "asc" }}
+        {{ $namedGroups = sort $namedGroups "Weight" "asc" }}
 
         {{ $ungroupedPages := slice }}
         {{ range $pages }}
@@ -39,16 +62,29 @@
             {{ end }}
         {{ end }}
 
-        {{ if gt (len $grouped) 0 }}
+        {{ $groups := $namedGroups }}
+        {{ if gt (len $ungroupedPages) 0 }}
+            {{ $groups = $groups | append (dict
+                "Key" "ungrouped"
+                "Title" (i18n "section_ungrouped")
+                "Pages" $ungroupedPages
+                "Weight" 999999
+                "Icon" "📄"
+                "Description" ""
+                "Ungrouped" true
+            ) }}
+        {{ end }}
+
+        {{ if gt (len $groups) 0 }}
+            {{ if gt (len $namedGroups) 0 }}
             <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
                 <button class="section-filter-btn active" data-group="all" type="button">
                     <span>{{ i18n "filter_all" }}</span>
                     <span class="section-filter-count">{{ $totalCount }}</span>
                 </button>
-                {{ range $grouped }}
-                    {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" .Key }}
+                {{ range $namedGroups }}
                     <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
-                        <span>{{ $displayTitle }}</span>
+                        <span>{{ .Title }}</span>
                         <span class="section-filter-count">{{ len .Pages }}</span>
                     </button>
                 {{ end }}
@@ -59,47 +95,51 @@
                     </button>
                 {{ end }}
             </nav>
-
-            {{ range $grouped }}
-                {{ $groupKey := .Key }}
-                {{ $groupPages := .Pages }}
-                {{ $firstPage := index $groupPages 0 }}
-                {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey }}
-
-                <section class="section-group-block" data-group="{{ $groupKey }}">
-                    <div class="section-group-header">
-                        <div class="section-group-title-row">
-                            <h2 class="section-group-title">{{ $displayTitle }}</h2>
-                            <span class="section-group-count">{{ len $groupPages }}</span>
-                        </div>
-                        {{ with $firstPage.Params.group_description }}
-                        <div class="section-group-desc">{{ . }}</div>
-                        {{ end }}
-                    </div>
-                    <div class="section-articles">
-                        {{ range $groupPages }}
-                            {{ partial "article-card.html" . }}
-                        {{ end }}
-                    </div>
-                </section>
             {{ end }}
 
-            {{ if gt (len $ungroupedPages) 0 }}
-                <section class="section-group-block" data-group="ungrouped">
-                    <div class="section-group-header">
-                        <div class="section-group-title-row">
-                            <h2 class="section-group-title">{{ i18n "section_ungrouped" }}</h2>
-                            <span class="section-group-count">{{ len $ungroupedPages }}</span>
+            <div class="section-groups" id="section-groups">
+                <div class="section-groups-controls">
+                    <button class="section-expand-all" id="section-toggle-all" type="button"
+                            aria-expanded="true" aria-controls="section-groups">
+                        <span class="section-expand-all-icon" id="section-toggle-all-icon" aria-hidden="true">▲</span>
+                        <span id="section-toggle-all-text">{{ i18n "section_collapse_all" }}</span>
+                    </button>
+                </div>
+
+                {{ range $index, $group := $groups }}
+                <section class="section-group-block expanded" data-group="{{ $group.Key }}" data-group-index="{{ $index }}">
+                    <div class="section-group-header"
+                         role="button"
+                         tabindex="0"
+                         aria-expanded="true"
+                         aria-controls="section-group-content-{{ $index }}"
+                         aria-label="{{ i18n "section_toggle_group" }}">
+                        <div class="section-group-title-wrapper">
+                            <span class="section-group-icon" aria-hidden="true">{{ $group.Icon }}</span>
+                            <div class="section-group-title-content">
+                                <div class="section-group-title-row">
+                                    <h2 class="section-group-title">{{ $group.Title }}</h2>
+                                    <span class="section-group-count">{{ len $group.Pages }}</span>
+                                </div>
+                                {{ with $group.Description }}
+                                <div class="section-group-desc">{{ . }}</div>
+                                {{ end }}
+                            </div>
+                        </div>
+                        <span class="section-group-indicator" aria-hidden="true">▶</span>
+                    </div>
+                    <div class="section-group-content" id="section-group-content-{{ $index }}">
+                        <div class="section-group-items">
+                            <div class="section-articles" data-count="{{ len $group.Pages }}">
+                                {{ range $group.Pages }}
+                                    {{ partial "article-card.html" . }}
+                                {{ end }}
+                            </div>
                         </div>
                     </div>
-                    <div class="section-articles">
-                        {{ range $ungroupedPages }}
-                            {{ partial "article-card.html" . }}
-                        {{ end }}
-                    </div>
                 </section>
-            {{ end }}
-
+                {{ end }}
+            </div>
         {{ else }}
             <div class="section-articles">
                 {{ range $pages }}

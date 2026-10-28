@@ -33,6 +33,8 @@ window.i18n = {{ dict
     "academicToggleHide" (i18n "academic_toggle_hide")
     "academicToggleTitleShow" (i18n "academic_toggle_title_show")
     "academicToggleTitleHide" (i18n "academic_toggle_title_hide")
+    "sectionExpandAll" (i18n "section_expand_all")
+    "sectionCollapseAll" (i18n "section_collapse_all")
 | jsonify | safeJS }};
 </script>
 
@@ -60,7 +62,7 @@ window.i18n = {{ dict
 {{- else if $isAbout -}}
     {{- $pageModules = $pageModules | append "about" -}}
 {{- else if $hasCodeBlocks -}}
-    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox") -}}
+    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox" "section-navbox") -}}
     {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
         {{- $pageModules = $pageModules | append "donation" -}}
     {{- end -}}

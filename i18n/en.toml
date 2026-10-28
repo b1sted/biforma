@@ -119,6 +119,18 @@ other = "Sections"
 [section_ungrouped]
 other = "General Notes"
 
+[section_expand_all]
+other = "Expand all"
+
+[section_collapse_all]
+other = "Collapse all"
+
+[section_toggle_group]
+other = "Expand or collapse this group"
+
+[section_navbox_toggle]
+other = "Expand or collapse section navigation"
+
 [filter_all]
 other = "All"
 

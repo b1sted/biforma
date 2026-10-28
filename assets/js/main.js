@@ -15,6 +15,8 @@ import { initDefine } from './modules/define.js';
 import { initServiceWorker } from './modules/service-worker.js';
 import { initPrefetch } from './modules/prefetch.js';
 import { initLazyLoading } from './modules/lazy-loading.js';
+import { initSectionGroups } from './modules/section-groups.js';
+import { initSectionNavbox } from './modules/section-navbox.js';
 
 function runCriticalInit() {
     initTheme();
@@ -47,6 +49,8 @@ function runCriticalInit() {
         () => { setupLightboxTriggers(); },
         () => { initScrollTop(); },
         () => { if (document.querySelector('.section-filter-bar')) initSectionFilter(); },
+        () => { if (document.getElementById('section-groups')) initSectionGroups(); },
+        () => { if (document.getElementById('section-navbox')) initSectionNavbox(); },
         () => { if (document.querySelector('.js-license-trigger')) initLicenseModal(); },
         () => { if (document.querySelector('.mermaid')) initMermaid(); }
     ];

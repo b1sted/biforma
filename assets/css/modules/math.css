@@ -21,3 +21,52 @@
 [data-theme="light"] .katex {
     color: var(--text-primary);
 }
+
+.equation {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    margin: var(--spacing-xl) 0;
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+.equation-body {
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.equation-body .katex-display {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.equation-number {
+    color: var(--text-muted);
+    font-size: var(--font-size-base);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.equation:target .equation-number {
+    color: var(--accent-primary);
+}
+
+.equation-ref {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.equation-ref:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+    .equation {
+        gap: 8px;
+    }
+}

@@ -60,6 +60,7 @@
 
 <article class="article" data-pagefind-body>
     {{ .Content }}
+    {{ partial "sources.html" . }}
 </article>
 
 {{ if or site.Params.donate site.Params.externalLinks.donateUrl }}

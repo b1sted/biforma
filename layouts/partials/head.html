@@ -43,6 +43,7 @@ window.i18n = {{ dict
 {{- $content := "" -}}
 {{- if .IsPage -}}{{- $content = .Content -}}{{- end -}}
 {{- $hasCodeBlocks := and .IsPage (or (.HasShortcode "code") (strings.Contains $content "<pre")) -}}
+{{- $hasMath := or .Params.math (and .IsPage (or (.HasShortcode "equation") (.HasShortcode "eqref"))) -}}
 
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{- if $hasCodeBlocks }}
@@ -79,7 +80,7 @@ window.i18n = {{ dict
     {{- if $hasProjectInfobox -}}{{- $pageModules = $pageModules | append "project-infobox" -}}{{- end -}}
     {{- if .Params.projectMeta -}}{{- $pageModules = $pageModules | append "project-meta" -}}{{- end -}}
     {{- if $hasSectionNavbox -}}{{- $pageModules = $pageModules | append "section-navbox" -}}{{- end -}}
-    {{- if .Params.math -}}{{- $pageModules = $pageModules | append "math" -}}{{- end -}}
+    {{- if $hasMath -}}{{- $pageModules = $pageModules | append "math" -}}{{- end -}}
     {{- if $hasMermaid -}}{{- $pageModules = $pageModules | append "mermaid" -}}{{- end -}}
     {{- if and (eq $kind "single") (or site.Params.donate site.Params.externalLinks.donateUrl) -}}
         {{- $pageModules = $pageModules | append "donation" -}}
@@ -105,7 +106,7 @@ window.i18n = {{ dict
     <noscript><link rel="stylesheet" href="{{ $pageBundle.RelPermalink }}"></noscript>
 {{- end -}}
 
-{{- if .Params.math -}}
+{{- if $hasMath -}}
 <link rel="preload" href="{{ "css/katex.min.css" | relURL }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ "css/katex.min.css" | relURL }}"></noscript>
 <script defer src="{{ "js/katex.min.js" | relURL }}"></script>

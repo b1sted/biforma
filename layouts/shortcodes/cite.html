@@ -1,0 +1,20 @@
+{{- $id := .Get "id" | default (.Get 0) -}}
+{{- $sources := .Page.Params.sources | default (slice) -}}
+{{- $number := 0 -}}
+
+{{- range $i, $source := $sources -}}
+    {{- if eq $source.id $id -}}
+        {{- $number = add $i 1 -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if $number -}}
+    {{- $anchor := $id | anchorize -}}
+    {{- $countKey := printf "cite-%s" $id -}}
+    {{- $count := add (.Page.Scratch.Get $countKey | default 0) 1 -}}
+    {{- .Page.Scratch.Set $countKey $count -}}
+<a class="citation-ref" href="#source-{{ $anchor }}" id="cite-{{ $anchor }}-{{ $count }}">[{{ $number }}]</a>
+{{- else -}}
+    {{- warnf "cite: source with id %q not found in %s" $id .Page.RelPermalink -}}
+<span class="citation-ref citation-ref--missing" title="{{ i18n "source_missing" }}">[?]</span>
+{{- end -}}

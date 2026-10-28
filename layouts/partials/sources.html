@@ -1,0 +1,45 @@
+{{- $page := . -}}
+{{- with .Params.sources -}}
+<section class="article-sources">
+    <h2 class="sources-title" id="sources">{{ i18n "sources_title" }}</h2>
+    <ol class="sources-list">
+        {{- range $i, $source := . -}}
+        {{- $number := add $i 1 -}}
+        {{- $id := $source.id | default (printf "source-%d" $number) -}}
+        {{- $anchor := $id | anchorize -}}
+        <li class="source-item" id="source-{{ $anchor }}">
+            <span class="source-number">[{{ $number }}]</span>
+            <div class="source-content">
+                {{- if $source.text -}}
+                    {{ $source.text | markdownify }}
+                {{- else -}}
+                    {{- with $source.author }}<span class="source-author">{{ . }}.</span> {{ end -}}
+                    {{- with $source.title -}}
+                        {{- if $source.url -}}
+                            <a class="source-title" href="{{ $source.url }}" target="_blank" rel="noopener noreferrer">{{ . }}.</a>
+                        {{- else -}}
+                            <cite class="source-title">{{ . }}.</cite>
+                        {{- end -}}
+                    {{ end -}}
+                    {{- if or $source.publisher $source.year -}}
+                        <span class="source-meta"> — {{ with $source.publisher }}{{ . }}{{ end }}{{ if and $source.publisher $source.year }}, {{ end }}{{ with $source.year }}{{ . }}{{ end }}.</span>
+                    {{- end -}}
+                    {{- if and $source.url (not $source.title) -}}
+                        <a class="source-url" href="{{ $source.url }}" target="_blank" rel="noopener noreferrer">{{ $source.url }}</a>
+                    {{- end -}}
+                    {{- with $source.note }}<span class="source-note">{{ . }}</span>{{ end -}}
+                {{- end -}}
+            </div>
+            {{- $count := $page.Scratch.Get (printf "cite-%s" $id) | default 0 -}}
+            {{- if gt $count 0 -}}
+            <span class="source-backlinks">
+                {{- range seq $count -}}
+                <a class="source-backlink" href="#cite-{{ $anchor }}-{{ . }}" aria-label="{{ i18n "source_backlink" }}">↩</a>
+                {{- end -}}
+            </span>
+            {{- end -}}
+        </li>
+        {{- end -}}
+    </ol>
+</section>
+{{- end -}}

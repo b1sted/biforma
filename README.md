@@ -352,6 +352,33 @@ hugo new content projects/my-project.md --kind project
   `{{< admonition type="note" title="Note" >}}Content{{< /admonition >}}`  
   *(Types: `note`, `tip`, `warning`, `danger`)*
 
+- **Quotes (`quote.html`)**:  
+  `{{< quote translation="Перевод цитаты" source="Автор, «Источник»" >}}Original quote{{< /quote >}}`  
+  *(Both `translation` and `source` are optional. `source` supports Markdown links; it is always separated by a horizontal rule.)*
+
+- **Numbered Equations (`equation.html`, `eqref.html`)**:  
+  ```markdown
+  {{< equation label="mass-energy" >}}
+  E = mc^2
+  {{< /equation >}}
+
+  Формула {{< eqref "mass-energy" >}} ...
+  ```
+  *(Equations are numbered automatically in document order. The label is used for the anchor and for `eqref` links.)*
+
+- **Citations & Sources (`cite.html`, `sources.html`)**:  
+  Define sources in the page front matter:
+  ```yaml
+  sources:
+    - id: knuth-taocp
+      author: "Donald E. Knuth"
+      title: "The Art of Computer Programming"
+      publisher: "Addison-Wesley"
+      year: 1997
+      url: "https://example.com"
+  ```
+  Then cite them in the text: `{{< cite "knuth-taocp" >}}`. The sources block is rendered automatically at the end of the article, with backlinks to every citation. A source entry may also use a free-form `text` field instead of structured fields.
+
 - **Custom Code Block (`code.html`)**:  
   `{{< code lang="c" title="main.c" >}}code{{< /code >}}`  
   *(Options: `noheader="true"`, `center="true"`)*

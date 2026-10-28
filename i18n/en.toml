@@ -100,6 +100,17 @@ other = "Copied!"
 [done_text]
 other = "Done!"
 
+# Sources & Citations
+
+[sources_title]
+other = "Sources"
+
+[source_backlink]
+other = "Back to citation"
+
+[source_missing]
+other = "Source not found"
+
 # Donation Block
 
 [donate_title]

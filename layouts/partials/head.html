@@ -62,7 +62,7 @@ window.i18n = {{ dict
 {{- else if $isAbout -}}
     {{- $pageModules = $pageModules | append "about" -}}
 {{- else if $hasCodeBlocks -}}
-    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox" "section-navbox") -}}
+    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox" "section-navbox" "project-meta" "project-infobox") -}}
     {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
         {{- $pageModules = $pageModules | append "donation" -}}
     {{- end -}}
@@ -159,7 +159,7 @@ window.i18n = {{ dict
 
 {{- if hugo.IsMultilingual -}}
 {{- range .AllTranslations -}}
-<link rel="alternate" hreflang="{{ .Language.LanguageCode | default .Language.Lang }}" href="{{ .Permalink }}">
+<link rel="alternate" hreflang="{{ .Language.Locale | default .Language.Lang }}" href="{{ .Permalink }}">
 {{- end -}}
 {{- end -}}
 

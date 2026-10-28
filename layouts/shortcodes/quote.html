@@ -1,0 +1,23 @@
+{{- $translation := .Get "translation" -}}
+{{- $source := .Get "source" -}}
+
+<figure class="quote-block">
+    <blockquote class="quote-block-body">
+        {{- .Inner | $.Page.RenderString -}}
+    </blockquote>
+
+    {{- with $translation -}}
+    <div class="quote-block-translation">
+        <div class="quote-block-translation-text">
+            {{- . | $.Page.RenderString -}}
+        </div>
+    </div>
+    {{- end -}}
+
+    {{- with $source -}}
+    {{- $sourceHtml := . | $.Page.RenderString | replaceRE "^<p>|</p>$" "" -}}
+    <figcaption class="quote-block-source">
+        <cite>{{ $sourceHtml | safeHTML }}</cite>
+    </figcaption>
+    {{- end -}}
+</figure>

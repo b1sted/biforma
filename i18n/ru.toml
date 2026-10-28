@@ -100,6 +100,17 @@ other = "Скопировано!"
 [done_text]
 other = "Готово!"
 
+# Sources & Citations
+
+[sources_title]
+other = "Источники"
+
+[source_backlink]
+other = "Вернуться к цитированию"
+
+[source_missing]
+other = "Источник не найден"
+
 # Donation Block
 
 [donate_title]

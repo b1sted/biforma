@@ -1,0 +1,15 @@
+{{- $label := .Get "label" | default (.Get 0) -}}
+{{- $current := .Page.Scratch.Get "equation-counter" | default 0 -}}
+{{- $number := add $current 1 -}}
+{{- .Page.Scratch.Set "equation-counter" $number -}}
+{{- $anchor := printf "equation-%d" $number -}}
+{{- with $label -}}
+    {{- $anchor = . | anchorize | printf "eq-%s" -}}
+    {{- $.Page.Scratch.Set (printf "equation-label-%s" .) $number -}}
+{{- end -}}
+{{- $body := trim .Inner " \n\r\t" -}}
+
+<div class="equation" id="{{ $anchor }}">
+    <div class="equation-body">$$ {{ $body }} $$</div>
+    <span class="equation-number" aria-hidden="true">({{ $number }})</span>
+</div>

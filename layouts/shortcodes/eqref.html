@@ -1,0 +1,9 @@
+{{- $label := .Get "label" | default (.Get 0) -}}
+{{- $number := $.Page.Scratch.Get (printf "equation-label-%s" $label) -}}
+
+{{- if $number -}}
+<a class="equation-ref" href="#eq-{{ $label | anchorize }}">({{ $number }})</a>
+{{- else -}}
+{{- warnf "eqref: equation with label %q not found in %s" $label $.Page.RelPermalink -}}
+<span class="equation-ref">({{ $label }})</span>
+{{- end -}}

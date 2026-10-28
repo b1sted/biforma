@@ -268,7 +268,7 @@ Group metadata is resolved in this order:
    ```
    The `key` must match the `group` value exactly.
 2. `group_icon` / `group_description` params on the first page in the group.
-3. Neutral defaults (`📌`, no description).
+3. Neutral defaults (`📁`, no description).
 
 ```yaml
 ---

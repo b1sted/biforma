@@ -16,7 +16,7 @@
         {{- $description := "" -}}
         {{- if ne $groupKey "" -}}
             {{- $title = replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey -}}
-            {{- $icon = "📌" -}}
+            {{- $icon = "📁" -}}
             {{- with $firstPage.Params.group_icon }}{{ $icon = . }}{{ end -}}
             {{- with $firstPage.Params.group_description }}{{ $description = . }}{{ end -}}
             {{- range $categories -}}

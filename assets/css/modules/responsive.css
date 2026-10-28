@@ -6,36 +6,66 @@
 
 /* International Mobile Standards (Apple HIG & Material Design 3) */
 @media (max-width: 768px) {
+    .section-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 22px;
+        padding-bottom: 12px;
+    }
+
     .section-filter-bar {
+        flex: 0 0 auto;
+        width: 100%;
         gap: 8px;
-        margin-bottom: 16px;
-        padding-bottom: 10px;
         min-height: 44px;
     }
 
+    .section-expand-all {
+        align-self: flex-end;
+        justify-content: flex-end;
+    }
+
     .section-filter-btn {
-        min-height: 40px;
+        min-height: 44px;
         padding: 8px 14px;
         font-size: 13.5px;
     }
 
+    .section-expand-all {
+        min-height: 44px;
+        padding: 6px 2px;
+    }
+
     .section-group-block {
-        margin-bottom: 22px;
+        margin-bottom: 28px;
     }
 
     .section-group-header {
-        margin-bottom: 12px;
-        padding-bottom: 4px;
+        margin-bottom: 14px;
+        padding: 2px 0 10px;
     }
 
     .section-group-title {
-        font-size: 17px !important;
+        font-size: 16px !important;
     }
 
     .section-group-desc {
         font-size: 13px;
         margin-top: 3px !important;
         line-height: 1.45;
+    }
+
+    .section-group-icon {
+        font-size: 16px;
+    }
+
+    .section-group-indicator {
+        font-size: 20px;
+    }
+
+    .section-expand-all-icon {
+        font-size: 11px;
     }
 
     .section-articles,
@@ -51,29 +81,23 @@
     }
 
     .article-card {
-        padding: 14px 16px;
+        padding: 16px;
         min-height: auto;
     }
 
-    .article-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 18px;
-    }
-
-    .article-card-header h3 {
-        font-size: 15px;
-        line-height: 1.35;
+    .article-card-title {
+        font-size: 17px !important;
     }
 
     .article-card-desc {
         font-size: 13px;
         line-height: 1.5;
-        margin-top: 8px;
     }
+}
 
-    .article-card-meta {
-        padding-top: 10px;
-        font-size: 11.5px;
+@media (max-width: 1024px) {
+    .section-filter-btn,
+    .section-expand-all {
+        min-height: 44px;
     }
 }

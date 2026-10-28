@@ -141,6 +141,13 @@ defaultContentLanguage = "ru"
   themeName = "Biforma"                             # Override the displayed theme name
   themeURL = "https://github.com/b1sted/biforma"    # Override the link target
 
+  # RSS feed
+  rssSections = ["blog", "notes"]     # Optional: limit the home feed to these sections.
+                                      # When omitted, all sections except `rss` and
+                                      # pages marked `searchHidden`/`type: about` are included.
+  rssFullContent = true               # Include full rendered article HTML in <description>.
+                                      # Set false to fall back to description/summary.
+
   # Sidebar customization
   [params.sidebar]
     generalTitle = "General"           # Rename root section (default: "Общее")

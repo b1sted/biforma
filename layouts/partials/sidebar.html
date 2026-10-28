@@ -183,7 +183,7 @@
                 </section>
             {{ end }}
 
-            {{ $sections := .Site.Sections.ByWeight }}
+            {{ $sections := where .Site.Sections.ByWeight "Section" "ne" "rss" }}
             {{ range $sections }}
                 {{ $sectionPages := .RegularPages.ByWeight }}
                 {{ if $sectionPages }}

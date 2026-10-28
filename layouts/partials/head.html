@@ -100,14 +100,25 @@ window.i18n = {{ dict
 {{- end -}}
 
 {{- $paginatable := or (eq .Kind "home") (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+{{- $paginator := false -}}
+{{- if and $paginatable .Paginator -}}
+    {{- $paginator = .Paginator -}}
+{{- end -}}
+{{- $pageNumber := 1 -}}
+{{- $canonicalURL := .Permalink -}}
+{{- with $paginator -}}
+    {{- $pageNumber = .PageNumber -}}
+    {{- if gt .PageNumber 1 -}}
+        {{- $canonicalURL = .URL | absURL -}}
+    {{- end -}}
+{{- end -}}
 <title>
     {{- if .IsHome -}}
         {{ site.Title }}
+        {{- if gt $pageNumber 1 }} ({{ i18n "page_abbr" }} {{ $pageNumber }}){{- end -}}
     {{- else -}}
         {{ .Title }}
-        {{- if and $paginatable .Paginator -}}
-            {{- if gt .Paginator.PageNumber 1 }} ({{ i18n "page_abbr" }} {{ .Paginator.PageNumber }}){{- end -}}
-        {{- end }} — {{ site.Title -}}
+        {{- if gt $pageNumber 1 }} ({{ i18n "page_abbr" }} {{ $pageNumber }}){{- end }} — {{ site.Title -}}
     {{- end -}}
 </title>
 
@@ -125,12 +136,22 @@ window.i18n = {{ dict
 <meta name="robots" content="index, follow, max-image-preview:large">
 {{- end }}
 
-<link rel="canonical" href="{{ .Permalink }}">
+<link rel="canonical" href="{{ $canonicalURL }}">
 
-<meta property="og:title" content="{{ .Title }}">
+{{- if hugo.IsMultilingual -}}
+{{- range .AllTranslations -}}
+<link rel="alternate" hreflang="{{ .Language.LanguageCode | default .Language.Lang }}" href="{{ .Permalink }}">
+{{- end -}}
+{{- end -}}
+
+{{- $pageTitle := .Title -}}
+{{- if .IsHome -}}{{- $pageTitle = site.Title -}}{{- end -}}
+{{- if gt $pageNumber 1 -}}{{- $pageTitle = printf "%s (%s %d)" $pageTitle (i18n "page_abbr") $pageNumber -}}{{- end -}}
+
+<meta property="og:title" content="{{ $pageTitle }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:url" content="{{ $canonicalURL }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="{{ i18n "og_locale" | default site.Language.Lang }}">
 
@@ -141,7 +162,7 @@ window.i18n = {{ dict
 {{- end -}}
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:title" content="{{ $pageTitle }}">
 <meta name="twitter:description" content="{{ $description }}">
 
 {{- range .AlternativeOutputFormats -}}

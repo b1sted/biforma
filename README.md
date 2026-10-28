@@ -197,6 +197,28 @@ enableRobotsTXT = true
 
 ---
 
+## Asset Loading
+
+CSS and JS are selected per page kind from data files, not from hard-coded
+lists in templates.
+
+- `data/css_modules.yaml` defines `core` modules (loaded everywhere) and
+  `by_kind` modules. The theme also appends content-specific modules when a
+  page actually needs them: code blocks (`chroma`), tables, tabs, compare
+  blocks, images/lightbox, mermaid, math, project meta/infobox, section
+  navbox and donation.
+- `data/js_modules.yaml` maps each page kind to an entry in
+  `assets/js/entries/` and documents the core/page-specific module split. The
+  entry imports only its own modules; `fallback` loads everything for
+  unknown page kinds.
+
+Site-level `data/css_modules.yaml` and `data/js_modules.yaml` files override
+the theme maps, so you can tune the module sets per site. Keep the same schema:
+`core`, `by_kind` and (for JS) `entries`. `by_kind` keys are `home`, `list`,
+`single`, `about`, `feeds`, `404` and `fallback`.
+
+---
+
 ## Front Matter
 
 Supported page parameters in Markdown headers:

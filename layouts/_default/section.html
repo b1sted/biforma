@@ -31,7 +31,7 @@
                 {{ $minWeight := $firstPage.Weight | default 999999 }}
                 {{ $displayTitle := replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey }}
 
-                {{ $icon := "📌" }}
+                {{ $icon := "📁" }}
                 {{ $description := "" }}
                 {{ with $firstPage.Params.group_icon }}{{ $icon = . }}{{ end }}
                 {{ with $firstPage.Params.group_description }}{{ $description = . }}{{ end }}
@@ -76,36 +76,36 @@
         {{ end }}
 
         {{ if gt (len $groups) 0 }}
-            {{ if gt (len $namedGroups) 0 }}
-            <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
-                <button class="section-filter-btn active" data-group="all" type="button">
-                    <span>{{ i18n "filter_all" }}</span>
-                    <span class="section-filter-count">{{ $totalCount }}</span>
+            <div class="section-toolbar">
+                {{ if gt (len $namedGroups) 0 }}
+                <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
+                    <button class="section-filter-btn active" data-group="all" type="button">
+                        <span>{{ i18n "filter_all" }}</span>
+                        <span class="section-filter-count">{{ $totalCount }}</span>
+                    </button>
+                    {{ range $namedGroups }}
+                        <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
+                            <span>{{ .Title }}</span>
+                            <span class="section-filter-count">{{ len .Pages }}</span>
+                        </button>
+                    {{ end }}
+                    {{ if gt (len $ungroupedPages) 0 }}
+                        <button class="section-filter-btn" data-group="ungrouped" type="button">
+                            <span>{{ i18n "section_ungrouped" }}</span>
+                            <span class="section-filter-count">{{ len $ungroupedPages }}</span>
+                        </button>
+                    {{ end }}
+                </nav>
+                {{ end }}
+
+                <button class="section-expand-all" id="section-toggle-all" type="button"
+                        aria-expanded="true" aria-controls="section-groups">
+                    <span class="section-expand-all-icon" id="section-toggle-all-icon" aria-hidden="true">▲</span>
+                    <span id="section-toggle-all-text">{{ i18n "section_collapse_all" }}</span>
                 </button>
-                {{ range $namedGroups }}
-                    <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
-                        <span>{{ .Title }}</span>
-                        <span class="section-filter-count">{{ len .Pages }}</span>
-                    </button>
-                {{ end }}
-                {{ if gt (len $ungroupedPages) 0 }}
-                    <button class="section-filter-btn" data-group="ungrouped" type="button">
-                        <span>{{ i18n "section_ungrouped" }}</span>
-                        <span class="section-filter-count">{{ len $ungroupedPages }}</span>
-                    </button>
-                {{ end }}
-            </nav>
-            {{ end }}
+            </div>
 
             <div class="section-groups" id="section-groups">
-                <div class="section-groups-controls">
-                    <button class="section-expand-all" id="section-toggle-all" type="button"
-                            aria-expanded="true" aria-controls="section-groups">
-                        <span class="section-expand-all-icon" id="section-toggle-all-icon" aria-hidden="true">▲</span>
-                        <span id="section-toggle-all-text">{{ i18n "section_collapse_all" }}</span>
-                    </button>
-                </div>
-
                 {{ range $index, $group := $groups }}
                 <section class="section-group-block expanded" data-group="{{ $group.Key }}" data-group-index="{{ $index }}">
                     <div class="section-group-header"
@@ -115,7 +115,9 @@
                          aria-controls="section-group-content-{{ $index }}"
                          aria-label="{{ i18n "section_toggle_group" }}">
                         <div class="section-group-title-wrapper">
-                            <span class="section-group-icon" aria-hidden="true">{{ $group.Icon }}</span>
+                            {{ with $group.Icon }}
+                            <span class="section-group-icon" aria-hidden="true">{{ . }}</span>
+                            {{ end }}
                             <div class="section-group-title-content">
                                 <div class="section-group-title-row">
                                     <h2 class="section-group-title">{{ $group.Title }}</h2>
@@ -126,7 +128,7 @@
                                 {{ end }}
                             </div>
                         </div>
-                        <span class="section-group-indicator" aria-hidden="true">▶</span>
+                        <span class="section-group-indicator" aria-hidden="true">›</span>
                     </div>
                     <div class="section-group-content" id="section-group-content-{{ $index }}">
                         <div class="section-group-items">

@@ -12,12 +12,18 @@ import { initResponsiveTables } from './modules/tables.js';
 import { setupLightboxTriggers } from './modules/lightbox.js';
 import { initMermaid } from './modules/mermaid.js';
 import { initDefine } from './modules/define.js';
+import { initServiceWorker } from './modules/service-worker.js';
+import { initPrefetch } from './modules/prefetch.js';
+import { initLazyLoading } from './modules/lazy-loading.js';
 
 function runCriticalInit() {
     initTheme();
     initSidebar();
     initEmailProtection();
     initDefine();
+    initPrefetch();
+    initLazyLoading();
+    initServiceWorker();
     if (document.getElementById('academic-toggle')) initAboutFilter();
 
     // Track last valid non-404 page for seamless back navigation

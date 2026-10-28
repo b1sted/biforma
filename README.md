@@ -43,6 +43,7 @@
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
 - **PWA & Offline**: Web app manifest, installable icons, a service worker with static-asset caching and an offline fallback page, plus intent-based link prefetching and deferred-image loading.
 - **Section Components**: Collapsible, filterable article groups with an expand-all control, persistent state, data-driven group metadata, and a per-section navigation box on article pages.
+- **Project Components**: Optional project metadata block (screenshot, specs, links), a project-infobox shortcode, and a project archetype.
 - **Security & SEO**: Configurable Content-Security-Policy, robots.txt, Open Graph/Twitter metadata, and JSON-LD for articles, breadcrumbs and the author profile.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
@@ -259,6 +260,66 @@ group_description: "Installation, configuration and first steps"
 The section filter bar, collapsible groups and the section navbox are rendered
 for every section regardless of `themeMode`; no assembly-specific markup is
 required.
+
+---
+
+## Project Pages
+
+Set `projectMeta: true` in front matter to render a metadata block above the
+article content. All fields are optional:
+
+```yaml
+---
+title: "CorporateDirectory"
+projectMeta: true
+screenshot: "/images/projects/corporate-directory.webp"
+projectType: "REST API"
+language: "Java 21"
+year: 2026
+linesOfCode: "~4k"
+modules: 12
+duration: "3 weeks"
+status: "Active"
+github: "https://github.com/example/project"
+demo: "https://example.com"
+documentation: "https://docs.example.com"
+---
+```
+
+The screenshot opens in the theme lightbox. The block renders type, language,
+year, lines of code, modules, duration, status and GitHub/Demo/Documentation
+links.
+
+For an in-article summary card, use the shortcode:
+
+```markdown
+{{< project-infobox
+    title="CorporateDirectory"
+    type="REST API"
+    status="Active"
+    year="2026"
+    language="Java 21"
+    framework="Spring Boot"
+    database="PostgreSQL"
+    lines="~4k"
+    modules="12"
+    tags="Java, Spring Boot, REST"
+    github="https://github.com/example/project"
+    demo="https://example.com"
+>}}
+```
+
+Supported shortcode fields: `title`, `image`, `type`, `status`, `year`,
+`language`, `framework`, `platform`, `architecture`, `lines`, `files`,
+`modules`, `dependencies`, `database`, `api`, `performance`, `accuracy`,
+`coverage`, `grade`, `team`, `duration`, `license`, `tags` (comma-separated),
+`github`, `demo`, `documentation`.
+
+Create a new project page with:
+
+```bash
+hugo new content projects/my-project.md --kind project
+```
 
 ---
 

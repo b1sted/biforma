@@ -269,3 +269,86 @@ other = "Pagination"
 
 [heading_anchor_link]
 other = "Jump to section"
+
+# Project Components
+
+[project_type]
+other = "Type"
+
+[project_status]
+other = "Status"
+
+[project_year]
+other = "Year"
+
+[project_language]
+other = "Language"
+
+[project_framework]
+other = "Framework"
+
+[project_platform]
+other = "Platform"
+
+[project_architecture]
+other = "Architecture"
+
+[project_lines]
+other = "Lines of code"
+
+[project_files]
+other = "Files"
+
+[project_modules]
+other = "Modules"
+
+[project_dependencies]
+other = "Dependencies"
+
+[project_database]
+other = "Database"
+
+[project_api]
+other = "API"
+
+[project_performance]
+other = "Performance"
+
+[project_accuracy]
+other = "Accuracy"
+
+[project_coverage]
+other = "Test coverage"
+
+[project_grade]
+other = "Grade"
+
+[project_team]
+other = "Team"
+
+[project_duration]
+other = "Duration"
+
+[project_license]
+other = "License"
+
+[project_tags]
+other = "Tags"
+
+[project_github]
+other = "GitHub"
+
+[project_demo]
+other = "Demo"
+
+[project_docs]
+other = "Documentation"
+
+[project_screenshot_hint]
+other = "Click to enlarge"
+
+[project_screenshot_alt]
+other = "Screenshot of %s"
+
+[project_infobox_actions]
+other = "Project links"

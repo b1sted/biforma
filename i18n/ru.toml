@@ -273,3 +273,86 @@ other = "Пагинация"
 
 [heading_anchor_link]
 other = "Перейти к разделу"
+
+# Project Components
+
+[project_type]
+other = "Тип"
+
+[project_status]
+other = "Статус"
+
+[project_year]
+other = "Год"
+
+[project_language]
+other = "Язык"
+
+[project_framework]
+other = "Фреймворк"
+
+[project_platform]
+other = "Платформа"
+
+[project_architecture]
+other = "Архитектура"
+
+[project_lines]
+other = "Строк кода"
+
+[project_files]
+other = "Файлов"
+
+[project_modules]
+other = "Модулей"
+
+[project_dependencies]
+other = "Зависимости"
+
+[project_database]
+other = "База данных"
+
+[project_api]
+other = "API"
+
+[project_performance]
+other = "Производительность"
+
+[project_accuracy]
+other = "Точность"
+
+[project_coverage]
+other = "Покрытие тестами"
+
+[project_grade]
+other = "Оценка"
+
+[project_team]
+other = "Команда"
+
+[project_duration]
+other = "Длительность"
+
+[project_license]
+other = "Лицензия"
+
+[project_tags]
+other = "Теги"
+
+[project_github]
+other = "GitHub"
+
+[project_demo]
+other = "Демо"
+
+[project_docs]
+other = "Документация"
+
+[project_screenshot_hint]
+other = "Нажмите для увеличения"
+
+[project_screenshot_alt]
+other = "Скриншот проекта %s"
+
+[project_infobox_actions]
+other = "Ссылки проекта"

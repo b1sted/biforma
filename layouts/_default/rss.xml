@@ -2,7 +2,16 @@
 {{- if .IsHome -}}{{ $pctx = site }}{{- end -}}
 
 {{- $pages := slice -}}
-{{- if or $.IsHome $.IsSection -}}
+{{- if $.IsHome -}}
+    {{- $sections := site.Params.rssSections -}}
+    {{- if $sections -}}
+        {{- $pages = where $pctx.RegularPages "Section" "in" $sections -}}
+    {{- else -}}
+        {{- $pages = where $pctx.RegularPages "Section" "ne" "rss" -}}
+        {{- $pages = where $pages "Params.searchHidden" "!=" true -}}
+        {{- $pages = where $pages "Type" "ne" "about" -}}
+    {{- end -}}
+{{- else if $.IsSection -}}
     {{- $pages = $pctx.RegularPages -}}
 {{- else -}}
     {{- $pages = $pctx.Pages -}}
@@ -12,6 +21,9 @@
 {{- if ge $limit 1 -}}
     {{- $pages = $pages | first $limit -}}
 {{- end -}}
+
+{{- $fullContent := ne site.Params.rssFullContent false -}}
+{{- $authorEmail := site.Params.email | default site.Params.social.email -}}
 
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -23,6 +35,11 @@
 
     <copyright>{{ now.Year }} {{ site.Params.author | transform.XMLEscape }}</copyright>
     <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+
+    {{ with $authorEmail }}
+    <managingEditor>{{ . }}{{ with site.Params.author }} ({{ . }}){{ end }}</managingEditor>
+    <webMaster>{{ . }}{{ with site.Params.author }} ({{ . }}){{ end }}</webMaster>
+    {{ end }}
 
     {{ with .OutputFormats.Get "RSS" -}}
     {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
@@ -36,11 +53,14 @@
       <title>{{ .Title | transform.XMLEscape }}</title>
       <link>{{ .Permalink }}</link>
       <pubDate>{{ $itemDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      {{ with $authorEmail }}
+      <author>{{ . }}{{ with site.Params.author }} ({{ . }}){{ end }}</author>
+      {{ end }}
       {{ with site.Params.author }}
       <dc:creator>{{ . | transform.XMLEscape }}</dc:creator>
       {{ end }}
       <guid>{{ .Permalink }}</guid>
-      <description>{{ with .Description }}{{ . | transform.XMLEscape }}{{ else }}{{ .Summary | transform.XMLEscape }}{{ end }}</description>
+      <description>{{ if $fullContent }}{{ .Content | transform.XMLEscape | safeHTML }}{{ else }}{{ with .Description }}{{ . | transform.XMLEscape }}{{ else }}{{ .Summary | transform.XMLEscape }}{{ end }}{{ end }}</description>
       {{ with .Params.tags }}
       {{ range . }}
       <category>{{ . | transform.XMLEscape }}</category>

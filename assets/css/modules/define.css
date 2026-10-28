@@ -322,10 +322,13 @@ table .define-inline-content .define-text a {
 .define-modal-body .code-block-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     background: var(--bg-code-header, #0a0a0a);
     border-bottom: 1px solid var(--border-code, #1f1f1f);
-    padding: 6px 14px;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-right: 16px;
     font-size: 12px;
 }
 

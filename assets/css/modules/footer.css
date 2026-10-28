@@ -110,6 +110,16 @@
 @media (max-width: 768px) {
     .footer {
         padding: var(--spacing-xl) 20px;
+        padding-bottom: calc(var(--spacing-xl) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .footer-links {
+        gap: var(--spacing-md);
+    }
+
+    .footer-link {
+        width: 44px;
+        height: 44px;
     }
 
     .footer-license {
@@ -118,7 +128,24 @@
         gap: 2px;
     }
 
+    .footer-license a {
+        display: inline-block;
+        padding: 6px 4px;
+    }
+
     .footer-separator {
         display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .footer-link {
+        width: 44px;
+        height: 44px;
+    }
+
+    .footer-license a {
+        display: inline-block;
+        padding: 6px 4px;
     }
 }

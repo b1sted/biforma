@@ -8,14 +8,18 @@ export function initSidebar() {
     function closeSidebar() {
         sidebar.classList.remove('open');
         overlay.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
     }
 
     function openSidebar() {
         sidebar.classList.add('open');
         overlay.classList.add('show');
+        toggle.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
     }
+
+    toggle.setAttribute('aria-expanded', 'false');
 
     toggle.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -28,6 +32,17 @@ export function initSidebar() {
         link.addEventListener('click', () => {
             if (sidebar.classList.contains('open')) closeSidebar();
         });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
+
+    const desktopQuery = window.matchMedia('(min-width: 1025px)');
+    desktopQuery.addEventListener('change', (e) => {
+        if (e.matches) closeSidebar();
     });
 
     initSidebarGroupAccordion();

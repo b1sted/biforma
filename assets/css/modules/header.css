@@ -243,16 +243,17 @@ button.header-link {
         display: flex;
     }
 
-    .search-trigger-mobile {
-        min-height: 44px !important;
-        min-width: 44px !important;
-        padding: 10px !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
+    .header-link.lang-toggle {
+        min-height: 44px;
     }
 
     .header-link:not(.search-trigger-mobile):not(.lang-toggle) {
+        display: none;
+    }
+}
+
+@media (max-width: 319px) {
+    .header-logo-text {
         display: none;
     }
 }

@@ -46,9 +46,18 @@ export function initSearch() {
         }
     };
 
+    const closeSidebar = () => {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar?.classList.remove('open');
+        overlay?.classList.remove('show');
+        document.querySelector('.menu-toggle')?.setAttribute('aria-expanded', 'false');
+    };
+
     const openModal = async () => {
         if (!modal) return;
         previousActiveElement = document.activeElement;
+        closeSidebar();
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => { if (input) input.focus(); }, 50);
@@ -58,7 +67,9 @@ export function initSearch() {
     const closeModal = () => {
         if (!modal) return;
         modal.classList.remove('active');
-        document.body.style.overflow = '';
+        if (!document.getElementById('sidebar')?.classList.contains('open')) {
+            document.body.style.overflow = '';
+        }
         if (input) input.value = '';
         if (resultsContainer) resultsContainer.innerHTML = '';
         currentSearchId++;

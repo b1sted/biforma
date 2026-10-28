@@ -658,3 +658,21 @@
         gap: 12px;
     }
 }
+
+@media (max-width: 1024px) {
+    .breadcrumbs {
+        padding-top: 4px;
+        padding-bottom: 8px;
+    }
+
+    .breadcrumb {
+        min-height: 36px;
+        padding: 0 6px;
+        margin: 0 -6px;
+    }
+
+    .breadcrumb-current,
+    .breadcrumbs > span:not(.breadcrumb-sep) {
+        min-height: 36px;
+    }
+}

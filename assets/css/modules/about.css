@@ -505,3 +505,15 @@
         flex: 1;
     }
 }
+
+@media (max-width: 480px) {
+    .about-profile-link {
+        padding: 6px 8px;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .academic-toggle {
+        min-height: 44px;
+    }
+}

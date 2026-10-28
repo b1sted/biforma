@@ -119,6 +119,18 @@ other = "Разделы заметок"
 [section_ungrouped]
 other = "Общие заметки"
 
+[section_expand_all]
+other = "Развернуть все"
+
+[section_collapse_all]
+other = "Свернуть все"
+
+[section_toggle_group]
+other = "Развернуть или свернуть группу"
+
+[section_navbox_toggle]
+other = "Развернуть или свернуть навигацию по разделу"
+
 [filter_all]
 other = "Все"
 

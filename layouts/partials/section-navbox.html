@@ -1,0 +1,79 @@
+{{- $currentPage := . -}}
+{{- $section := .CurrentSection -}}
+{{- if and $section .Section (gt (len $section.RegularPages) 1) -}}
+    {{- $pages := $section.RegularPages.ByWeight -}}
+    {{- $categories := hugo.Data.section_categories -}}
+    {{- $rawGrouped := $pages.GroupByParam "group" -}}
+
+    {{- $groups := slice -}}
+    {{- range $rawGrouped -}}
+        {{- $groupKey := .Key -}}
+        {{- $groupPages := .Pages.ByWeight -}}
+        {{- $firstPage := index $groupPages 0 -}}
+        {{- $minWeight := $firstPage.Weight | default 999999 -}}
+        {{- $title := i18n "section_ungrouped" -}}
+        {{- $icon := "📄" -}}
+        {{- $description := "" -}}
+        {{- if ne $groupKey "" -}}
+            {{- $title = replaceRE "^[0-9]+[.\\s—-]+" "" $groupKey -}}
+            {{- $icon = "📌" -}}
+            {{- with $firstPage.Params.group_icon }}{{ $icon = . }}{{ end -}}
+            {{- with $firstPage.Params.group_description }}{{ $description = . }}{{ end -}}
+            {{- range $categories -}}
+                {{- if eq .key $groupKey -}}
+                    {{- with .icon }}{{ $icon = . }}{{ end -}}
+                    {{- with .description }}{{ $description = . }}{{ end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $groups = $groups | append (dict
+            "Key" $groupKey
+            "Title" $title
+            "Icon" $icon
+            "Description" $description
+            "Pages" $groupPages
+            "Weight" $minWeight
+        ) -}}
+    {{- end -}}
+    {{- $groups = sort $groups "Weight" "asc" -}}
+
+    {{- $hasLinks := false -}}
+    {{- range $groups -}}
+        {{- $links := where .Pages "Permalink" "ne" $currentPage.Permalink -}}
+        {{- if gt (len $links) 0 }}{{ $hasLinks = true }}{{ end -}}
+    {{- end -}}
+
+    {{- if $hasLinks -}}
+    <aside class="section-navbox" id="section-navbox" aria-labelledby="section-navbox-title">
+        <div class="section-navbox-header">
+            <h2 class="section-navbox-title" id="section-navbox-title">
+                {{- with $section.Params.icon }}<span class="section-navbox-icon" aria-hidden="true">{{ . }}</span> {{ end -}}
+                {{- $section.Title -}}
+            </h2>
+            <button class="section-navbox-toggle" id="section-navbox-toggle" type="button"
+                    aria-label="{{ i18n "section_navbox_toggle" }}" aria-expanded="true"
+                    aria-controls="section-navbox-content">
+                <span class="section-navbox-toggle-icon" aria-hidden="true">−</span>
+            </button>
+        </div>
+        <div class="section-navbox-content" id="section-navbox-content">
+            {{ range $groups }}
+                {{- $links := where .Pages "Permalink" "ne" $currentPage.Permalink -}}
+                {{- if gt (len $links) 0 }}
+                <div class="section-navbox-row">
+                    <div class="section-navbox-group">
+                        <span class="section-navbox-group-icon" aria-hidden="true">{{ .Icon }}</span>
+                        <span>{{ .Title }}</span>
+                    </div>
+                    <div class="section-navbox-links">
+                        {{ range $links }}
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        {{ end }}
+                    </div>
+                </div>
+                {{- end }}
+            {{ end }}
+        </div>
+    </aside>
+    {{- end -}}
+{{- end -}}

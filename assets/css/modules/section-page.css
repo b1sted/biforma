@@ -352,3 +352,194 @@
         padding: 16px;
     }
 }
+
+/* Collapsible section groups */
+
+.section-groups {
+    margin-top: var(--spacing-md);
+}
+
+.section-groups-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-sm);
+}
+
+.section-expand-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.section-expand-all:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+
+.section-expand-all:active {
+    transform: scale(0.97);
+}
+
+.section-expand-all:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+.section-expand-all-icon {
+    font-size: 11px;
+    line-height: 1;
+}
+
+.section-group-block {
+    margin-bottom: 12px;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    overflow: hidden;
+    contain: layout style;
+}
+
+.section-group-block:hover {
+    border-color: var(--border-secondary);
+}
+
+.section-group-block .section-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin: 0;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-tertiary);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition);
+}
+
+.section-group-block:not(.expanded) .section-group-header {
+    border-bottom-color: transparent;
+}
+
+.section-group-block .section-group-header:hover {
+    background: var(--bg-hover);
+}
+
+.section-group-header:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: -2px;
+}
+
+.section-group-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.section-group-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.section-group-title-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.section-group-block .section-group-title-row {
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.section-group-block .section-group-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.section-group-block .section-group-desc {
+    margin-top: 3px !important;
+    margin-bottom: 0 !important;
+    white-space: normal;
+}
+
+.section-group-indicator {
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform var(--transition);
+}
+
+.section-group-block.expanded .section-group-indicator {
+    transform: rotate(90deg);
+}
+
+.section-group-content {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-group-block:not(.expanded) .section-group-content {
+    grid-template-rows: 0fr;
+}
+
+.section-group-items {
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 12px;
+    transition: padding 0.2s ease-out;
+}
+
+.section-group-block.expanded .section-group-items {
+    padding: 12px;
+}
+
+.section-group-block .section-articles {
+    margin-top: 0;
+}
+
+@media (max-width: 767px) {
+    .section-groups-controls {
+        justify-content: stretch;
+    }
+
+    .section-expand-all {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .section-group-block .section-group-header {
+        padding: 12px 14px;
+    }
+
+    .section-group-icon {
+        font-size: 19px;
+    }
+
+    .section-group-block .section-group-title {
+        font-size: 15px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-group-content,
+    .section-group-items,
+    .section-group-indicator {
+        transition: none;
+    }
+}

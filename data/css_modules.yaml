@@ -1,0 +1,51 @@
+# Single source of truth for which CSS modules load on which page kind.
+# Used in layouts/partials/head.html.
+#
+# core — always loaded (skeleton layout, header, footer, typography, modals).
+# by_kind — extra modules per page kind. Content-specific modules are appended
+# at build time based on the rendered page content (code, tables, tabs,
+# compare, mermaid, images, project blocks).
+
+core:
+  - variables
+  - base
+  - layout
+  - typography
+  - header
+  - footer
+  - toc
+  - details
+  - dividers
+  - search-modal
+  - license-modal
+  - sidebar-overlay
+  - responsive
+  - define
+
+by_kind:
+  home: []
+  list:
+    - section-page
+  single:
+    - page-nav
+  about:
+    - about
+  feeds: []
+  "404":
+    - error-page
+  fallback:
+    - about
+    - chroma
+    - compare
+    - donation
+    - error-page
+    - lightbox
+    - math
+    - mermaid
+    - page-nav
+    - project-infobox
+    - project-meta
+    - section-navbox
+    - section-page
+    - tables
+    - tabs

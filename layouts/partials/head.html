@@ -38,8 +38,11 @@ window.i18n = {{ dict
 | jsonify | safeJS }};
 </script>
 
-{{- $isAbout := or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
-{{- $hasCodeBlocks := and .IsPage (not $isAbout) -}}
+{{- $kind := partial "page-kind.html" . -}}
+{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+{{- $content := "" -}}
+{{- if .IsPage -}}{{- $content = .Content -}}{{- end -}}
+{{- $hasCodeBlocks := and .IsPage (or (.HasShortcode "code") (strings.Contains $content "<pre")) -}}
 
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{- if $hasCodeBlocks }}
@@ -48,39 +51,39 @@ window.i18n = {{ dict
 
 {{ partial "critical.html" . }}
 
-{{- $coreModules := slice
-    "variables" "base" "layout" "typography" "header" "footer"
-    "toc" "details" "dividers" "search-modal" "license-modal"
-    "sidebar-overlay" "responsive" "define"
--}}
-
-{{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-{{- $pageModules := $coreModules -}}
-
-{{- if eq .Kind "404" -}}
-    {{- $pageModules = $pageModules | append "error-page" -}}
-{{- else if $isAbout -}}
-    {{- $pageModules = $pageModules | append "about" -}}
-{{- else if $hasCodeBlocks -}}
-    {{- $pageModules = $pageModules | append (slice "chroma" "tabs" "tables" "compare" "page-nav" "lightbox" "section-navbox" "project-meta" "project-infobox") -}}
-    {{- if or site.Params.donate site.Params.externalLinks.donateUrl -}}
-        {{- $pageModules = $pageModules | append "donation" -}}
-    {{- end -}}
-{{- else if or (in (slice "section" "taxonomy" "term") .Kind) (and .IsHome (not $isBlog)) -}}
-    {{- $pageModules = $pageModules | append "section-page" -}}
+{{- $pageModules := hugo.Data.css_modules.core -}}
+{{- with index hugo.Data.css_modules.by_kind $kind -}}
+    {{- $pageModules = $pageModules | append . -}}
 {{- end -}}
 
 {{- if $isBlog -}}
     {{- $pageModules = $pageModules | append "blog" -}}
+{{- else if eq $kind "home" -}}
+    {{- $pageModules = $pageModules | append "section-page" -}}
 {{- end -}}
 
-{{- if .Params.math -}}
-    {{- $pageModules = $pageModules | append "math" -}}
-{{- end -}}
+{{- if .IsPage -}}
+    {{- $hasTabs := or (.HasShortcode "tabs") (strings.Contains $content "code-tabs") (strings.Contains $content "content-tabs") -}}
+    {{- $hasCompare := or (.HasShortcode "compare") (strings.Contains $content "code-compare") -}}
+    {{- $hasTables := strings.Contains $content "<table" -}}
+    {{- $hasImages := or (strings.Contains $content "<img") .Params.screenshot -}}
+    {{- $hasProjectInfobox := or (.HasShortcode "project-infobox") (strings.Contains $content "project-infobox") -}}
+    {{- $hasMermaid := or .Params.mermaid site.Params.mermaid (.HasShortcode "mermaid") (strings.Contains $content "class=\"mermaid") -}}
+    {{- $hasSectionNavbox := and .Section (gt (len .CurrentSection.RegularPages) 1) -}}
 
-{{- $hasMermaid := or .Params.mermaid site.Params.mermaid (and .IsPage (or (.HasShortcode "mermaid") (strings.Contains .Content "class=\"mermaid"))) -}}
-{{- if $hasMermaid -}}
-    {{- $pageModules = $pageModules | append "mermaid" -}}
+    {{- if $hasCodeBlocks -}}{{- $pageModules = $pageModules | append "chroma" -}}{{- end -}}
+    {{- if $hasTabs -}}{{- $pageModules = $pageModules | append "tabs" -}}{{- end -}}
+    {{- if $hasCompare -}}{{- $pageModules = $pageModules | append "compare" -}}{{- end -}}
+    {{- if $hasTables -}}{{- $pageModules = $pageModules | append "tables" -}}{{- end -}}
+    {{- if or $hasImages $hasProjectInfobox $hasMermaid -}}{{- $pageModules = $pageModules | append "lightbox" -}}{{- end -}}
+    {{- if $hasProjectInfobox -}}{{- $pageModules = $pageModules | append "project-infobox" -}}{{- end -}}
+    {{- if .Params.projectMeta -}}{{- $pageModules = $pageModules | append "project-meta" -}}{{- end -}}
+    {{- if $hasSectionNavbox -}}{{- $pageModules = $pageModules | append "section-navbox" -}}{{- end -}}
+    {{- if .Params.math -}}{{- $pageModules = $pageModules | append "math" -}}{{- end -}}
+    {{- if $hasMermaid -}}{{- $pageModules = $pageModules | append "mermaid" -}}{{- end -}}
+    {{- if and (eq $kind "single") (or site.Params.donate site.Params.externalLinks.donateUrl) -}}
+        {{- $pageModules = $pageModules | append "donation" -}}
+    {{- end -}}
 {{- end -}}
 
 {{- $bundleFiles := slice -}}

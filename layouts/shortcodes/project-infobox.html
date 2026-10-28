@@ -1,0 +1,119 @@
+{{- $title := .Get "title" | default .Page.Title -}}
+{{- $image := .Get "image" -}}
+{{- if $image -}}
+    {{- with $.Page.Resources.GetMatch (strings.TrimPrefix "/" $image) -}}{{- $image = .RelPermalink -}}{{- end -}}
+{{- end -}}
+<aside class="project-infobox">
+    <div class="project-infobox-header">
+        <h2 class="project-infobox-title">{{ $title }}</h2>
+    </div>
+
+    {{- with $image }}
+    <div class="project-infobox-image-wrapper js-lightbox-trigger"
+         data-image="{{ . | absURL }}"
+         data-caption="{{ $title }}">
+        <img src="{{ . | absURL }}" alt="{{ $title }}" class="project-infobox-image" loading="lazy">
+        <div class="project-infobox-image-overlay">
+            <span class="project-infobox-image-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
+        </div>
+    </div>
+    {{- end }}
+
+    <table class="project-infobox-table">
+        {{- with .Get "type" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_type" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "status" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_status" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "year" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_year" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "language" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_language" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "framework" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_framework" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "platform" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_platform" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "architecture" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_architecture" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "lines" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_lines" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "files" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_files" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "modules" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_modules" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "dependencies" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_dependencies" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "database" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_database" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "api" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_api" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "performance" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_performance" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "accuracy" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_accuracy" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "coverage" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_coverage" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "grade" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_grade" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "team" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_team" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "duration" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_duration" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "license" }}
+        <tr><td class="project-infobox-label">{{ i18n "project_license" }}</td><td class="project-infobox-value">{{ . }}</td></tr>
+        {{- end }}
+        {{- with .Get "tags" }}
+        <tr>
+            <td class="project-infobox-label">{{ i18n "project_tags" }}</td>
+            <td class="project-infobox-value">
+                <div class="project-infobox-tags">
+                    {{- range split . "," }}
+                    <span class="project-infobox-tag">{{ trim . " " }}</span>
+                    {{- end }}
+                </div>
+            </td>
+        </tr>
+        {{- end }}
+    </table>
+
+    {{- if or (.Get "github") (.Get "demo") (.Get "documentation") }}
+    <div class="project-infobox-actions" aria-label="{{ i18n "project_infobox_actions" }}">
+        {{- with .Get "github" }}
+        <a href="{{ . }}" class="project-infobox-btn github" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-github" | relURL }}"></use></svg>
+            {{ i18n "project_github" }}
+        </a>
+        {{- end }}
+        {{- with .Get "demo" }}
+        <a href="{{ . }}" class="project-infobox-btn demo" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-external" | relURL }}"></use></svg>
+            {{ i18n "project_demo" }}
+        </a>
+        {{- end }}
+        {{- with .Get "documentation" }}
+        <a href="{{ . }}" class="project-infobox-btn docs" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-file" | relURL }}"></use></svg>
+            {{ i18n "project_docs" }}
+        </a>
+        {{- end }}
+    </div>
+    {{- end }}
+</aside>

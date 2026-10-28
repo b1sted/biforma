@@ -54,6 +54,10 @@
 </details>
 {{- end -}}
 
+{{ if .Params.projectMeta }}
+    {{ partial "project-meta.html" . }}
+{{ end }}
+
 <article class="article" data-pagefind-body>
     {{ .Content }}
 </article>

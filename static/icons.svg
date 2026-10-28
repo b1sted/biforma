@@ -18,14 +18,14 @@
         <polyline points="9 22 9 12 15 12 15 22"></polyline>
     </symbol>
 
-    <!-- External Link Icon (для кнопки View / Demo) -->
+    <!-- External link icon (used by the View / Demo button) -->
     <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
         <polyline points="15 3 21 3 21 9"></polyline>
         <line x1="10" y1="14" x2="21" y2="3"></line>
     </symbol>
 
-    <!-- Eye / View Icon (альтернативная иконка просмотра) -->
+    <!-- Eye / view icon (alternative view icon) -->
     <symbol id="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
         <circle cx="12" cy="12" r="3"></circle>
@@ -117,7 +117,7 @@
         <polyline points="15 18 9 12 15 6"></polyline>
     </symbol>
 
-    <!-- Link / Anchor Icon (для якорных ссылок заголовков) -->
+    <!-- Link / anchor icon (used by heading anchor links) -->
     <symbol id="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>

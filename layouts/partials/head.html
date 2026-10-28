@@ -2,6 +2,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 
+{{- $defaultCSP := "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://mc.yandex.ru; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru wss://*.yandex.ru; frame-src 'self' https://mc.yandex.ru; media-src 'self'; manifest-src 'self'; worker-src 'self' blob:;" -}}
+{{- $csp := $defaultCSP -}}
+{{- if ne site.Params.csp nil -}}{{- $csp = site.Params.csp -}}{{- end -}}
+{{- with $csp -}}
+<meta http-equiv="Content-Security-Policy" content="{{ . }}">
+{{- end -}}
+
 {{ with site.Params.yandexVerification }}<meta name="yandex-verification" content="{{ . }}">{{ end }}
 {{ with site.Params.googleVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
 
@@ -130,6 +137,16 @@ window.i18n = {{ dict
 {{- end -}}
 <meta name="description" content="{{ $description }}">
 
+{{- $keywords := .Keywords -}}
+{{- if not $keywords -}}{{- $keywords = site.Params.keywords -}}{{- end -}}
+{{- with $keywords -}}
+<meta name="keywords" content="{{ delimit . ", " }}">
+{{- end }}
+{{- with site.Params.author -}}
+<meta name="author" content="{{ . }}">
+{{- end }}
+<meta name="application-name" content="{{ site.Title }}">
+
 {{- if or .Params.noindex (eq .Params.searchHidden true) -}}
 <meta name="robots" content="noindex, nofollow">
 {{- else if hugo.IsProduction -}}
@@ -195,6 +212,7 @@ window.i18n = {{ dict
     {{- if .IsPage -}}
         {{- with site.Params.author -}}
             {{- $schema = merge $schema (dict "author" (dict "@type" "Person" "name" .)) -}}
+            {{- $schema = merge $schema (dict "publisher" (dict "@type" "Person" "name" .)) -}}
         {{- end -}}
         {{- if not .Date.IsZero -}}
             {{- $schema = merge $schema (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) -}}
@@ -202,10 +220,52 @@ window.i18n = {{ dict
         {{- if not .Lastmod.IsZero -}}
             {{- $schema = merge $schema (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) -}}
         {{- end -}}
+        {{- if gt .WordCount 0 -}}
+            {{- $schema = merge $schema (dict "wordCount" .WordCount) -}}
+        {{- end -}}
+        {{- $schema = merge $schema (dict "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)) -}}
     {{- end -}}
 
     <script type="application/ld+json">
         {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+    </script>
+
+    {{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" (i18n "nav_home") "item" site.Home.Permalink) -}}
+    {{- $position := 1 -}}
+    {{- range .Ancestors.Reverse -}}
+        {{- if not .IsHome -}}
+            {{- $position = add $position 1 -}}
+            {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" $position "name" .Title "item" .Permalink) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- $position = add $position 1 -}}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" $position "name" .Title "item" .Permalink) -}}
+    <script type="application/ld+json">
+        {{ dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $crumbs | jsonify (dict "indent" "  ") | safeJS }}
+    </script>
+{{- else -}}
+    {{- $sameAs := slice -}}
+    {{- with site.Params.github -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+    {{- with site.Params.telegram -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+    {{- with site.Params.social -}}
+        {{- with .github -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+        {{- with .telegram -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+    {{- end -}}
+
+    {{- $person := dict
+        "@context" "https://schema.org"
+        "@type" "Person"
+        "name" site.Params.author
+        "url" site.BaseURL
+    -}}
+    {{- with site.Params.authorRole | default site.Params.role -}}
+        {{- $person = merge $person (dict "jobTitle" .) -}}
+    {{- end -}}
+    {{- with $sameAs -}}
+        {{- $person = merge $person (dict "sameAs" .) -}}
+    {{- end -}}
+    <script type="application/ld+json">
+        {{ $person | jsonify (dict "indent" "  ") | safeJS }}
     </script>
 {{- end }}
 

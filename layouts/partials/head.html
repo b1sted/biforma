@@ -86,6 +86,8 @@ window.i18n = {{ dict
     {{- end -}}
 {{- end -}}
 
+{{- $pageModules = $pageModules | append "responsive" -}}
+
 {{- $bundleFiles := slice -}}
 {{- with resources.Get "css/fonts.css" -}}{{- $bundleFiles = $bundleFiles | append . -}}{{- end -}}
 

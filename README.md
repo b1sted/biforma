@@ -206,7 +206,8 @@ lists in templates.
   `by_kind` modules. The theme also appends content-specific modules when a
   page actually needs them: code blocks (`chroma`), tables, tabs, compare
   blocks, images/lightbox, mermaid, math, project meta/infobox, section
-  navbox and donation.
+  navbox and donation. The `responsive` module is always appended last so
+  its media queries override page-specific styles.
 - `data/js_modules.yaml` maps each page kind to an entry in
   `assets/js/entries/` and documents the core/page-specific module split. The
   entry imports only its own modules; `fallback` loads everything for

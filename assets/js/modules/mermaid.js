@@ -161,6 +161,12 @@ export function initMermaid() {
         }
     });
 
+    document.addEventListener('themechange', () => {
+        if (document.querySelector('.mermaid:not([data-rendered="true"])')) {
+            renderAllMermaid();
+        }
+    });
+
     if ('requestIdleCallback' in window) {
         requestIdleCallback(() => renderAllMermaid(), { timeout: 1500 });
     } else {

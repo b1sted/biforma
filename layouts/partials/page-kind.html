@@ -1,0 +1,15 @@
+{{- $kind := "fallback" -}}
+{{- if .IsHome -}}
+    {{- $kind = "home" -}}
+{{- else if eq .Kind "404" -}}
+    {{- $kind = "404" -}}
+{{- else if or (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+    {{- $kind = "about" -}}
+{{- else if or (eq .Section "rss") (in .RelPermalink "/rss/") -}}
+    {{- $kind = "feeds" -}}
+{{- else if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+    {{- $kind = "list" -}}
+{{- else if eq .Kind "page" -}}
+    {{- $kind = "single" -}}
+{{- end -}}
+{{- return $kind -}}

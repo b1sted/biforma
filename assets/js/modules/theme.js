@@ -1,7 +1,5 @@
-import { renderAllMermaid } from './mermaid.js';
-
-function hasUnrenderedMermaid() {
-    return document.querySelector('.mermaid:not([data-rendered="true"])') !== null;
+function notifyThemeChange(theme) {
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
 }
 
 export function initTheme() {
@@ -16,10 +14,7 @@ export function initTheme() {
         html.classList.add('theme-transition');
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
-
-        if (hasUnrenderedMermaid()) {
-            renderAllMermaid();
-        }
+        notifyThemeChange(next);
 
         setTimeout(() => {
             html.classList.remove('theme-transition');
@@ -30,9 +25,7 @@ export function initTheme() {
         if (!localStorage.getItem('theme')) {
             const newTheme = e.matches ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
-            if (hasUnrenderedMermaid()) {
-                renderAllMermaid();
-            }
+            notifyThemeChange(newTheme);
         }
     });
 }

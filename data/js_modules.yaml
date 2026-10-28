@@ -1,0 +1,61 @@
+# Single source of truth for JS bundle selection.
+# Used in layouts/partials/scripts.html.
+#
+# Each page kind loads a dedicated entry from assets/js/entries/. The entry
+# imports the core boot module plus only the page-specific modules it needs.
+# `core` and `by_kind` document the composition; `entries` maps a page kind to
+# the entry file name (without the .js extension).
+
+core:
+  - theme
+  - sidebar
+  - email-protection
+  - define
+  - search
+  - license
+  - service-worker
+  - prefetch
+  - lazy-loading
+  - scroll-top
+  - error-page
+
+by_kind:
+  home: []
+  list:
+    - section-filter
+    - section-groups
+  single:
+    - toc
+    - tabs
+    - compare
+    - tables
+    - code-copy
+    - lightbox
+    - mermaid
+    - section-navbox
+  about:
+    - about-filter
+  feeds:
+    - code-copy
+  "404": []
+  fallback:
+    - toc
+    - tabs
+    - compare
+    - tables
+    - code-copy
+    - lightbox
+    - mermaid
+    - section-filter
+    - section-groups
+    - section-navbox
+    - about-filter
+
+entries:
+  home: home
+  list: list
+  single: single
+  about: about
+  feeds: feeds
+  "404": not-found
+  fallback: fallback

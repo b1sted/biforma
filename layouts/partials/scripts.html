@@ -18,7 +18,14 @@
     "minify" (not hugo.IsServer)
 -}}
 
-{{- with resources.Get "js/main.js" -}}
+{{- $kind := partial "page-kind.html" . -}}
+{{- $entry := index hugo.Data.js_modules.entries $kind | default "fallback" -}}
+{{- $entryAsset := resources.Get (printf "js/entries/%s.js" $entry) -}}
+{{- if not $entryAsset -}}
+    {{- $entryAsset = resources.Get "js/entries/fallback.js" -}}
+{{- end -}}
+
+{{- with $entryAsset -}}
     {{- $bundle := . | js.Build $esbuildOpts | fingerprint -}}
     <script defer src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}"></script>
 {{- end -}}

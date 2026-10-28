@@ -19,7 +19,6 @@ core:
   - search-modal
   - license-modal
   - sidebar-overlay
-  - responsive
   - define
 
 by_kind:

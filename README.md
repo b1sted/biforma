@@ -41,6 +41,7 @@
 - **Heading Anchors**: Hover-revealed anchor links next to headings (up to the configured TOC depth), with TOC-consistent smooth scrolling.
 - **License Modal & Footer Credit**: Per-page code/content license disclosure via modal, plus an optional "Theme: Biforma" credit line in the footer.
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
+- **PWA & Offline**: Web app manifest, installable icons, a service worker with static-asset caching and an offline fallback page, plus intent-based link prefetching and deferred-image loading.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
 ## Quick Start
@@ -81,6 +82,23 @@ node scripts/render-mermaid.js public
 
 Both scripts are optional: without them the client-side modules render the
 same content on demand.
+
+### PWA & Offline
+
+The theme ships with a web app manifest, installable icons, an offline fallback
+page, and a service worker that is registered automatically after page load.
+Static assets (fonts, icons, CSS, JS) use a cache-first strategy, while pages
+use network-first with a cached/offline fallback.
+
+The bundled `static/manifest.json` is intentionally generic. To brand the
+installed app, override it by placing your own `static/manifest.json` in the
+site root (site static files take precedence over theme files). Keep the icon
+paths relative if the site is hosted under a subpath.
+
+`static/sw.js` derives its scope from its own URL, so it works both at the site
+root and under a base path. Bump `CACHE_VERSION` when changing the precache
+list. The service worker skips Pagefind assets to avoid caching the search
+index.
 
 ---
 

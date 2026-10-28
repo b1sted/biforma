@@ -69,7 +69,8 @@ window.i18n = {{ dict
     {{- $pageModules = $pageModules | append "math" -}}
 {{- end -}}
 
-{{- if or .Params.mermaid site.Params.mermaid -}}
+{{- $hasMermaid := or .Params.mermaid site.Params.mermaid (and .IsPage (or (.HasShortcode "mermaid") (strings.Contains .Content "class=\"mermaid"))) -}}
+{{- if $hasMermaid -}}
     {{- $pageModules = $pageModules | append "mermaid" -}}
 {{- end -}}
 

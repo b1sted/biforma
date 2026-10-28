@@ -1,0 +1,91 @@
+<div class="project-meta">
+    {{- with .Params.screenshot -}}
+        {{- $src := . -}}
+        {{- with $.Resources.GetMatch (strings.TrimPrefix "/" $src) -}}{{- $src = .RelPermalink -}}{{- end -}}
+        {{- $imageURL := $src | absURL -}}
+        <div class="project-meta-screenshot js-lightbox-trigger"
+             data-image="{{ $imageURL }}"
+             data-caption="{{ $.Title }}">
+            <img src="{{ $imageURL }}" alt="{{ printf (i18n "project_screenshot_alt") $.Title }}" loading="lazy">
+            <div class="project-meta-screenshot-overlay">
+                <span class="project-meta-screenshot-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
+            </div>
+        </div>
+    {{- end -}}
+
+    <div class="project-meta-row">
+        {{- with .Params.projectType -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_type" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.language -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_language" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.year -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_year" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.linesOfCode -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_lines" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.modules -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_modules" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.duration -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_duration" }}</span>
+            <span class="meta-value">{{ . }}</span>
+        </div>
+        {{- end -}}
+
+        {{- with .Params.status -}}
+        <div class="meta-item">
+            <span class="meta-label">{{ i18n "project_status" }}</span>
+            <span class="meta-value meta-status">{{ . }}</span>
+        </div>
+        {{- end -}}
+    </div>
+
+    {{- if or .Params.github .Params.demo .Params.documentation -}}
+    <div class="project-meta-links">
+        {{- with .Params.github -}}
+        <a href="{{ . }}" class="meta-link meta-link-github" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-github" | relURL }}"></use></svg>
+            <span>{{ i18n "project_github" }}</span>
+        </a>
+        {{- end -}}
+
+        {{- with .Params.demo -}}
+        <a href="{{ . }}" class="meta-link meta-link-demo" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-external" | relURL }}"></use></svg>
+            <span>{{ i18n "project_demo" }}</span>
+        </a>
+        {{- end -}}
+
+        {{- with .Params.documentation -}}
+        <a href="{{ . }}" class="meta-link meta-link-docs" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" aria-hidden="true" fill="currentColor"><use href="{{ "icons.svg#icon-file" | relURL }}"></use></svg>
+            <span>{{ i18n "project_docs" }}</span>
+        </a>
+        {{- end -}}
+    </div>
+    {{- end -}}
+</div>

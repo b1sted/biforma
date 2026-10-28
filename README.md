@@ -42,6 +42,7 @@
 - **License Modal & Footer Credit**: Per-page code/content license disclosure via modal, plus an optional "Theme: Biforma" credit line in the footer.
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
 - **PWA & Offline**: Web app manifest, installable icons, a service worker with static-asset caching and an offline fallback page, plus intent-based link prefetching and deferred-image loading.
+- **Security & SEO**: Configurable Content-Security-Policy, robots.txt, Open Graph/Twitter metadata, and JSON-LD for articles, breadcrumbs and the author profile.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
 ## Quick Start
@@ -130,6 +131,12 @@ defaultContentLanguage = "ru"
   logo = "📝"
   description = "Notes & Technical Documentation"
   author = "Your Name"
+  keywords = ["hugo", "documentation", "blog"]  # Default <meta name="keywords"> fallback
+
+  # Content-Security-Policy. The theme ships a policy that allows its inline
+  # scripts/styles, local assets, Pagefind WASM and the built-in analytics.
+  # Set to false to disable the meta tag, or replace it with your own policy.
+  csp = "default-src 'self'; ..."
 
   # Navigation & Links
   mainSite = "https://example.com"
@@ -177,6 +184,13 @@ defaultContentLanguage = "ru"
 [markup.tableOfContents]
   startLevel = 2
   endLevel = 3
+```
+
+The theme ships a fallback `static/robots.txt`. For an absolute sitemap URL,
+enable Hugo's robots template so the theme's `layouts/robots.txt` is used:
+
+```toml
+enableRobotsTXT = true
 ```
 
 ---

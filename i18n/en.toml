@@ -57,6 +57,16 @@ other = "FEATURED"
 [blog_hero_badge]
 other = "Latest publication"
 
+[blog_series_badge]
+other = "Article series"
+
+[blog_series_articles]
+one = "%d article"
+other = "%d articles"
+
+[blog_series_view]
+other = "View series"
+
 [blog_pagination_prev]
 other = "← Older"
 

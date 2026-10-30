@@ -1,0 +1,35 @@
+{{- $blogPages := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true -}}
+{{- $blogPages = where $blogPages "Type" "ne" "about" -}}
+{{- $blogPages = $blogPages.ByDate.Reverse -}}
+
+{{- $seriesSections := slice -}}
+{{- range site.Pages -}}
+    {{- if and (eq .Kind "section") .Params.series -}}
+        {{- $seriesPages := where .RegularPages "Params.searchHidden" "!=" true -}}
+        {{- $seriesPages = where $seriesPages "Type" "ne" "about" -}}
+        {{- if $seriesPages -}}
+            {{- $seriesSections = $seriesSections | append . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $feedItems := slice -}}
+{{- range $blogPages -}}
+    {{- if not .CurrentSection.Params.series -}}
+        {{- $feedItems = $feedItems | append (dict "Page" . "Date" .Date) -}}
+    {{- end -}}
+{{- end -}}
+{{- range $seriesSections -}}
+    {{- $seriesPages := where .RegularPages "Params.searchHidden" "!=" true -}}
+    {{- $seriesPages = where $seriesPages "Type" "ne" "about" -}}
+    {{- $latest := index ($seriesPages.ByDate.Reverse) 0 -}}
+    {{- $feedItems = $feedItems | append (dict "Page" . "Date" $latest.Date) -}}
+{{- end -}}
+{{- $feedItems = sort $feedItems "Date" "desc" -}}
+
+{{- $feedPages := slice -}}
+{{- range $feedItems -}}
+    {{- $feedPages = $feedPages | append .Page -}}
+{{- end -}}
+
+{{- return $feedPages -}}

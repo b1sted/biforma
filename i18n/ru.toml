@@ -57,6 +57,18 @@ other = "ИЗБРАННОЕ"
 [blog_hero_badge]
 other = "Свежая публикация"
 
+[blog_series_badge]
+other = "Серия статей"
+
+[blog_series_articles]
+one = "%d статья"
+few = "%d статьи"
+many = "%d статей"
+other = "%d статей"
+
+[blog_series_view]
+other = "Смотреть серию"
+
 [blog_pagination_prev]
 other = "← Назад"
 

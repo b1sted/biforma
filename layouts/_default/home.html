@@ -9,15 +9,13 @@
 {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
 {{ if $isBlog }}
-    {{ $blogPages := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true }}
-    {{ $blogPages = where $blogPages "Type" "ne" "about" }}
-    {{ $blogPages = $blogPages.ByDate.Reverse }}
+    {{ $feedPages := partial "blog-feed-pages.html" . }}
 
     {{/* Posts per page on the blog home. Override via params.blogPageSize in hugo.toml.
          Note: the bento grid below assumes a full page (hero at index 0, wide cards at
          1 and 7), so pick a size >= 8 for the layout to look right. */}}
     {{ $pageSize := site.Params.blogPageSize | default 14 }}
-    {{ $paginator := .Paginate $blogPages $pageSize }}
+    {{ $paginator := .Paginate $feedPages $pageSize }}
 
     <div class="blog-home-wrapper">
         <div class="blog-bento-grid">
@@ -28,8 +26,17 @@
 
                 {{ $isHero := eq $index 0 }}
                 {{ $isWide := or (eq $index 1) (eq $index 7) }}
+                {{ $isSeries := and (eq .Kind "section") .Params.series }}
 
-                {{ if $isHero }}
+                {{ if $isSeries }}
+                    {{ $variant := "card" }}
+                    {{ if $isHero }}
+                        {{ $variant = "hero" }}
+                    {{ else if $isWide }}
+                        {{ $variant = "wide" }}
+                    {{ end }}
+                    {{ partial "blog-series-card.html" (dict "page" . "variant" $variant) }}
+                {{ else if $isHero }}
                     <article class="blog-bento-hero">
                         <div class="blog-hero-top-row">
                             <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Свежая публикация" }}</span>

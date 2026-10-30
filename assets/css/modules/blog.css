@@ -757,3 +757,15 @@
         margin-top: 2px;
     }
 }
+
+/* Blog series cards replace the individual articles from a series section. */
+.blog-series-card:not(.blog-bento-hero) {
+    border-left: 3px solid color-mix(in srgb, var(--accent-primary) 55%, var(--border-primary));
+}
+
+.blog-series-cta {
+    font-size: var(--font-size-2xs);
+    font-weight: 700;
+    color: var(--accent-primary);
+    white-space: nowrap;
+}

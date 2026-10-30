@@ -1,0 +1,51 @@
+{{- $page := .page -}}
+{{- $variant := .variant | default "card" -}}
+{{- $seriesPages := where $page.RegularPages "Params.searchHidden" "!=" true -}}
+{{- $seriesPages = where $seriesPages "Type" "ne" "about" -}}
+{{- $count := len $seriesPages -}}
+{{- $latestDate := $page.Date -}}
+{{- with $seriesPages.ByDate.Reverse -}}
+    {{- $latestDate = (index . 0).Date -}}
+{{- end -}}
+
+{{- $class := "blog-bento-card" -}}
+{{- $titleClass := "card-title" -}}
+{{- $descClass := "card-desc" -}}
+{{- $descLength := 160 -}}
+{{- if eq $variant "hero" -}}
+    {{- $class = "blog-bento-hero" -}}
+    {{- $titleClass = "blog-hero-title" -}}
+    {{- $descClass = "blog-hero-desc" -}}
+    {{- $descLength = 220 -}}
+{{- else if eq $variant "wide" -}}
+    {{- $class = "blog-bento-wide" -}}
+{{- end -}}
+
+{{- $description := $page.Description | default ($page.Summary | plainify | truncate $descLength) -}}
+{{- $icon := $page.Params.icon | default "📚" -}}
+
+<article class="{{ $class }} blog-series-card">
+    <div class="blog-hero-top-row">
+        <span class="blog-hero-badge">{{ $icon }} {{ i18n "blog_series_badge" | default "Article series" }}</span>
+        {{ if not $latestDate.IsZero }}
+            <time class="blog-hero-date" datetime="{{ $latestDate.Format "2006-01-02" }}">
+                {{ $latestDate.Format "02.01.2006" }}
+            </time>
+        {{ end }}
+    </div>
+
+    <h2 class="{{ $titleClass }}">
+        <a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+    </h2>
+
+    {{ with $description }}
+        <p class="{{ $descClass }}">{{ . }}</p>
+    {{ end }}
+
+    <div class="card-footer">
+        <div class="card-meta-left">
+            <span>{{ printf (i18n "blog_series_articles" $count) $count }}</span>
+        </div>
+        <span class="blog-series-cta">{{ i18n "blog_series_view" | default "View series" }} →</span>
+    </div>
+</article>

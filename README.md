@@ -32,6 +32,7 @@
 ## Features
 
 - **Dual Mode (`themeMode`)**: Switch between `docs` (tree navigation, Table of Contents, category filters) and `blog` (clean post feed, metadata).
+- **Blog Series**: Collapse a multi-part guide into a single card on the blog home while keeping every article accessible from the section page.
 - **Multilingual & i18n**: Built-in internationalization with localized UI strings and an optional header language switcher for multi-language sites.
 - **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), and lazy-loaded analytics.
 - **Instant Search**: Powered by Pagefind for zero-config, ultra-fast client-side search.
@@ -283,6 +284,31 @@ group_description: "Installation, configuration and first steps"
 The section filter bar, collapsible groups and the section navbox are rendered
 for every section regardless of `themeMode`; no assembly-specific markup is
 required.
+
+---
+
+## Blog Series
+
+When `themeMode = "blog"`, a section can be presented as a single card in the
+home feed instead of showing every article from that section. This is useful for
+multi-part guides and courses such as a "C Language" series.
+
+Enable it with `series: true` in the section's `_index.md`:
+
+```yaml
+---
+title: "C Language"
+description: "A hands-on guide to the C programming language."
+icon: "🅲"
+series: true
+---
+```
+
+The blog home then renders one card for the whole section. The card uses the
+section title, description and optional icon, shows the number of articles and
+links to the section page. Articles remain available on the section page and in
+search. The card is placed in the feed according to the newest article in the
+series.
 
 ---
 

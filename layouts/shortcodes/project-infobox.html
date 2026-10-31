@@ -1,9 +1,10 @@
 {{- $title := .Get "title" | default .Page.Title -}}
 {{- $image := .Get "image" -}}
+{{- $imageURL := "" -}}
 {{- $dims := dict "width" 0 "height" 0 -}}
 {{- if $image -}}
     {{- $dims = partial "image-dimensions.html" (dict "src" $image "page" $.Page) -}}
-    {{- with $.Page.Resources.GetMatch (strings.TrimPrefix "/" $image) -}}{{- $image = .RelPermalink -}}{{- end -}}
+    {{- $imageURL = partial "image-url.html" (dict "src" $image "page" $.Page) -}}
 {{- end -}}
 {{- $dimAttr := "" -}}
 {{- if and $dims.width $dims.height -}}{{- $dimAttr = printf ` width="%v" height="%v"` $dims.width $dims.height -}}{{- end -}}
@@ -16,9 +17,9 @@
         {{- with $image }}
         <div class="project-infobox-media">
             <div class="project-infobox-image-wrapper js-lightbox-trigger"
-                 data-image="{{ . | absURL }}"
+                 data-image="{{ $imageURL }}"
                  data-caption="{{ $title }}">
-                <img src="{{ . | absURL }}" alt="{{ $title }}" class="project-infobox-image" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+                <img src="{{ $imageURL }}" alt="{{ $title }}" class="project-infobox-image" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
                 <div class="project-infobox-image-overlay">
                     <span class="project-infobox-image-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
                 </div>

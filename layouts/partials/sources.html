@@ -1,4 +1,3 @@
-{{- $page := . -}}
 {{- with .Params.sources -}}
 <section class="article-sources">
     <h2 class="sources-title" id="sources">{{ i18n "sources_title" }}</h2>
@@ -30,14 +29,6 @@
                     {{- with $source.note }}<span class="source-note">{{ . }}</span>{{ end -}}
                 {{- end -}}
             </div>
-            {{- $count := $page.Scratch.Get (printf "cite-%s" $id) | default 0 -}}
-            {{- if gt $count 0 -}}
-            <span class="source-backlinks">
-                {{- range seq $count -}}
-                <a class="source-backlink" href="#cite-{{ $anchor }}-{{ . }}" aria-label="{{ i18n "source_backlink" }}">↩</a>
-                {{- end -}}
-            </span>
-            {{- end -}}
         </li>
         {{- end -}}
     </ol>

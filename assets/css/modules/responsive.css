@@ -76,10 +76,6 @@
         margin-top: 10px;
     }
 
-    .section-articles[data-count="1"] {
-        max-width: none;
-    }
-
     .article-card {
         padding: 16px;
         min-height: auto;

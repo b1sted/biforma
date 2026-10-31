@@ -208,7 +208,6 @@
 
 .section-articles[data-count="1"] {
     grid-template-columns: 1fr;
-    max-width: 600px;
 }
 
 .section-articles[data-count="2"] {

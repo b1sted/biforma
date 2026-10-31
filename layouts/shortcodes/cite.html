@@ -10,10 +10,7 @@
 
 {{- if $number -}}
     {{- $anchor := $id | anchorize -}}
-    {{- $countKey := printf "cite-%s" $id -}}
-    {{- $count := add (.Page.Scratch.Get $countKey | default 0) 1 -}}
-    {{- .Page.Scratch.Set $countKey $count -}}
-<a class="citation-ref" href="#source-{{ $anchor }}" id="cite-{{ $anchor }}-{{ $count }}">[{{ $number }}]</a>
+<a class="citation-ref" href="#source-{{ $anchor }}">[{{ $number }}]</a>
 {{- else -}}
     {{- warnf "cite: source with id %q not found in %s" $id .Page.RelPermalink -}}
 <span class="citation-ref citation-ref--missing" title="{{ i18n "source_missing" }}">[?]</span>

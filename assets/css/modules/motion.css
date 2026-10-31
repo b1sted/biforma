@@ -1,0 +1,157 @@
+/*
+ * Motion polish.
+ *
+ * Only compositor-friendly properties are animated (opacity and transform),
+ * so these effects do not trigger layout or paint work. Everything is opt-out
+ * for users who prefer reduced motion, and the page stays readable when the
+ * animations are disabled.
+ */
+
+@keyframes motion-slide-up {
+    from {
+        transform: translateY(6px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes motion-fade-up {
+    from {
+        opacity: 0.65;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes motion-fade-left {
+    from {
+        opacity: 0.7;
+        transform: translateX(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes motion-fade-right {
+    from {
+        opacity: 0.7;
+        transform: translateX(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes motion-page-out {
+    to {
+        opacity: 0;
+        transform: scale(0.995);
+    }
+}
+
+@keyframes motion-page-in {
+    from {
+        opacity: 0;
+        transform: scale(0.995);
+    }
+}
+
+/* Keep the mobile LCP path free of extra compositing work. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1025px) {
+    .main-content-body {
+        animation: motion-slide-up 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .sidebar {
+        animation: motion-fade-left 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    }
+
+    .toc-sidebar {
+        animation: motion-fade-right 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    }
+
+    .toc-mobile {
+        animation: motion-fade-up 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    }
+
+    .blog-bento-card,
+    .blog-bento-wide,
+    .blog-series-card:not(.blog-bento-hero),
+    .blog-stream-item,
+    .article-card,
+    .section-card,
+    .project-showcase-card {
+        animation: motion-fade-up 0.35s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    }
+
+    .blog-bento-grid > :nth-child(3),
+    .blog-stream-list > :nth-child(2),
+    .section-articles > :nth-child(2),
+    .sections-grid > :nth-child(2),
+    .projects-showcase > :nth-child(2) {
+        animation-delay: 35ms;
+    }
+
+    .blog-bento-grid > :nth-child(4),
+    .blog-stream-list > :nth-child(3),
+    .section-articles > :nth-child(3),
+    .sections-grid > :nth-child(3),
+    .projects-showcase > :nth-child(3) {
+        animation-delay: 70ms;
+    }
+
+    .blog-bento-grid > :nth-child(5),
+    .blog-stream-list > :nth-child(4),
+    .section-articles > :nth-child(4),
+    .sections-grid > :nth-child(4),
+    .projects-showcase > :nth-child(4) {
+        animation-delay: 105ms;
+    }
+
+    .blog-bento-grid > :nth-child(6),
+    .blog-stream-list > :nth-child(5),
+    .section-articles > :nth-child(5),
+    .sections-grid > :nth-child(5),
+    .projects-showcase > :nth-child(5) {
+        animation-delay: 140ms;
+    }
+
+    .blog-bento-grid > :nth-child(7),
+    .blog-stream-list > :nth-child(6),
+    .section-articles > :nth-child(6),
+    .sections-grid > :nth-child(6),
+    .projects-showcase > :nth-child(6) {
+        animation-delay: 175ms;
+    }
+}
+
+/*
+ * Cross-document view transitions make internal navigation feel continuous in
+ * browsers that support them. Other browsers simply keep instant navigation.
+ */
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root) {
+        animation: motion-page-out 0.12s ease-out both;
+    }
+
+    ::view-transition-new(root) {
+        animation: motion-page-in 0.18s ease-out both;
+    }
+}

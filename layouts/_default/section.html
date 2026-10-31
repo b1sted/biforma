@@ -16,6 +16,21 @@
 <article class="article">
     {{ .Content }}
 
+    {{ with .Sections }}
+    <div class="sections-grid">
+        {{ range .ByWeight }}
+            {{ $count := len (where .RegularPagesRecursive "Params.searchHidden" "!=" true) }}
+            <a href="{{ .RelPermalink }}" class="section-card">
+                <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
+                <div class="section-info">
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ printf (i18n "notes_count" $count) $count }}</p>
+                </div>
+            </a>
+        {{ end }}
+    </div>
+    {{ end }}
+
     {{ if .RegularPages }}
         {{ $pages := (where .RegularPages "Params.searchHidden" "!=" true).ByWeight }}
         {{ $totalCount := len $pages }}

@@ -379,3 +379,12 @@ other = "Jan 2, 2006"
 
 [aria_switch_language]
 other = "Switch to %s"
+
+[aria_email]
+other = "Email"
+
+[aria_github]
+other = "GitHub"
+
+[aria_telegram]
+other = "Telegram"

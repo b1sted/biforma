@@ -8,7 +8,11 @@
 
         <a href="{{ site.Home.RelPermalink }}" class="header-logo">
             {{ with site.Params.logo }}
-                <span class="header-logo-icon">{{ . }}</span>
+                {{- if or (strings.HasPrefix . "/") (strings.HasPrefix . "http") -}}
+                    <img src="{{ . | relURL }}" alt="{{ site.Title }}" class="header-logo-img" width="28" height="28" decoding="async">
+                {{- else -}}
+                    <span class="header-logo-icon">{{ . }}</span>
+                {{- end -}}
             {{ end }}
             <span class="header-logo-text">{{ site.Title }}</span>
         </a>
@@ -36,7 +40,8 @@
             {{- end -}}
 
             {{ $aboutPage := site.GetPage "about" }}
-            {{ $showAbout := site.Params.showAbout | default true }}
+            {{- $showAbout := true -}}
+            {{- if ne site.Params.showAbout nil -}}{{- $showAbout = site.Params.showAbout -}}{{- end -}}
             {{ if and $showAbout $aboutPage }}
                 <a href="{{ $aboutPage.RelPermalink }}" class="header-link">
                     <svg width="18" height="18" aria-hidden="true">
@@ -46,7 +51,8 @@
                 </a>
             {{ end }}
 
-            {{ with site.Params.donate }}
+            {{- $contactLinks := partial "contact-links.html" . -}}
+            {{ with $contactLinks.donate }}
                 <a href="{{ . }}" class="header-link" target="_blank" rel="noopener noreferrer">
                     <svg width="18" height="18" aria-hidden="true">
                         <use href="{{ "icons.svg#icon-heart" | relURL }}"></use>

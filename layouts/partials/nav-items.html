@@ -7,7 +7,8 @@
     {{- if ne .Key "" -}}
         {{- $groupPages := .Pages.ByWeight -}}
         {{- $firstPage := index $groupPages 0 -}}
-        {{- $minWeight := $firstPage.Weight | default 999999 -}}
+        {{- $minWeight := 999999 -}}
+        {{- if isset $firstPage.Params "weight" -}}{{- $minWeight = $firstPage.Weight -}}{{- end -}}
         {{- $groups = $groups | append (dict "Key" .Key "Pages" $groupPages "Weight" $minWeight) -}}
     {{- end -}}
 {{- end -}}

@@ -385,3 +385,12 @@ other = "02.01.2006"
 
 [aria_switch_language]
 other = "Переключить на %s"
+
+[aria_email]
+other = "Email"
+
+[aria_github]
+other = "GitHub"
+
+[aria_telegram]
+other = "Telegram"

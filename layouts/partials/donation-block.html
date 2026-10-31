@@ -1,4 +1,5 @@
-{{ $donateUrl := site.Params.donate | default site.Params.externalLinks.donateUrl }}
+{{- $contactLinks := partial "contact-links.html" . -}}
+{{ $donateUrl := $contactLinks.donate }}
 
 {{ if $donateUrl }}
 <div class="donation-block">

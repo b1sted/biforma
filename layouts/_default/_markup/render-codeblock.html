@@ -19,22 +19,8 @@
 </figure>
 {{- else -}}
 {{- $_ := .Page.Scratch.Set "hasCode" true -}}
-{{- $lineNos := eq (printf "%v" (.Attributes.linenos | default "false")) "true" -}}
-{{- $options := dict "lineNos" $lineNos "lineNumbersInTable" false "noClasses" false -}}
-{{- $hlLines := slice -}}
-{{- with .Attributes.hl_lines -}}
-    {{- $rawLines := split (replace (printf "%v" .) "," " ") " " -}}
-    {{- range $rawLines -}}
-        {{- $line := strings.TrimSpace . -}}
-        {{- if findRE `^[0-9]+$` $line -}}
-            {{- $hlLines = $hlLines | append (int $line) -}}
-        {{- end -}}
-    {{- end -}}
-{{- end -}}
-{{- with $hlLines -}}
-    {{- $options = merge $options (dict "hl_lines" .) -}}
-{{- end -}}
-
+{{- $options := merge (dict "lineNos" false "lineNumbersInTable" false "noClasses" false) (.Options | default dict) -}}
+{{- $options = merge $options (dict "noClasses" false) -}}
 {{- $title := .Attributes.title | default .Attributes.filename | default $lang -}}
 {{- $highlighted := transform.Highlight .Inner $lang $options -}}
 {{- $noHeader := or (in $class "no-header") .Attributes.noHeader -}}

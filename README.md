@@ -235,7 +235,7 @@ lists in templates.
 
 - `data/css_modules.yaml` defines `core` modules (loaded everywhere) and
   `by_kind` modules. The theme also appends content-specific modules when a
-  page actually needs them: code blocks (`chroma`), tables, tabs, compare
+  page actually needs them: code blocks (`chroma`, `code`), tables, tabs, compare
   blocks, images/lightbox, mermaid, math, project meta/infobox, section
   navbox and donation. Content modules are detected on `single`, `home`,
   `section`, `taxonomy` and `term` pages. Shortcodes set page-scratch flags so
@@ -493,7 +493,7 @@ hugo new content projects/my-project.md --kind project
       year: 1997
       url: "https://example.com"
   ```
-  Then cite them in the text: `{{< cite "knuth-taocp" >}}`. The sources block is rendered automatically at the end of the article, with backlinks to every citation. A source entry may also use a free-form `text` field instead of structured fields.
+  Then cite them in the text: `{{< cite "knuth-taocp" >}}`. The sources block is rendered automatically at the end of the article; inline citations link to the matching entry. A source entry may also use a free-form `text` field instead of structured fields.
 
 - **Custom Code Block (`code.html`)**:  
   `{{< code lang="c" title="main.c" >}}code{{< /code >}}`  

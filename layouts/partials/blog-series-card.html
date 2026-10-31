@@ -29,7 +29,7 @@
         <span class="blog-hero-badge">{{ $icon }} {{ i18n "blog_series_badge" | default "Article series" }}</span>
         {{ if not $latestDate.IsZero }}
             <time class="blog-hero-date" datetime="{{ $latestDate.Format "2006-01-02" }}">
-                {{ $latestDate.Format "02.01.2006" }}
+                {{ $latestDate | time.Format (i18n "date_format") }}
             </time>
         {{ end }}
     </div>

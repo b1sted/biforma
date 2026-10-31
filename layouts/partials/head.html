@@ -170,6 +170,9 @@ window.i18n = {{ dict
 {{- range .AllTranslations -}}
 <link rel="alternate" hreflang="{{ .Language.Locale | default .Language.Lang }}" href="{{ .Permalink }}">
 {{- end -}}
+{{- with hugo.Sites.Default -}}
+<link rel="alternate" hreflang="x-default" href="{{ .Home.Permalink }}">
+{{- end -}}
 {{- end -}}
 
 {{- $pageTitle := .Title -}}

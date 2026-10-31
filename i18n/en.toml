@@ -373,3 +373,9 @@ other = "Screenshot of %s"
 
 [project_infobox_actions]
 other = "Project links"
+
+[date_format]
+other = "Jan 2, 2006"
+
+[aria_switch_language]
+other = "Switch to %s"

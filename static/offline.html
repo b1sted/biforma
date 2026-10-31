@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Offline | Biforma</title>
+    <title>Offline</title>
     <style>
         :root {
             color-scheme: dark light;
@@ -79,10 +79,11 @@
     </div>
     <script>
         (function () {
-            var isRussian = /^ru\b/i.test(navigator.language || '');
+            var path = window.location.pathname || '/';
+            var isRussian = /^\/ru(?:\/|$)/i.test(path) || (!/^\/en(?:\/|$)/i.test(path) && /^ru\b/i.test(navigator.language || ''));
             if (!isRussian) return;
             document.documentElement.lang = 'ru';
-            document.title = 'Офлайн | Biforma';
+            document.title = 'Офлайн';
             document.querySelector('[data-offline-title]').textContent = 'Вы офлайн';
             document.querySelector('[data-offline-text]').textContent = 'Проверьте подключение к интернету и попробуйте снова.';
             document.querySelector('[data-offline-link]').textContent = 'Вернуться на главную';

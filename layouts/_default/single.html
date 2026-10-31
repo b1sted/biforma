@@ -16,7 +16,7 @@
         <div class="single-meta-info">
             {{ if not .Date.IsZero }}
                 <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
-                    {{ .Date.Format "02.01.2006" }}
+                    {{ .Date | time.Format (i18n "date_format") }}
                 </time>
                 <span class="single-meta-sep">•</span>
             {{ end }}

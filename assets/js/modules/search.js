@@ -66,6 +66,7 @@ export function initSearch() {
 
     const closeModal = () => {
         if (!modal) return;
+        clearTimeout(timeoutId);
         modal.classList.remove('active');
         if (!document.getElementById('sidebar')?.classList.contains('open')) {
             document.body.style.overflow = '';
@@ -116,7 +117,8 @@ export function initSearch() {
             if (!pagefind) await loadPagefind();
             if (pagefind) {
                 const cleanQuery = query.replace(/^[<(\[{'"`\\/]+|[>)}\]'"`\\/]+$/g, '').trim() || query;
-                const search = await pagefind.search(cleanQuery);
+                const lang = (document.documentElement.lang || 'ru').split('-')[0];
+                const search = await pagefind.search(cleanQuery, { filters: { language: lang } });
                 if (searchId === currentSearchId && search) {
                     renderResults(search, searchId);
                 }

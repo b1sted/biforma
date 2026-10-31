@@ -6,6 +6,7 @@
 </head>
 
 <body>
+    {{- if hugo.IsMultilingual -}}<span class="pagefind-language" data-pagefind-filter="language">{{ site.Language.Lang }}</span>{{- end -}}
     {{- partial "header.html" . -}}
 
     <div class="overlay" id="overlay"></div>

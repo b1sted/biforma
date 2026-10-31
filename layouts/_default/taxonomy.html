@@ -16,11 +16,13 @@
 <article class="article">
     {{ .Content }}
 
-    {{ if .RegularPages }}
-        {{ $count := len .RegularPages }}
-        <div class="section-articles" data-count="{{ $count }}">
-            {{ range .RegularPages.ByWeight }}
-                {{ partial "article-card.html" . }}
+    {{ with .Data.Terms }}
+        <div class="tags-list term-cloud">
+            {{ range .ByCount }}
+                <a href="{{ .Page.RelPermalink }}" class="tag-item">
+                    <span>{{ .Page.Title }}</span>
+                    <span class="tag-count">{{ .Count }}</span>
+                </a>
             {{ end }}
         </div>
     {{ end }}

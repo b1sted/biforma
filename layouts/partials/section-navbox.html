@@ -2,7 +2,7 @@
 {{- $section := .CurrentSection -}}
 {{- $sectionPages := slice -}}
 {{- with $section -}}
-    {{- $sectionPages = where .RegularPages "Params.searchHidden" "!=" true -}}
+    {{- $sectionPages = where .RegularPagesRecursive "Params.searchHidden" "!=" true -}}
 {{- end -}}
 {{- if and $section .Section (gt (len $sectionPages) 1) -}}
     {{- $pages := $sectionPages.ByWeight -}}

@@ -72,7 +72,7 @@ window.i18n = {{ dict
     {{- $hasImages := or (strings.Contains $content "<img") .Params.screenshot -}}
     {{- $hasProjectInfobox := or (.HasShortcode "project-infobox") (strings.Contains $content "project-infobox") -}}
     {{- $hasMermaid := or .Params.mermaid site.Params.mermaid (.HasShortcode "mermaid") (strings.Contains $content "class=\"mermaid") (.Scratch.Get "hasMermaid") -}}
-    {{- $hasSectionNavbox := and .IsPage .Section (gt (len .CurrentSection.RegularPages) 1) -}}
+    {{- $hasSectionNavbox := and .IsPage .Section (gt (len .CurrentSection.RegularPagesRecursive) 1) -}}
 
     {{- if $hasCodeBlocks -}}{{- $pageModules = $pageModules | append "chroma" -}}{{- end -}}
     {{- if $hasTabs -}}{{- $pageModules = $pageModules | append "tabs" -}}{{- end -}}

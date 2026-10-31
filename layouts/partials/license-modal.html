@@ -26,22 +26,7 @@
 
         <div id="modal-body" class="modal-body"></div>
 
-        {{- $licenses := dict -}}
-        {{- with hugo.Data.licenses -}}
-            {{- range $key, $val := . -}}
-                {{- $item := $val -}}
-                {{- with $val.text_ru -}}
-                    {{- $item = merge $item (dict "html_ru" (. | markdownify)) -}}
-                {{- end -}}
-                {{- with $val.text_en -}}
-                    {{- $item = merge $item (dict "html_en" (. | markdownify)) -}}
-                {{- end -}}
-                {{- $licenses = merge $licenses (dict $key $item) -}}
-            {{- end -}}
-        {{- end -}}
-
-        <script type="application/json" id="license-data">
-            {{ $licenses | jsonify | safeJS }}
-        </script>
+        {{- $licenseDataURL := partialCached "license-data.html" . "licenses" -}}
+        <script>window.licenseDataUrl = {{ $licenseDataURL | jsonify | safeJS }};</script>
     </div>
 </div>

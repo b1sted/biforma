@@ -152,7 +152,7 @@ export async function renderMermaidToSvgString(source) {
 }
 
 export function initMermaid() {
-    const elements = document.querySelectorAll('.mermaid:not([data-rendered="true"])');
+    const elements = Array.from(document.querySelectorAll('.mermaid:not([data-rendered="true"])'));
     if (!elements.length) return;
 
     elements.forEach((el) => {
@@ -162,16 +162,29 @@ export function initMermaid() {
     });
 
     document.addEventListener('themechange', () => {
-        if (document.querySelector('.mermaid:not([data-rendered="true"])')) {
-            renderAllMermaid();
-        }
+        document.querySelectorAll('.mermaid[data-rendered="true"]').forEach((el) => {
+            const isSsr = el.querySelector('.mermaid-svg-light, .mermaid-svg-dark');
+            if (isSsr) return;
+            el.removeAttribute('data-rendered');
+            el.innerHTML = '';
+        });
+        renderAllMermaid();
     });
 
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => renderAllMermaid(), { timeout: 1500 });
-    } else {
-        setTimeout(renderAllMermaid, 60);
+    if (!('IntersectionObserver' in window)) {
+        renderAllMermaid();
+        return;
     }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+            renderMermaidElement(entry.target);
+        });
+    }, { rootMargin: '200px 0px' });
+
+    elements.forEach((el) => observer.observe(el));
 }
 
 export async function renderAllMermaid() {

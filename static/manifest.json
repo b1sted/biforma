@@ -2,7 +2,7 @@
   "name": "Biforma",
   "short_name": "Biforma",
   "description": "Documentation and blog powered by the Biforma Hugo theme.",
-  "start_url": ".",
+  "start_url": "./",
   "scope": ".",
   "display": "standalone",
   "background_color": "#0d0d0d",
@@ -20,5 +20,7 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "lang": "en",
+  "dir": "ltr"
 }

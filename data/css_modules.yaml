@@ -9,6 +9,7 @@
 core:
   - variables
   - base
+  - motion
   - layout
   - typography
   - header

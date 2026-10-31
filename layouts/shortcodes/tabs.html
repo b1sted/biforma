@@ -2,60 +2,48 @@
 {{- $id := .Get "id" | default (printf "tabs-%d" .Ordinal) -}}
 {{- $tabs := slice -}}
 {{- with .Get "tabs" -}}
-    {{- $tabs = split . "," -}}
+{{- $tabs = split . "," -}}
 {{- end -}}
 {{- $style := .Get "style" | default "code" -}}
 {{- $sep := .Get "sep" | default "<!-- tab -->" -}}
 {{- $isContentStyle := eq $style "content" -}}
 {{- $hasTabNames := gt (len $tabs) 0 -}}
-
 <div class="{{ if $isContentStyle }}content-tabs code-tabs--rich{{ else }}code-tabs{{ end }}" id="{{ $id }}">
-    <div class="tabs-header" data-pagefind-ignore>
-        {{- if $hasTabNames }}
-        <nav class="tabs-nav" role="tablist" aria-label="{{ i18n "aria_tabs" | default "Tabs" }}">
-            {{ range $index, $tab := $tabs }}
-            {{- $tabName := strings.TrimSpace $tab -}}
-            <button class="tab-btn{{ if eq $index 0 }} active{{ end }}" type="button" role="tab"
-                    id="tab-{{ $id }}-{{ $index }}"
-                    aria-controls="panel-{{ $id }}-{{ $index }}"
-                    aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}"
-                    tabindex="{{ if eq $index 0 }}0{{ else }}-1{{ end }}">
-                {{ $tabName }}
-            </button>
-            {{ end }}
-        </nav>
-        {{- end }}
-        {{ if not $isContentStyle }}
-        <button class="tab-copy-btn" aria-label="{{ i18n "copy_code" }}" type="button">
-            <span aria-hidden="true">📋</span>
-            <span class="copy-text">{{ i18n "copy_text" }}</span>
-        </button>
-        {{ end }}
-    </div>
-
-    <div class="tabs-content{{ if $isContentStyle }} rich-tabs{{ end }}">
-        {{- if strings.Contains .Inner $sep -}}
-            {{- $panels := split .Inner $sep -}}
-            {{- $validIndex := 0 -}}
-            {{- range $panel := $panels -}}
-                {{- $trimmed := trim $panel " \n\r\t" -}}
-                {{- if ne $trimmed "" -}}
-                <div class="tab-panel{{ if eq $validIndex 0 }} active{{ end }}" role="tabpanel"
-                     id="panel-{{ $id }}-{{ $validIndex }}"
-                     {{ if $hasTabNames }}aria-labelledby="tab-{{ $id }}-{{ $validIndex }}"{{ end }}
-                     tabindex="0">
-                    {{ $trimmed | $.Page.RenderString }}
-                </div>
-                {{- $validIndex = add $validIndex 1 -}}
-                {{- end -}}
-            {{- end -}}
-        {{- else -}}
-            <div class="tab-panel active" role="tabpanel"
-                 id="panel-{{ $id }}-0"
-                 {{ if $hasTabNames }}aria-labelledby="tab-{{ $id }}-0"{{ end }}
-                 tabindex="0">
-                {{ .Inner | $.Page.RenderString }}
-            </div>
-        {{- end -}}
-    </div>
+<div class="tabs-header" data-pagefind-ignore>
+{{- if $hasTabNames }}
+<nav class="tabs-nav" role="tablist" aria-label="{{ i18n "aria_tabs" | default "Tabs" }}">
+{{- range $index, $tab := $tabs }}
+{{- $tabName := strings.TrimSpace $tab -}}
+<button class="tab-btn{{ if eq $index 0 }} active{{ end }}" type="button" role="tab" id="tab-{{ $id }}-{{ $index }}" aria-controls="panel-{{ $id }}-{{ $index }}" aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}" tabindex="{{ if eq $index 0 }}0{{ else }}-1{{ end }}">
+{{ $tabName }}
+</button>
+{{- end }}
+</nav>
+{{- end }}
+{{- if not $isContentStyle }}
+<button class="tab-copy-btn" aria-label="{{ i18n "copy_code" }}" type="button">
+<span aria-hidden="true">📋</span>
+<span class="copy-text">{{ i18n "copy_text" }}</span>
+</button>
+{{- end }}
+</div>
+<div class="tabs-content{{ if $isContentStyle }} rich-tabs{{ end }}">
+{{- if strings.Contains .Inner $sep -}}
+{{- $panels := split .Inner $sep -}}
+{{- $validIndex := 0 -}}
+{{- range $panel := $panels -}}
+{{- $trimmed := trim $panel " \n\r\t" -}}
+{{- if ne $trimmed "" -}}
+<div class="tab-panel{{ if eq $validIndex 0 }} active{{ end }}" role="tabpanel" id="panel-{{ $id }}-{{ $validIndex }}"{{ if $hasTabNames }} aria-labelledby="tab-{{ $id }}-{{ $validIndex }}"{{ end }} tabindex="0">
+{{ $trimmed | $.Page.RenderString }}
+</div>
+{{- $validIndex = add $validIndex 1 -}}
+{{- end -}}
+{{- end -}}
+{{- else -}}
+<div class="tab-panel active" role="tabpanel" id="panel-{{ $id }}-0"{{ if $hasTabNames }} aria-labelledby="tab-{{ $id }}-0"{{ end }} tabindex="0">
+{{ .Inner | $.Page.RenderString }}
+</div>
+{{- end -}}
+</div>
 </div>

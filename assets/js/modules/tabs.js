@@ -5,7 +5,7 @@ export function initTabs() {
         if (!content || !nav) return;
 
         const btns = Array.from(nav.querySelectorAll('.tab-btn'));
-        const panels = Array.from(content.querySelectorAll('.tab-panel'));
+        const panels = Array.from(content.children).filter((el) => el.classList.contains('tab-panel'));
 
         const activate = (idx, focus = false) => {
             btns.forEach((btn, i) => {

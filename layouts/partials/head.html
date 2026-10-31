@@ -77,7 +77,10 @@
     {{- $hasMermaid := or .Params.mermaid site.Params.mermaid (.HasShortcode "mermaid") (strings.Contains $content "class=\"mermaid") (.Scratch.Get "hasMermaid") -}}
     {{- $hasSectionNavbox := and .IsPage .Section (gt (len .CurrentSection.RegularPagesRecursive) 1) -}}
 
-    {{- if $hasCodeBlocks -}}{{- $pageModules = $pageModules | append "chroma" -}}{{- end -}}
+    {{- if $hasCodeBlocks -}}
+        {{- $pageModules = $pageModules | append "chroma" -}}
+        {{- $pageModules = $pageModules | append "code" -}}
+    {{- end -}}
     {{- if $hasTabs -}}{{- $pageModules = $pageModules | append "tabs" -}}{{- end -}}
     {{- if $hasCompare -}}{{- $pageModules = $pageModules | append "compare" -}}{{- end -}}
     {{- if $hasTables -}}{{- $pageModules = $pageModules | append "tables" -}}{{- end -}}

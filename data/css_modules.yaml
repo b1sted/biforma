@@ -36,6 +36,7 @@ by_kind:
   fallback:
     - about
     - chroma
+    - code
     - compare
     - donation
     - error-page

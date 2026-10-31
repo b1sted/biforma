@@ -1,0 +1,166 @@
+/* Module: Code Blocks — code block chrome, header and copy button */
+
+.article pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border-code);
+    border-radius: var(--radius-md);
+    padding: 0;
+    margin: var(--spacing-xl) 0;
+    overflow-x: auto;
+    line-height: 1.6;
+}
+
+.article pre code {
+    display: block;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+}
+
+.code-block-wrapper,
+.code-block-simple {
+    position: relative;
+    margin: var(--spacing-xl) 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    background: var(--bg-code);
+    border: 1px solid var(--border-code);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.code-centered-wrapper,
+.code-block-wrapper.code-centered-wrapper,
+.code-block-simple.code-centered {
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.code-centered-wrapper pre,
+.code-block-simple.code-centered pre {
+    width: fit-content;
+    max-width: 100%;
+}
+
+.code-centered-wrapper pre code,
+.code-block-simple.code-centered pre code {
+    white-space: pre;
+    display: block;
+    padding: 12px 18px;
+}
+
+.code-block-wrapper pre,
+.code-block-simple pre,
+.code-block-wrapper .chroma,
+.code-block-simple .chroma,
+.code-block-wrapper .highlight,
+.code-block-simple .highlight {
+    background: transparent;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.code-block-wrapper pre code,
+.code-block-simple pre code,
+.code-block-wrapper .chroma code,
+.code-block-simple .chroma code {
+    display: block;
+    padding: 14px 16px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', 'Monaco', monospace;
+    overflow-x: auto;
+    white-space: pre;
+    word-break: normal;
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background: var(--bg-code-header);
+    border-bottom: 1px solid var(--border-code);
+    min-height: 40px;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-right: 16px;
+}
+
+.code-language {
+    color: var(--text-code-muted);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    cursor: default;
+    text-transform: lowercase;
+}
+
+.copy-code-button {
+    align-self: center;
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.copy-code-button:hover {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+    border-color: var(--border-secondary);
+}
+
+.copy-code-button.copied {
+    background: color-mix(in srgb, var(--accent-success) 20%, transparent);
+    color: var(--accent-success);
+    border-color: var(--accent-success);
+}
+
+@media (max-width: 1024px) {
+    .code-block-header {
+        min-height: 44px;
+    }
+
+    .copy-code-button {
+        min-height: 36px;
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .copy-code-button > span + span {
+        display: none;
+    }
+}

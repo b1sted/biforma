@@ -1,0 +1,19 @@
+{{- /* Returns true when the page should render a table of contents. */ -}}
+{{- $enabled := true -}}
+
+{{- if eq .Params.toc false -}}
+    {{- $enabled = false -}}
+{{- else if or .Params.tocDisable .Params.hideToc -}}
+    {{- $enabled = false -}}
+{{- end -}}
+
+{{- if or (in (slice "section" "taxonomy" "term" "home") .Kind) (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
+    {{- $enabled = false -}}
+{{- end -}}
+
+{{- $toc := .TableOfContents -}}
+{{- if or (not $toc) (lt (strings.Count "<li>" $toc) 2) -}}
+    {{- $enabled = false -}}
+{{- end -}}
+
+{{- return $enabled -}}

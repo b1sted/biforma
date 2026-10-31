@@ -83,6 +83,7 @@ function renderFile(filePath) {
 
   window.document.querySelectorAll('script[src*="katex.min.js"]').forEach((el) => el.remove());
   window.document.querySelectorAll('script[src*="auto-render.min.js"]').forEach((el) => el.remove());
+  window.document.querySelectorAll('script[src*="math-fallback"]').forEach((el) => el.remove());
 
   fs.writeFileSync(filePath, dom.serialize());
   return true;

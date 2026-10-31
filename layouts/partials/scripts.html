@@ -1,17 +1,3 @@
-<script>
-    /* A11y fallback: GFM task list checkboxes lack accessible names */
-    (function () {
-        var defaultLabel = {{ i18n "aria_task_checkbox" | jsonify }};
-        document.querySelectorAll('.main-content input[type="checkbox"]').forEach(function (checkbox) {
-            if (!checkbox.hasAttribute('aria-label')) {
-                var parentLi = checkbox.closest('li');
-                var labelText = parentLi ? parentLi.textContent.trim() : defaultLabel;
-                checkbox.setAttribute('aria-label', labelText);
-            }
-        });
-    })();
-</script>
-
 {{- $esbuildOpts := dict
     "target" "es2020"
     "format" "iife"

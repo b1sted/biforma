@@ -10,6 +10,18 @@ import { initLazyLoading } from './modules/lazy-loading.js';
 import { initScrollTop } from './modules/scroll-top.js';
 import { initErrorPage } from './modules/error-page.js';
 
+
+function initTaskCheckboxA11y() {
+    const defaultLabel = window.i18n?.ariaTaskCheckbox || 'Task checkbox';
+    document.querySelectorAll('.main-content input[type="checkbox"]').forEach((checkbox) => {
+        if (!checkbox.hasAttribute('aria-label')) {
+            const parentLi = checkbox.closest('li');
+            const labelText = parentLi ? parentLi.textContent.trim() : defaultLabel;
+            checkbox.setAttribute('aria-label', labelText);
+        }
+    });
+}
+
 function trackLastPage() {
     const is404 = document.querySelector('.error-page-wrapper') !== null;
     if (is404) return;
@@ -45,6 +57,7 @@ function scheduleNext(callback) {
 export function boot(tasks = []) {
     const run = () => {
         initTheme();
+        initTaskCheckboxA11y();
         initSidebar();
         initEmailProtection();
         initDefine();

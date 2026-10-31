@@ -20,7 +20,7 @@ export function initLicenseModal() {
     async function loadLicenseData() {
         if (licenseData) return licenseData;
         if (!licenseDataPromise) {
-            const url = window.licenseDataUrl || '/licenses.json';
+            const url = modal.dataset.licenseDataUrl || window.licenseDataUrl || '/licenses.json';
             licenseDataPromise = fetch(url)
                 .then((res) => {
                     if (!res.ok) throw new Error(`License data: ${res.status}`);

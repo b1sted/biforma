@@ -9,6 +9,9 @@
              data-image="{{ $imageURL }}"
              data-caption="{{ $.Title }}">
             <img src="{{ $imageURL }}" alt="{{ printf (i18n "project_screenshot_alt") $.Title }}" loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+            <div class="project-meta-screenshot-overlay">
+                <span class="project-meta-screenshot-hint">🔍 {{ i18n "project_screenshot_hint" }}</span>
+            </div>
         </div>
     {{- end -}}
 

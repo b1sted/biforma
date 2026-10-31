@@ -5,7 +5,8 @@
     margin: var(--spacing-2xl) 0;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
+    text-align: center;
 }
 
 .project-infobox-header {
@@ -25,45 +26,35 @@
     color: var(--text-primary);
 }
 
-.project-infobox-body {
-    display: grid;
-    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
-    gap: var(--spacing-lg);
-    align-items: start;
-}
-
-.project-infobox-body--no-image {
-    grid-template-columns: minmax(0, 1fr);
-}
-
 .project-infobox-media {
-    min-width: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--spacing-lg);
 }
 
 .project-infobox-image-wrapper {
     position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    aspect-ratio: 1 / 1;
-    padding: 10px;
-    box-sizing: border-box;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-sm);
+    width: fit-content;
+    max-width: min(100%, 640px);
+    cursor: zoom-in;
 }
 
 .article .project-infobox-image {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 360px;
     margin: 0;
-    border-radius: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
     object-fit: contain;
-    transition: transform var(--transition);
+    transition: border-color var(--transition);
 }
 
 .project-infobox-image-wrapper:hover .project-infobox-image {
-    transform: scale(1.03);
+    border-color: var(--border-secondary);
 }
 
 .project-infobox-image-overlay {
@@ -73,6 +64,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.7);
+    border-radius: var(--radius-sm);
     opacity: 0;
     transition: opacity var(--transition);
 }
@@ -92,9 +84,11 @@
 }
 
 .project-infobox-specs {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 14px 24px;
     margin: 0;
     padding: 0;
 }
@@ -102,12 +96,14 @@
 .project-infobox-spec {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    flex: 0 1 160px;
+    gap: 3px;
     min-width: 0;
 }
 
 .project-infobox-spec--tags {
-    grid-column: 1 / -1;
+    flex-basis: 100%;
 }
 
 .project-infobox-label {
@@ -115,7 +111,7 @@
     font-weight: 600;
     line-height: 1.3;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
     hyphens: auto;
 }
@@ -132,6 +128,7 @@
 .project-infobox-tags {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 6px;
     margin-top: 2px;
 }
@@ -149,6 +146,7 @@
 .project-infobox-actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-md);
@@ -159,10 +157,10 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: 6px 12px;
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
+    background: transparent;
     color: var(--text-secondary);
     font-size: 13px;
     font-weight: 500;
@@ -175,23 +173,10 @@
     fill: currentColor;
 }
 
-.project-infobox-btn.github:hover,
-.project-infobox-btn.docs:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-secondary);
-    color: var(--text-primary);
-}
-
-.project-infobox-btn.demo {
-    background: var(--accent-primary);
+.project-infobox-btn:hover {
+    background: var(--bg-secondary);
     border-color: var(--accent-primary);
-    color: #ffffff;
-}
-
-.project-infobox-btn.demo:hover {
-    background: var(--accent-secondary);
-    border-color: var(--accent-secondary);
-    color: #ffffff;
+    color: var(--accent-primary);
 }
 
 @media (max-width: 767px) {
@@ -199,17 +184,11 @@
         padding: var(--spacing-md);
     }
 
-    .project-infobox-body {
-        grid-template-columns: minmax(0, 1fr);
-        gap: var(--spacing-md);
-    }
-
-    .project-infobox-image-wrapper {
-        aspect-ratio: 4 / 3;
-    }
-
     .project-infobox-specs {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 10px 16px;
+        gap: 12px;
+    }
+
+    .project-infobox-spec {
+        flex: 1 1 130px;
     }
 }

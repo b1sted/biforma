@@ -79,7 +79,9 @@
     </div>
     <script>
         (function () {
-            var path = window.location.pathname || '/';
+            var lastPage = '';
+            try { lastPage = sessionStorage.getItem('last_valid_page') || ''; } catch (e) {}
+            var path = lastPage ? new URL(lastPage, window.location.href).pathname : (window.location.pathname || '/');
             var isRussian = /^\/ru(?:\/|$)/i.test(path) || (!/^\/en(?:\/|$)/i.test(path) && /^ru\b/i.test(navigator.language || ''));
             if (!isRussian) return;
             document.documentElement.lang = 'ru';

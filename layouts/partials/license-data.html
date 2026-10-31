@@ -1,0 +1,15 @@
+{{- $licenses := dict -}}
+{{- with hugo.Data.licenses -}}
+    {{- range $key, $val := . -}}
+        {{- $item := $val -}}
+        {{- with $val.text_ru -}}
+            {{- $item = merge $item (dict "html_ru" (. | markdownify)) -}}
+        {{- end -}}
+        {{- with $val.text_en -}}
+            {{- $item = merge $item (dict "html_en" (. | markdownify)) -}}
+        {{- end -}}
+        {{- $licenses = merge $licenses (dict $key $item) -}}
+    {{- end -}}
+{{- end -}}
+{{- $licenseJSON := resources.FromString "licenses.json" ($licenses | jsonify) | fingerprint -}}
+{{- return $licenseJSON.RelPermalink -}}

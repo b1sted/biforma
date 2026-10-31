@@ -9,26 +9,44 @@ export function initLicenseModal() {
     const langTabs = document.querySelectorAll('.modal-tab');
     const viewBtns = document.querySelectorAll('.modal-view-btn');
 
-    let licenseData = {};
+    let licenseData = null;
+    let licenseDataPromise = null;
     let currentLicense = null;
     const docLang = document.documentElement.lang || document.documentElement.getAttribute('lang') || 'ru';
     let currentLang = docLang.startsWith('en') ? 'en' : 'ru';
     let currentView = 'permissions';
     let previousActiveElement = null;
 
-    try {
-        const dataEl = document.getElementById('license-data');
-        if (dataEl) {
-            licenseData = JSON.parse(dataEl.textContent);
+    async function loadLicenseData() {
+        if (licenseData) return licenseData;
+        if (!licenseDataPromise) {
+            const url = window.licenseDataUrl || '/licenses.json';
+            licenseDataPromise = fetch(url)
+                .then((res) => {
+                    if (!res.ok) throw new Error(`License data: ${res.status}`);
+                    return res.json();
+                })
+                .then((data) => {
+                    licenseData = data;
+                    return data;
+                })
+                .catch((e) => {
+                    licenseDataPromise = null;
+                    throw e;
+                });
         }
-    } catch (e) {
-        console.error('Failed to parse license data', e);
-        return;
+        return licenseDataPromise;
     }
 
-    function openModal(licenseKey) {
+    async function openModal(licenseKey) {
         previousActiveElement = document.activeElement;
         currentLicense = licenseKey;
+        try {
+            await loadLicenseData();
+        } catch (e) {
+            console.error('Failed to load license data', e);
+            return;
+        }
         renderContent();
         modal.style.display = 'flex';
         modal.offsetHeight;
@@ -53,7 +71,7 @@ export function initLicenseModal() {
     }
 
     function renderContent() {
-        if (!currentLicense || !licenseData[currentLicense]) return;
+        if (!currentLicense || !licenseData || !licenseData[currentLicense]) return;
         const data = licenseData[currentLicense];
 
         modalTitle.textContent = data.title;

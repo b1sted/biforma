@@ -7,16 +7,6 @@
  * animations are disabled.
  */
 
-@keyframes motion-slide-up {
-    from {
-        transform: translateY(6px);
-    }
-
-    to {
-        transform: translateY(0);
-    }
-}
-
 @keyframes motion-fade-up {
     from {
         opacity: 0.65;
@@ -50,27 +40,6 @@
     to {
         opacity: 1;
         transform: translateX(0);
-    }
-}
-
-@keyframes motion-page-out {
-    to {
-        opacity: 0;
-        transform: scale(0.995);
-    }
-}
-
-@keyframes motion-page-in {
-    from {
-        opacity: 0;
-        transform: scale(0.995);
-    }
-}
-
-/* Keep the mobile LCP path free of extra compositing work. */
-@media (prefers-reduced-motion: no-preference) and (min-width: 1025px) {
-    .main-content-body {
-        animation: motion-slide-up 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
     }
 }
 
@@ -135,23 +104,5 @@
     .sections-grid > :nth-child(6),
     .projects-showcase > :nth-child(6) {
         animation-delay: 175ms;
-    }
-}
-
-/*
- * Cross-document view transitions make internal navigation feel continuous in
- * browsers that support them. Other browsers simply keep instant navigation.
- */
-@view-transition {
-    navigation: auto;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    ::view-transition-old(root) {
-        animation: motion-page-out 0.12s ease-out both;
-    }
-
-    ::view-transition-new(root) {
-        animation: motion-page-in 0.18s ease-out both;
     }
 }

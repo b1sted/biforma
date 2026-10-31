@@ -34,18 +34,18 @@
 - **Dual Mode (`themeMode`)**: Switch between `docs` (tree navigation, Table of Contents, category filters) and `blog` (clean post feed, metadata).
 - **Blog Series**: Collapse a multi-part guide into a single card on the blog home while keeping every article accessible from the section page.
 - **Multilingual & i18n**: Built-in internationalization with localized UI strings and an optional header language switcher for multi-language sites.
-- **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), and lazy-loaded analytics.
+- **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), lazy-loaded analytics, lazy license texts, and a strict script CSP without `unsafe-inline`.
 - **Instant Search**: Powered by Pagefind for zero-config, ultra-fast client-side search.
 - **Math & Typography**: Built-in KaTeX math rendering (including optional build-time SSR), Chroma syntax highlighting, side-by-side code comparison, tabs, inline/modal `define` explanations, and admonitions.
-- **Diagrams (Mermaid.js)**: Lazy-loaded (IntersectionObserver) offline Mermaid rendering that auto-switches between dark/light themes, with a zoom & pan lightbox for every diagram.
-- **Enhanced Media**: Auto-calculated image dimensions (prevents CLS) and built-in image zoom lightbox.
+- **Diagrams (Mermaid.js)**: Lazy-loaded (IntersectionObserver) offline Mermaid rendering that auto-switches between dark/light themes, with a zoom & pan lightbox for every diagram. Build-time SSR renders both themes and avoids shipping the Mermaid runtime.
+- **Enhanced Media**: Auto-calculated image dimensions for page resources and site `static/` files (prevents CLS), eager/high priority for the first article image, and a built-in image zoom lightbox.
 - **Heading Anchors**: Hover-revealed anchor links next to headings (up to the configured TOC depth), with TOC-consistent smooth scrolling.
-- **License Modal & Footer Credit**: Per-page code/content license disclosure via modal, plus an optional "Theme: Biforma" credit line in the footer.
+- **License Modal & Footer Credit**: Per-page code/content license disclosure via modal (license texts are fetched from a fingerprinted JSON file on first open), plus an optional "Theme: Biforma" credit line in the footer.
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
-- **PWA & Offline**: Web app manifest, installable icons, a service worker with static-asset caching and an offline fallback page, plus intent-based link prefetching and deferred-image loading.
+- **PWA & Offline**: Web app manifest, installable icons, a service worker with cache-first fonts/icons and stale-while-revalidate CSS/JS, an offline fallback page, plus intent-based link prefetching.
 - **Section Components**: Collapsible, filterable article groups with an expand-all control, persistent state, data-driven group metadata, and a per-section navigation box on article pages.
 - **Project Components**: Optional project metadata block (screenshot, specs, links), a project-infobox shortcode, and a project archetype.
-- **Security & SEO**: Configurable Content-Security-Policy, robots.txt, Open Graph/Twitter metadata, and JSON-LD for articles, breadcrumbs and the author profile.
+- **Security & SEO**: Configurable Content-Security-Policy with externalized scripts, robots.txt, locale-aware dates, hreflang with `x-default`, Open Graph/Twitter metadata, and JSON-LD for articles, collections, breadcrumbs and the author profile.
 - **Zero Bloat**: Modular CSS/JS bundle compilation — loads only the assets needed for each specific page.
 
 ## Quick Start
@@ -66,6 +66,11 @@ Generate the search index after building your site:
 hugo --gc --minify
 npx pagefind --site public
 ```
+
+Pagefind detects the language from `<html lang>` and the theme adds an explicit
+`language` filter, so `/en/` searches return English pages and `/ru/` searches
+return Russian pages. Dates in templates use `i18n "date_format"` and are
+locale-aware.
 
 ### Build-time Rendering (Optional)
 
@@ -91,8 +96,9 @@ same content on demand.
 
 The theme ships with a web app manifest, installable icons, an offline fallback
 page, and a service worker that is registered automatically after page load.
-Static assets (fonts, icons, CSS, JS) use a cache-first strategy, while pages
-use network-first with a cached/offline fallback.
+Fonts and icons use a cache-first strategy, CSS/JS use stale-while-revalidate,
+and pages use network-first with a cached/offline fallback. Bump
+`CACHE_VERSION` when changing the precache list.
 
 The bundled `static/manifest.json` is intentionally generic. To brand the
 installed app, override it by placing your own `static/manifest.json` in the
@@ -100,9 +106,8 @@ site root (site static files take precedence over theme files). Keep the icon
 paths relative if the site is hosted under a subpath.
 
 `static/sw.js` derives its scope from its own URL, so it works both at the site
-root and under a base path. Bump `CACHE_VERSION` when changing the precache
-list. The service worker skips Pagefind assets to avoid caching the search
-index.
+root and under a base path. The service worker skips Pagefind assets to avoid
+caching the search index.
 
 ---
 
@@ -131,13 +136,14 @@ defaultContentLanguage = "ru"
   # Select theme mode: "docs" or "blog"
   themeMode = "docs"
 
-  logo = "📝"
+  logo = "📝"          # Emoji or a path/URL to an SVG/PNG image
   description = "Notes & Technical Documentation"
   author = "Your Name"
   keywords = ["hugo", "documentation", "blog"]  # Default <meta name="keywords"> fallback
 
-  # Content-Security-Policy. The theme ships a policy that allows its inline
-  # scripts/styles, local assets, Pagefind WASM and the built-in analytics.
+  # Content-Security-Policy. The theme ships a policy that allows local assets,
+  # Pagefind WASM and the built-in analytics. All scripts are external files;
+  # inline styles (critical CSS) still require style-src 'unsafe-inline'.
   # Set to false to disable the meta tag, or replace it with your own policy.
   csp = "default-src 'self'; ..."
 
@@ -147,9 +153,25 @@ defaultContentLanguage = "ru"
   donate = "https://cloudtips.ru/..."  # Adds donate buttons & article support block
   searchPlaceholder = "Search..."
 
-  # Analytics (Lazy-loaded for 100/100 Lighthouse performance)
+  # About link in the header/sidebar (default: true)
+  showAbout = true
+
+  # Contact links can also come from params.social / params.externalLinks:
+  #   [params.social]
+  #     github = "https://github.com/..."
+  #     telegram = "https://t.me/..."
+  #     email = "you@example.com"
+  #   [params.externalLinks]
+  #     donateUrl = "https://..."
+  # Header, footer, sidebar and donation blocks share the same fallback chain.
+
+  # Default Open Graph image (used when a page has no `image` param)
+  defaultImage = "/images/og-default.png"
+
+  # Analytics (only rendered by production builds with real IDs)
   googleAnalytics = "G-XXXXXXXXXX"
   yandexMetrika = 12345678
+  yandexWebvisor = false
 
   # Verification Meta Tags
   googleVerification = "your-google-verification-code"
@@ -163,6 +185,10 @@ defaultContentLanguage = "ru"
   blogPageSize = 14  # Posts per page on the blog home (default: 14). The bento grid
                      # layout assumes a full page (hero + wide cards at fixed positions),
                      # so keep this >= 8 or the layout will look sparse on the last page.
+  blogSections = ["blog", "notes"]  # Optional: limit the blog feed to these sections.
+                                    # When omitted, all regular pages except `rss`,
+                                    # `searchHidden` and `type: about` are included,
+                                    # including pages stored in the content root.
 
   # Footer Theme Credit
   showThemeCredit = true                            # Set false to hide the "Theme: Biforma" footer line
@@ -196,6 +222,10 @@ enable Hugo's robots template so the theme's `layouts/robots.txt` is used:
 enableRobotsTXT = true
 ```
 
+Sections are not paginated: only the blog home uses `blogPageSize`. This avoids
+duplicate `/section/page/N/` pages with identical content. Use
+`params.blogSections` to control which sections appear in the blog feed.
+
 ---
 
 ## Asset Loading
@@ -207,8 +237,11 @@ lists in templates.
   `by_kind` modules. The theme also appends content-specific modules when a
   page actually needs them: code blocks (`chroma`), tables, tabs, compare
   blocks, images/lightbox, mermaid, math, project meta/infobox, section
-  navbox and donation. The `responsive` module is always appended last so
-  its media queries override page-specific styles.
+  navbox and donation. Content modules are detected on `single`, `home`,
+  `section`, `taxonomy` and `term` pages. Shortcodes set page-scratch flags so
+  nested content (for example math inside `define`) is detected reliably. The
+  `responsive` module is always appended last so its media queries override
+  page-specific styles.
 - `data/js_modules.yaml` maps each page kind to an entry in
   `assets/js/entries/` and documents the core/page-specific module split. The
   entry imports only its own modules; `fallback` loads everything for
@@ -309,6 +342,63 @@ section title, description and optional icon, shows the number of articles and
 links to the section page. Articles remain available on the section page and in
 search. The card is placed in the feed according to the newest article in the
 series.
+
+---
+
+## About Page
+
+The `/about/` page is rendered by `layouts/_default/about.html` when the page
+uses `type: about` or `layout: about`. It supports both structured front matter
+and regular Markdown body content (rendered below the bio):
+
+```yaml
+---
+title: "About"
+type: "about"
+layout: "about"
+searchHidden: true
+profile:
+  name: "Your Name"
+  avatar: "👨‍💻"          # Emoji, or a path/URL to an image
+  role: "Software Engineer"
+social:
+  - name: "GitHub"
+    icon: "github"          # Must match an id in icons.svg (icon-github)
+    url: "https://github.com/you"
+  - name: "Email"
+    icon: "mail"
+    url: "#"
+    label: "you@example.com"
+    data_email: "eW91QGV4YW1wbGUuY29t"  # Already base64-encoded
+bio:
+  title: "About me"
+  text: "Markdown is supported **here**."
+tech_stack: ["Hugo", "Go", "JavaScript"]
+projects:
+  title: "Projects"
+  items:
+    - name: "Project"
+      icon: "🚀"
+      description: "Short description"
+      tech: "Hugo • Go"
+      academic: false
+      links:
+        - text: "GitHub"
+          url: "https://github.com/you/project"
+---
+Regular Markdown body content is rendered here.
+```
+
+Notes:
+
+- `social[].icon` must match an id from `static/icons.svg`; unknown icons render
+  empty.
+- `social[].data_email` is expected to be base64-encoded already. In contrast,
+  `params.email` used by the sidebar/footer is encoded automatically.
+- Academic projects are visible without JavaScript. The toggle hides them on
+  initialization when it is unchecked.
+- Page `icon` front matter is used in sidebar/cards where applicable; the blog
+  bento cards do not render per-card icons.
 
 ---
 
@@ -416,7 +506,7 @@ hugo new content projects/my-project.md --kind project
     A[Start] --> B[End]
   ```
   ````
-  *(Optional attributes: `scale="1.5"` to resize, `caption="..."` / `title="..."` for a figure caption. Diagrams lazy-load on scroll and re-render automatically on theme switch, with a zoom & pan lightbox on click.)*
+  *(Optional attributes: `scale="1.5"` to resize, `caption="..."` / `title="..."` for a figure caption. Diagrams lazy-load when they approach the viewport and re-render on theme switch, with a zoom & pan lightbox on click. When `scripts/render-mermaid.js` runs, both themes are pre-rendered and no client Mermaid runtime is loaded.)*
 
   The shortcode form is equivalent and is useful when attributes are easier to
   pass explicitly:
@@ -476,6 +566,28 @@ hugo new content projects/my-project.md --kind project
 
 - **RSS Feeds Grid (`rss-feeds.html`)**:  
   `{{< rss-feeds >}}` — renders an interactive grid of RSS links for all site sections.
+
+---
+
+## Known Limitations
+
+- **Image dimensions** are detected for page resources, site `static/` files and
+  `content/` files. Files inside the theme's `static/` directory are not visible
+  to Hugo's `fileExists`, so put theme-shipped images in `assets/` and use
+  `resources.Get` if you need automatic dimensions.
+- **Responsive images**: the theme does not generate `srcset`/AVIF/WebP
+  variants automatically; provide appropriately sized files in content.
+- **Mermaid SSR** is performed by `scripts/render-mermaid.js`, not by Hugo. If
+  the script is skipped, the client fallback loads the Mermaid runtime on
+  demand via `IntersectionObserver`.
+- **KaTeX SSR** is performed by `scripts/render-math.js`. Without it, math pages
+  load `katex.min.js` and `auto-render.min.js` and render on the client.
+- **TOC depth**: Hugo does not expose `markup.tableOfContents.endLevel` to
+  templates. Keep `params.tocMaxLevel` in sync manually.
+- **Offline page** is a static file. It localizes its text from the URL prefix
+  (`/ru/`, `/en/`) or `navigator.language`, and the site should override
+  `static/manifest.json` with a localized `name`, `lang`, `start_url` and
+  `theme_color`.
 
 ---
 

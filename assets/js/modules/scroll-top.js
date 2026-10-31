@@ -20,9 +20,11 @@ export function initScrollTop() {
 
     btn.addEventListener('click', (e) => {
         if (e && e.cancelable) e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
-        if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const behavior = reduceMotion ? 'auto' : 'smooth';
+        window.scrollTo({ top: 0, behavior });
+        document.documentElement.scrollTo({ top: 0, behavior });
+        if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior });
     });
 
     window.addEventListener('scroll', toggleBtn, { passive: true });

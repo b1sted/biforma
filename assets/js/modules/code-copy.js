@@ -1,3 +1,22 @@
+
+async function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+    }
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+    } finally {
+        textarea.remove();
+    }
+}
+
 function extractCleanCode(codeElement) {
     if (!codeElement) return '';
     const clone = codeElement.cloneNode(true);
@@ -24,7 +43,7 @@ export function initCopyButtons() {
 
         if (text) {
             try {
-                await navigator.clipboard.writeText(text);
+                await copyText(text);
                 btn.classList.add('copied');
                 const span = btn.querySelector('.copy-text') || btn.querySelector('span:last-child');
                 const old = span ? span.textContent : '';

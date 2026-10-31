@@ -52,6 +52,15 @@
     {{- $dimAttr = printf ` width="%v" height="%v"` $width $height -}}
 {{- end -}}
 
+{{- $isFirstImage := not (.Page.Scratch.Get "hasRenderedImage") -}}
+{{- if $isFirstImage -}}{{- $_ := .Page.Scratch.Set "hasRenderedImage" true -}}{{- end -}}
+{{- $loading := "lazy" -}}
+{{- $priorityAttr := "" -}}
+{{- if $isFirstImage -}}
+    {{- $loading = "eager" -}}
+    {{- $priorityAttr = ` fetchpriority="high"` -}}
+{{- end -}}
+
 {{- $classAttr := "" -}}
 {{- if $themeClass -}}
     {{- $classAttr = printf ` class="%s"` $themeClass -}}
@@ -59,13 +68,13 @@
 
 {{- if $caption -}}
 <figure class="article-figure{{ if $align }} align-{{ $align }}{{ end }}">
-    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="{{ $loading }}"{{ $priorityAttr | safeHTMLAttr }} decoding="async"{{ $dimAttr | safeHTMLAttr }}>
     <figcaption class="figure-caption">{{ $caption }}</figcaption>
 </figure>
 {{- else if $align -}}
 <div class="article-image article-image-{{ $align }}">
-    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+    <img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="{{ $loading }}"{{ $priorityAttr | safeHTMLAttr }} decoding="async"{{ $dimAttr | safeHTMLAttr }}>
 </div>
 {{- else -}}
-<img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="lazy" decoding="async"{{ $dimAttr | safeHTMLAttr }}>
+<img src="{{ $src }}" alt="{{ $alt }}"{{ $classAttr | safeHTMLAttr }} loading="{{ $loading }}"{{ $priorityAttr | safeHTMLAttr }} decoding="async"{{ $dimAttr | safeHTMLAttr }}>
 {{- end -}}

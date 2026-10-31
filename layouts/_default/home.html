@@ -18,6 +18,7 @@
     {{ $paginator := .Paginate $feedPages $pageSize }}
 
     <div class="blog-home-wrapper">
+        <h1 class="visually-hidden">{{ site.Title }}</h1>
         <div class="blog-bento-grid">
             {{ range $index, $page := $paginator.Pages }}
                 {{ $secTitle := "" }}

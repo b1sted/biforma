@@ -19,8 +19,23 @@
 </figure>
 {{- else -}}
 {{- $_ := .Page.Scratch.Set "hasCode" true -}}
-{{- $options := dict "lineNos" false "lineNumbersInTable" false "noClasses" false -}}
+{{- $lineNos := eq (printf "%v" (.Attributes.linenos | default "false")) "true" -}}
+{{- $options := dict "lineNos" $lineNos "lineNumbersInTable" false "noClasses" false -}}
+{{- $hlLines := slice -}}
+{{- with .Attributes.hl_lines -}}
+    {{- $rawLines := split (replace (printf "%v" .) "," " ") " " -}}
+    {{- range $rawLines -}}
+        {{- $line := strings.TrimSpace . -}}
+        {{- if findRE `^[0-9]+$` $line -}}
+            {{- $hlLines = $hlLines | append (int $line) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- with $hlLines -}}
+    {{- $options = merge $options (dict "hl_lines" .) -}}
+{{- end -}}
 
+{{- $title := .Attributes.title | default .Attributes.filename | default $lang -}}
 {{- $highlighted := transform.Highlight .Inner $lang $options -}}
 {{- $noHeader := or (in $class "no-header") .Attributes.noHeader -}}
 {{- $showHeader := not $noHeader -}}
@@ -28,7 +43,7 @@
 <div class="code-block-wrapper{{ if not $showHeader }} no-header{{ end }}">
     {{- if $showHeader -}}
     <div class="code-block-header" data-pagefind-ignore>
-        <span class="code-language">{{ $lang }}</span>
+        <span class="code-language">{{ $title }}</span>
         <button class="copy-code-button" aria-label="{{ i18n "copy_code" }}">
             <span>📋</span>
             <span>{{ i18n "copy_text" }}</span>

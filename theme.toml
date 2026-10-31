@@ -23,8 +23,7 @@ features = [
   "toc",
   "search",
   "dual-mode",
-  "katex",
-  "brotli"
+  "katex"
 ]
 
 [author]

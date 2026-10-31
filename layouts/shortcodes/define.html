@@ -1,5 +1,9 @@
 {{- $rawTerm := .Get "term" | default (.Get 0) -}}
-{{- $termHtml := $rawTerm | markdownify | replaceRE "^<p>|</p>$" "" -}}
+{{- $rawInnerForMath := trim .Inner " \n\r\t" -}}
+{{- if or (strings.Contains $rawTerm "$") (strings.Contains $rawInnerForMath "$") -}}
+    {{- $_ := .Page.Scratch.Set "hasDefineMath" true -}}
+{{- end -}}
+{{- $termHtml := $rawTerm | markdownify | strings.TrimSpace | replaceRE "^<p>|</p>$" "" -}}
 {{- $title := .Get "title" | default ($rawTerm | plainify) -}}
 {{- $kind := .Get "kind" | default "term" -}}
 {{- $modeParam := .Get "mode" | default "auto" -}}
@@ -21,7 +25,7 @@
     {{- else if in (slice "—" "–" "-" "(" "[" "{" "«" "\"") $firstChar -}}
         {{- $glue = " " -}}
     {{- end -}}
-    {{- $cleanHtml := $rawInner | markdownify | replaceRE "^<p>|</p>$" "" -}}
+    {{- $cleanHtml := $rawInner | markdownify | strings.TrimSpace | replaceRE "^<p>|</p>$" "" -}}
     {{- $cleanHtml = replace (replace $cleanHtml "\r" "") "\n" " " -}}
     {{- $res = printf `<span class="define-wrapper define-mode-inline"><span role="button" tabindex="0" class="define-trigger" data-define-mode="inline" aria-expanded="false">%s</span><span class="define-inline-content" aria-hidden="true"><span class="define-glue">%s</span><span class="define-text">%s</span></span></span>` $termHtml $glue $cleanHtml -}}
 {{- else -}}

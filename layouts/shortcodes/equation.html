@@ -1,3 +1,4 @@
+{{- $_ := .Page.Scratch.Set "hasMath" true -}}
 {{- $label := .Get "label" | default (.Get 0) -}}
 {{- $current := .Page.Scratch.Get "equation-counter" | default 0 -}}
 {{- $number := add $current 1 -}}

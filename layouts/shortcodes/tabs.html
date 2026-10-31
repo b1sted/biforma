@@ -1,5 +1,9 @@
+{{- $_ := .Page.Scratch.Set "hasTabs" true -}}
 {{- $id := .Get "id" | default (printf "tabs-%d" .Ordinal) -}}
-{{- $tabs := split (.Get "tabs") "," -}}
+{{- $tabs := slice -}}
+{{- with .Get "tabs" -}}
+    {{- $tabs = split . "," -}}
+{{- end -}}
 {{- $style := .Get "style" | default "code" -}}
 {{- $sep := .Get "sep" | default "<!-- tab -->" -}}
 {{- $isContentStyle := eq $style "content" -}}

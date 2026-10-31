@@ -1,3 +1,4 @@
+{{- $_ := .Page.Scratch.Set "hasCode" true -}}
 {{- $lang := .Get "lang" | default (.Get 0) | default "text" -}}
 {{- $title := .Get "title" | default (.Get "filename") | default $lang -}}
 {{- $noHeader := eq (printf "%v" (.Get "noheader")) "true" -}}

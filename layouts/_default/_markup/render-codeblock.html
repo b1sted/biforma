@@ -2,6 +2,7 @@
 {{- $lang := .Type | default "text" -}}
 
 {{- if eq $lang "mermaid" -}}
+{{- $_ := .Page.Scratch.Set "hasMermaid" true -}}
 {{- $scale := .Attributes.scale | default "" -}}
 {{- $caption := .Attributes.caption | default .Attributes.title | default "" -}}
 {{- $raw := trim .Inner "\n\r" -}}
@@ -17,6 +18,7 @@
     {{- end -}}
 </figure>
 {{- else -}}
+{{- $_ := .Page.Scratch.Set "hasCode" true -}}
 {{- $options := dict "lineNos" false "lineNumbersInTable" false "noClasses" false -}}
 
 {{- $highlighted := transform.Highlight .Inner $lang $options -}}

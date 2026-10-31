@@ -1,6 +1,4 @@
 import { boot } from '../main.js';
-import { initCopyButtons } from '../modules/code-copy.js';
+import { initContent } from './content.js';
 
-boot([
-    () => { initCopyButtons(); }
-]);
+boot([initContent]);

@@ -1,3 +1,4 @@
+{{- $_ := .Page.Scratch.Set "hasMath" true -}}
 {{- $label := .Get "label" | default (.Get 0) -}}
 {{- $number := $.Page.Scratch.Get (printf "equation-label-%s" $label) -}}
 

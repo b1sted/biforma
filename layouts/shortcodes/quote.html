@@ -15,7 +15,7 @@
     {{- end -}}
 
     {{- with $source -}}
-    {{- $sourceHtml := . | $.Page.RenderString | replaceRE "^<p>|</p>$" "" -}}
+    {{- $sourceHtml := . | $.Page.RenderString | strings.TrimSpace | replaceRE "^<p>|</p>$" "" -}}
     <figcaption class="quote-block-source">
         <cite>{{ $sourceHtml | safeHTML }}</cite>
     </figcaption>

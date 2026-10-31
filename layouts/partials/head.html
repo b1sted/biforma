@@ -40,10 +40,12 @@ window.i18n = {{ dict
 
 {{- $kind := partial "page-kind.html" . -}}
 {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
+{{- $rendersContent := or .IsPage (in (slice "home" "section" "taxonomy" "term") .Kind) -}}
 {{- $content := "" -}}
-{{- if .IsPage -}}{{- $content = .Content -}}{{- end -}}
-{{- $hasCodeBlocks := and .IsPage (or (.HasShortcode "code") (strings.Contains $content "<pre")) -}}
-{{- $hasMath := or .Params.math (and .IsPage (or (.HasShortcode "equation") (.HasShortcode "eqref"))) -}}
+{{- if $rendersContent -}}{{- $content = .Content -}}{{- end -}}
+{{- $hasCodeBlocks := and $rendersContent (or (.HasShortcode "code") (strings.Contains $content "<pre") (.Scratch.Get "hasCode")) -}}
+{{- $hasDefineMath := .Scratch.Get "hasDefineMath" -}}
+{{- $hasMath := or .Params.math $hasDefineMath (and $rendersContent (or (.HasShortcode "equation") (.HasShortcode "eqref") (.Scratch.Get "hasMath"))) -}}
 
 <link rel="preload" href="{{ "fonts/Inter-subset.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{- if $hasCodeBlocks }}
@@ -63,14 +65,14 @@ window.i18n = {{ dict
     {{- $pageModules = $pageModules | append "section-page" -}}
 {{- end -}}
 
-{{- if .IsPage -}}
-    {{- $hasTabs := or (.HasShortcode "tabs") (strings.Contains $content "code-tabs") (strings.Contains $content "content-tabs") -}}
-    {{- $hasCompare := or (.HasShortcode "compare") (strings.Contains $content "code-compare") -}}
+{{- if $rendersContent -}}
+    {{- $hasTabs := or (.HasShortcode "tabs") (strings.Contains $content "code-tabs") (strings.Contains $content "content-tabs") (.Scratch.Get "hasTabs") -}}
+    {{- $hasCompare := or (.HasShortcode "compare") (strings.Contains $content "code-compare") (.Scratch.Get "hasCompare") -}}
     {{- $hasTables := strings.Contains $content "<table" -}}
     {{- $hasImages := or (strings.Contains $content "<img") .Params.screenshot -}}
     {{- $hasProjectInfobox := or (.HasShortcode "project-infobox") (strings.Contains $content "project-infobox") -}}
-    {{- $hasMermaid := or .Params.mermaid site.Params.mermaid (.HasShortcode "mermaid") (strings.Contains $content "class=\"mermaid") -}}
-    {{- $hasSectionNavbox := and .Section (gt (len .CurrentSection.RegularPages) 1) -}}
+    {{- $hasMermaid := or .Params.mermaid site.Params.mermaid (.HasShortcode "mermaid") (strings.Contains $content "class=\"mermaid") (.Scratch.Get "hasMermaid") -}}
+    {{- $hasSectionNavbox := and .IsPage .Section (gt (len .CurrentSection.RegularPages) 1) -}}
 
     {{- if $hasCodeBlocks -}}{{- $pageModules = $pageModules | append "chroma" -}}{{- end -}}
     {{- if $hasTabs -}}{{- $pageModules = $pageModules | append "tabs" -}}{{- end -}}

@@ -15,6 +15,7 @@
   - copy="true" - shows copy buttons in the block headers
 */}}
 
+{{- $_ := .Page.Scratch.Set "hasCompare" true -}}
 <div class="code-compare">
     {{ .Inner }}
 </div>

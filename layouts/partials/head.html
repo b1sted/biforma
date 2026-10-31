@@ -114,16 +114,11 @@ window.i18n = {{ dict
     onload="renderMathInElement(document.querySelector('.article')||document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
 {{- end -}}
 
-{{- $paginatable := or (eq .Kind "home") (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
 {{- $paginator := false -}}
-{{- if $paginatable -}}
-    {{- if and .IsHome $isBlog -}}
-        {{- $feedPages := partial "blog-feed-pages.html" . -}}
-        {{- $pageSize := site.Params.blogPageSize | default 14 -}}
-        {{- $paginator = .Paginate $feedPages $pageSize -}}
-    {{- else if .Paginator -}}
-        {{- $paginator = .Paginator -}}
-    {{- end -}}
+{{- if and .IsHome $isBlog -}}
+    {{- $feedPages := partial "blog-feed-pages.html" . -}}
+    {{- $pageSize := site.Params.blogPageSize | default 14 -}}
+    {{- $paginator = .Paginate $feedPages $pageSize -}}
 {{- end -}}
 {{- $pageNumber := 1 -}}
 {{- $canonicalURL := .Permalink -}}

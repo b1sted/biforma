@@ -23,7 +23,7 @@
                         <div class="blog-stream-body">
                             <div class="blog-item-meta-top">
                                 {{ if not .Date.IsZero }}
-                                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
+                                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (i18n "date_format") }}</time>
                                     <span class="meta-sep">•</span>
                                 {{ end }}
                                 <span>⏱ {{ .ReadingTime }} {{ i18n "reading_time_min" }}</span>

@@ -69,10 +69,11 @@
                     {{ if ne $targetLang $currentLang }}
                         {{ $targetURL := .Home.RelPermalink }}
                         {{ with $currentPage.Translations }}
-                            {{ $match := index (where . "Language.Lang" $targetLang) 0 }}
-                            {{ with $match }}{{ $targetURL = .RelPermalink }}{{ end }}
+                            {{ with where . "Language.Lang" $targetLang }}
+                                {{ $targetURL = (index . 0).RelPermalink }}
+                            {{ end }}
                         {{ end }}
-                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ .Language.Label | default .Language.Label | default $targetLang }}">
+                        <a href="{{ $targetURL }}" class="header-link lang-toggle" aria-label="{{ printf (i18n "aria_switch_language") (.Language.Label | default $targetLang) }}">
                             <svg width="18" height="18" aria-hidden="true">
                                 <use href="{{ "icons.svg#icon-globe" | relURL }}"></use>
                             </svg>

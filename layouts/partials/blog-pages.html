@@ -1,0 +1,9 @@
+{{- $pages := site.RegularPages -}}
+{{- with site.Params.blogSections -}}
+    {{- $pages = where $pages "Section" "in" . -}}
+{{- else -}}
+    {{- $pages = where $pages "Section" "ne" "rss" -}}
+{{- end -}}
+{{- $pages = where $pages "Params.searchHidden" "!=" true -}}
+{{- $pages = where $pages "Type" "ne" "about" -}}
+{{- return $pages -}}

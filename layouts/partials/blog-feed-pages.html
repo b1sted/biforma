@@ -1,6 +1,4 @@
-{{- $blogPages := where (where site.RegularPages "Section" "!=" "") "Params.searchHidden" "!=" true -}}
-{{- $blogPages = where $blogPages "Type" "ne" "about" -}}
-{{- $blogPages = $blogPages.ByDate.Reverse -}}
+{{- $blogPages := (partial "blog-pages.html" .).ByDate.Reverse -}}
 
 {{- $seriesSections := slice -}}
 {{- range site.Pages -}}

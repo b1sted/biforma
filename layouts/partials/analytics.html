@@ -2,7 +2,7 @@
 {{- $ymID := site.Params.yandexMetrika -}}
 {{- $webvisor := site.Params.yandexWebvisor | default false -}}
 
-{{- if and (or $gaID $ymID) (not hugo.IsServer) -}}
+{{- if and (or $gaID $ymID) hugo.IsProduction -}}
 {{- if $gaID }}
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">

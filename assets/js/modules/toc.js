@@ -3,7 +3,8 @@ function scrollToElement(targetElement, smooth = true) {
 
     const scrollContainer = document.querySelector('.main-content');
     const isMobile = window.innerWidth <= 1024;
-    const behavior = smooth ? 'smooth' : 'auto';
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior = smooth && !reduceMotion ? 'smooth' : 'auto';
 
     if (isMobile || !scrollContainer) {
         const headerOffset = 70;
@@ -108,7 +109,7 @@ export function initTocAndScroll() {
 
         if (header) {
             const cleanText = getCleanHeadingText(header);
-            if (cleanText) {
+            if (cleanText && /hahahugoshortcode/i.test(link.textContent)) {
                 link.textContent = cleanText;
             }
 
@@ -152,7 +153,7 @@ export function initTocAndScroll() {
             const targetScrollTop = activeLink.offsetTop - (tocSidebar.clientHeight / 2) + (activeLink.clientHeight / 2);
             tocSidebar.scrollTo({
                 top: Math.max(0, targetScrollTop),
-                behavior: 'smooth'
+                behavior: (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth'
             });
         }
     }

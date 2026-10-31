@@ -18,7 +18,7 @@
                 {{ with .avatar }}
                 <div class="about-profile-avatar">
                     {{- if or (strings.HasPrefix . "/") (strings.HasPrefix . "http") -}}
-                        <img src="{{ . | relURL }}" alt="{{ $profile.name | default site.Params.author }}" loading="lazy">
+                        <img src="{{ . | relURL }}" alt="{{ $profile.name | default site.Params.author }}" width="96" height="96" loading="lazy" decoding="async">
                     {{- else -}}
                         <span aria-hidden="true">{{ . }}</span>
                     {{- end -}}
@@ -54,6 +54,12 @@
         {{ end }}
 
         <div class="about-main">
+            {{ with .Content }}
+            <section class="about-content">
+                {{ . }}
+            </section>
+            {{ end }}
+
             <section class="about-bio">
                 {{ with .Params.bio.title }}
                 <h2 class="about-bio-title">{{ . }}</h2>
@@ -82,7 +88,7 @@
 
                 <div class="projects-showcase" id="projects-showcase">
                     {{ range .items }}
-                    <div class="project-showcase-card{{ if .academic }} project-academic{{ end }}"{{ if .academic }} data-academic="true" style="display: none;"{{ end }}>
+                    <div class="project-showcase-card{{ if .academic }} project-academic{{ end }}"{{ if .academic }} data-academic="true"{{ end }}>
                         <div class="project-showcase-header">
                             <div class="project-showcase-header-left">
                                 <div class="project-showcase-icon-box">

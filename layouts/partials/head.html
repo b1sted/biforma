@@ -149,6 +149,7 @@ window.i18n = {{ dict
 <meta name="description" content="{{ $description }}">
 
 {{- $keywords := .Keywords -}}
+{{- if not $keywords -}}{{- $keywords = .Params.tags -}}{{- end -}}
 {{- if not $keywords -}}{{- $keywords = site.Params.keywords -}}{{- end -}}
 {{- with $keywords -}}
 <meta name="keywords" content="{{ delimit . ", " }}">
@@ -192,7 +193,7 @@ window.i18n = {{ dict
 <meta name="twitter:image" content="{{ . | absURL }}">
 {{- end -}}
 
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{{ if $ogImage }}summary_large_image{{ else }}summary{{ end }}">
 <meta name="twitter:title" content="{{ $pageTitle }}">
 <meta name="twitter:description" content="{{ $description }}">
 
@@ -210,20 +211,35 @@ window.i18n = {{ dict
 
 {{- if not .IsHome -}}
     {{- $isBlog := eq (site.Params.themeMode | default "docs") "blog" -}}
-    {{- $schemaType := "WebSite" -}}
-    {{- if .IsPage -}}
+    {{- $schemaType := "WebPage" -}}
+    {{- if eq $kind "about" -}}
+        {{- $schemaType = "AboutPage" -}}
+    {{- else if eq $kind "feeds" -}}
+        {{- $schemaType = "WebPage" -}}
+    {{- else if .IsPage -}}
         {{- if $isBlog -}}{{- $schemaType = "BlogPosting" -}}{{- else -}}{{- $schemaType = "TechArticle" -}}{{- end -}}
+    {{- else if in (slice "section" "taxonomy" "term") .Kind -}}
+        {{- $schemaType = "CollectionPage" -}}
     {{- end -}}
 
     {{- $schema := dict
         "@context" "https://schema.org"
         "@type" $schemaType
-        "headline" .Title
         "description" $description
         "url" .Permalink
     -}}
+    {{- if in (slice "WebSite" "WebPage" "CollectionPage" "AboutPage") $schemaType -}}
+        {{- $schema = merge $schema (dict "name" .Title) -}}
+    {{- else -}}
+        {{- $schema = merge $schema (dict "headline" .Title) -}}
+    {{- end -}}
+    {{- if eq $schemaType "AboutPage" -}}
+        {{- with site.Params.author -}}
+            {{- $schema = merge $schema (dict "mainEntity" (dict "@type" "Person" "name" .)) -}}
+        {{- end -}}
+    {{- end -}}
 
-    {{- if .IsPage -}}
+    {{- if in (slice "BlogPosting" "TechArticle") $schemaType -}}
         {{- with site.Params.author -}}
             {{- $schema = merge $schema (dict "author" (dict "@type" "Person" "name" .)) -}}
             {{- $schema = merge $schema (dict "publisher" (dict "@type" "Person" "name" .)) -}}

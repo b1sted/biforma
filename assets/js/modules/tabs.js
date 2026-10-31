@@ -7,9 +7,21 @@ export function initTabs() {
         const btns = Array.from(nav.querySelectorAll('.tab-btn'));
         const panels = Array.from(content.querySelectorAll('.tab-panel'));
 
+        const activate = (idx, focus = false) => {
+            btns.forEach((btn, i) => {
+                const selected = i === idx;
+                btn.classList.toggle('active', selected);
+                btn.setAttribute('aria-selected', String(selected));
+                btn.setAttribute('tabindex', selected ? '0' : '-1');
+                if (selected && focus) btn.focus();
+            });
+            panels.forEach((panel, i) => {
+                panel.classList.toggle('active', i === idx);
+            });
+        };
+
         if (btns.length && panels.length) {
-            btns.forEach((b, i) => b.classList.toggle('active', i === 0));
-            panels.forEach((p, i) => p.classList.toggle('active', i === 0));
+            activate(0);
         }
 
         if (!container.dataset.tabsInitialized) {
@@ -17,18 +29,23 @@ export function initTabs() {
             nav.addEventListener('click', (e) => {
                 const btn = e.target.closest('.tab-btn');
                 if (!btn) return;
+                const idx = btns.indexOf(btn);
+                if (idx !== -1) activate(idx);
+            });
 
-                const allBtns = Array.from(nav.querySelectorAll('.tab-btn'));
-                const idx = allBtns.indexOf(btn);
+            nav.addEventListener('keydown', (e) => {
+                const current = btns.indexOf(document.activeElement);
+                if (current === -1) return;
 
-                if (idx !== -1) {
-                    allBtns.forEach((b, i) => {
-                        b.classList.toggle('active', i === idx);
-                        b.setAttribute('aria-selected', String(i === idx));
-                    });
-                    Array.from(content.querySelectorAll('.tab-panel')).forEach((p, i) => {
-                        p.classList.toggle('active', i === idx);
-                    });
+                let next = null;
+                if (e.key === 'ArrowRight') next = (current + 1) % btns.length;
+                else if (e.key === 'ArrowLeft') next = (current - 1 + btns.length) % btns.length;
+                else if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = btns.length - 1;
+
+                if (next !== null) {
+                    e.preventDefault();
+                    activate(next, true);
                 }
             });
         }

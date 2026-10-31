@@ -95,18 +95,18 @@
             <div class="section-toolbar">
                 {{ if gt (len $namedGroups) 0 }}
                 <nav class="section-filter-bar" aria-label="{{ i18n "aria_filter_categories" }}">
-                    <button class="section-filter-btn active" data-group="all" type="button">
+                    <button class="section-filter-btn active" data-group="all" type="button" aria-pressed="true">
                         <span>{{ i18n "filter_all" }}</span>
                         <span class="section-filter-count">{{ $totalCount }}</span>
                     </button>
                     {{ range $namedGroups }}
-                        <button class="section-filter-btn" data-group="{{ .Key }}" type="button">
+                        <button class="section-filter-btn" data-group="{{ .Key }}" type="button" aria-pressed="false">
                             <span>{{ .Title }}</span>
                             <span class="section-filter-count">{{ len .Pages }}</span>
                         </button>
                     {{ end }}
                     {{ if gt (len $ungroupedPages) 0 }}
-                        <button class="section-filter-btn" data-group="ungrouped" type="button">
+                        <button class="section-filter-btn" data-group="ungrouped" type="button" aria-pressed="false">
                             <span>{{ i18n "section_ungrouped" }}</span>
                             <span class="section-filter-count">{{ len $ungroupedPages }}</span>
                         </button>

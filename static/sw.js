@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `biforma-${CACHE_VERSION}`;
 
 const BASE = new URL('./', self.location.href).pathname;
@@ -42,6 +42,23 @@ self.addEventListener('fetch', (event) => {
     if (url.pathname.startsWith(`${BASE}pagefind/`)) return;
 
     if (isStaticAsset(url.pathname)) {
+        const isCode = /\.(?:js|css)$/.test(url.pathname);
+        if (isCode) {
+            event.respondWith(
+                caches.match(event.request).then((cached) => {
+                    const network = fetch(event.request).then((response) => {
+                        if (response.status === 200) {
+                            const clone = response.clone();
+                            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                        }
+                        return response;
+                    }).catch(() => cached);
+                    return cached || network;
+                })
+            );
+            return;
+        }
+
         event.respondWith(
             caches.match(event.request).then((cached) => {
                 if (cached) return cached;

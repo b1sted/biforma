@@ -394,3 +394,6 @@ other = "GitHub"
 
 [aria_telegram]
 other = "Telegram"
+
+[aria_tabs]
+other = "Вкладки"

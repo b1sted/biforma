@@ -24,7 +24,7 @@
             {{- if or (in (slice "section" "taxonomy" "term" "home") .Kind) (eq .Type "about") (eq .Layout "about") (in .RelPermalink "/about/") -}}
                 {{- $tocEnabled = false -}}
             {{- end -}}
-            {{- if or (not .TableOfContents) (le (len .TableOfContents) 100) -}}
+            {{- if or (not .TableOfContents) (lt (len .Fragments.Headings) 2) -}}
                 {{- $tocEnabled = false -}}
             {{- end -}}
 

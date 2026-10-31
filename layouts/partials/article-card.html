@@ -1,5 +1,3 @@
-{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
-
 <a href="{{ .RelPermalink }}" class="article-card">
     <div class="article-card-top">
         {{ if not .Date.IsZero }}

@@ -117,9 +117,6 @@ other = "Готово!"
 [sources_title]
 other = "Источники"
 
-[source_backlink]
-other = "Вернуться к цитированию"
-
 [source_missing]
 other = "Источник не найден"
 

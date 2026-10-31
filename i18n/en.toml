@@ -115,9 +115,6 @@ other = "Done!"
 [sources_title]
 other = "Sources"
 
-[source_backlink]
-other = "Back to citation"
-
 [source_missing]
 other = "Source not found"
 

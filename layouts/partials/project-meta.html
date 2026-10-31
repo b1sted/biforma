@@ -1,9 +1,10 @@
 <div class="project-meta">
     {{- with .Params.screenshot -}}
+        {{- $originalSrc := . -}}
         {{- $src := . -}}
+        {{- $dims := partial "image-dimensions.html" (dict "src" $originalSrc "page" $) -}}
         {{- with $.Resources.GetMatch (strings.TrimPrefix "/" $src) -}}{{- $src = .RelPermalink -}}{{- end -}}
         {{- $imageURL := $src | absURL -}}
-        {{- $dims := partial "image-dimensions.html" (dict "src" $src "page" $) -}}
         {{- $dimAttr := "" -}}
         {{- if and $dims.width $dims.height -}}{{- $dimAttr = printf ` width="%v" height="%v"` $dims.width $dims.height -}}{{- end -}}
         <div class="project-meta-screenshot js-lightbox-trigger"

@@ -1,0 +1,11 @@
+{{- $src := .src -}}
+{{- $page := .page -}}
+{{- $isResource := false -}}
+{{- with $page.Resources.GetMatch (strings.TrimPrefix "/" $src) -}}
+    {{- $src = .RelPermalink -}}
+    {{- $isResource = true -}}
+{{- end -}}
+{{- if not $isResource -}}
+    {{- $src = $src | relURL -}}
+{{- end -}}
+{{- return $src -}}

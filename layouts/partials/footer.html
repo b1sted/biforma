@@ -33,7 +33,8 @@
                     <span class="footer-license-item">{{ i18n "footer_code_license" }} <a href="#" class="js-license-trigger" data-license="{{ $codeKey }}" aria-label="{{ $codeName }}">{{ $codeName }}</a></span>
                     <span class="footer-separator">•</span>
                     <span class="footer-license-item">{{ i18n "footer_content_license" }} <a href="#" class="js-license-trigger" data-license="{{ $contentKey }}" aria-label="{{ $contentName }}">{{ $contentName }}</a></span>
-                    {{- $showThemeCredit := site.Params.showThemeCredit | default true -}}
+                    {{- $showThemeCredit := true -}}
+                    {{- if ne site.Params.showThemeCredit nil -}}{{- $showThemeCredit = site.Params.showThemeCredit -}}{{- end -}}
                     {{- if $showThemeCredit -}}
                         {{- $themeName := site.Params.themeName | default "Biforma" -}}
                         {{- $themeURL := site.Params.themeURL | default "https://github.com/b1sted/biforma" -}}
@@ -42,7 +43,8 @@
                     {{- end -}}
                 </p>
             {{- else -}}
-                {{- $showThemeCredit := site.Params.showThemeCredit | default true -}}
+                {{- $showThemeCredit := true -}}
+                {{- if ne site.Params.showThemeCredit nil -}}{{- $showThemeCredit = site.Params.showThemeCredit -}}{{- end -}}
                 {{- if $showThemeCredit -}}
                     {{- $themeName := site.Params.themeName | default "Biforma" -}}
                     {{- $themeURL := site.Params.themeURL | default "https://github.com/b1sted/biforma" -}}
@@ -53,6 +55,7 @@
             {{- end -}}
         </div>
 
+        {{- $contactLinks := partial "contact-links.html" . -}}
         <div class="footer-links">
             <a href="{{ "rss/" | relLangURL }}" class="footer-link footer-link-rss" aria-label="{{ i18n "rss_feed" }}">
                 <svg width="20" height="20" aria-hidden="true">
@@ -60,7 +63,7 @@
                 </svg>
             </a>
 
-            {{- with site.Params.donate -}}
+            {{- with $contactLinks.donate -}}
             <a href="{{ . }}" class="footer-link footer-link-heart" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "nav_donate" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-heart" | relURL }}"></use>
@@ -68,18 +71,17 @@
             </a>
             {{- end -}}
 
-            {{- $email := site.Params.email | default site.Params.social.email -}}
-            {{- with $email -}}
+            {{- with $contactLinks.email -}}
             {{ $encodedEmail := . | base64Encode }}
-            <a href="#" data-email="{{ $encodedEmail }}" class="footer-link" aria-label="Email">
+            <a href="#" data-email="{{ $encodedEmail }}" class="footer-link" aria-label="{{ i18n "aria_email" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-mail" | relURL }}"></use>
                 </svg>
             </a>
             {{- end -}}
 
-            {{- with site.Params.github -}}
-            <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            {{- with $contactLinks.github -}}
+            <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "aria_github" }}">
                 <svg width="20" height="20" aria-hidden="true">
                     <use href="{{ "icons.svg#icon-github" | relURL }}"></use>
                 </svg>

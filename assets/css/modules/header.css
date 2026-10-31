@@ -257,3 +257,10 @@ button.header-link {
         display: none;
     }
 }
+
+.header-logo-img {
+    display: block;
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+}

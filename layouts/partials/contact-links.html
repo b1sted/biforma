@@ -1,0 +1,9 @@
+{{- $social := site.Params.social | default dict -}}
+{{- $external := site.Params.externalLinks | default dict -}}
+{{- $links := dict
+    "github" (site.Params.github | default $social.github)
+    "telegram" (site.Params.telegram | default $social.telegram)
+    "email" (site.Params.email | default $social.email)
+    "donate" (site.Params.donate | default $external.donateUrl)
+-}}
+{{- return $links -}}

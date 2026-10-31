@@ -7,7 +7,8 @@
             <div class="blog-sidebar-wrapper">
 
                 {{ $aboutPage := site.GetPage "about" }}
-                {{ $showAbout := site.Params.showAbout | default true }}
+                {{- $showAbout := true -}}
+                {{- if ne site.Params.showAbout nil -}}{{- $showAbout = site.Params.showAbout -}}{{- end -}}
                 {{ $hasAbout := and $showAbout $aboutPage }}
 
                 <div class="profile-block">
@@ -77,26 +78,27 @@
                         <p class="profile-bio">{{ . }}</p>
                     {{ end }}
 
-                    {{ $github := site.Params.github | default site.Params.social.github }}
-                    {{ $telegram := site.Params.telegram | default site.Params.social.telegram }}
-                    {{ $email := site.Params.email | default site.Params.social.email }}
-                    {{ $donate := site.Params.donate | default site.Params.externalLinks.donateUrl }}
+                    {{- $contactLinks := partial "contact-links.html" . -}}
+                    {{ $github := $contactLinks.github }}
+                    {{ $telegram := $contactLinks.telegram }}
+                    {{ $email := $contactLinks.email }}
+                    {{ $donate := $contactLinks.donate }}
 
                     {{ if or $github $telegram $email $donate }}
                         <div class="profile-socials">
                             {{ with $github }}
-                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="GitHub">
+                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="{{ i18n "aria_github" }}">
                                     <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-github" | relURL }}"></use></svg>
                                 </a>
                             {{ end }}
                             {{ with $telegram }}
-                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="Telegram">
+                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="profile-social-link" aria-label="{{ i18n "aria_telegram" }}">
                                     <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-telegram" | relURL }}"></use></svg>
                                 </a>
                             {{ end }}
                             {{ with $email }}
                                 {{ $encodedEmail := . | base64Encode }}
-                                <a href="#" data-email="{{ $encodedEmail }}" class="profile-social-link" aria-label="Email">
+                                <a href="#" data-email="{{ $encodedEmail }}" class="profile-social-link" aria-label="{{ i18n "aria_email" }}">
                                     <svg width="18" height="18" aria-hidden="true"><use href="{{ "icons.svg#icon-mail" | relURL }}"></use></svg>
                                 </a>
                             {{ end }}
@@ -126,7 +128,7 @@
                             </a>
                         </li>
                         {{ range $sections.ByWeight }}
-                            {{ $count := len .RegularPages }}
+                            {{ $count := len (where .RegularPages "Params.searchHidden" "!=" true) }}
                             {{ if gt $count 0 }}
                                 <li class="category-item">
                                     <a href="{{ .RelPermalink }}" class="category-link{{ if or (eq $currentPage.RelPermalink .RelPermalink) (eq $currentPage.Section .Section) }} active{{ end }}">

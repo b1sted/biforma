@@ -23,7 +23,8 @@ core:
   - define
 
 by_kind:
-  home: []
+  home:
+    - docs-home
   list:
     - section-page
   single:

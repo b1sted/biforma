@@ -1,5 +1,10 @@
+{{- $tocCount := len (findRE "<li" .TableOfContents) -}}
 <aside class="toc-sidebar" aria-label="{{ i18n "toc_title" }}">
-    <h3 class="toc-title" id="toc-title">{{ i18n "toc_title" }}</h3>
+    <div class="toc-head">
+        <span class="toc-kicker">{{ i18n "docs_toc_label" }}</span>
+        <h3 class="toc-title" id="toc-title">{{ i18n "toc_title" }}</h3>
+        <span class="toc-count" aria-hidden="true">{{ $tocCount }}</span>
+    </div>
     <nav class="toc-nav" aria-labelledby="toc-title">
         {{ replaceRE "(?i)-?hahahugoshortcode[0-9a-z]+hbhb-?" "" .TableOfContents | safeHTML }}
     </nav>

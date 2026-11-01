@@ -1,0 +1,288 @@
+/*
+ * Industrial overrides for documentation components.
+ *
+ * These rules only apply in docs mode. They replace soft, consumer-style
+ * surfaces with hard rules, squared corners and monospaced labels while
+ * leaving the blog mode untouched.
+ */
+
+[data-mode="docs"] .docs-container,
+[data-mode="docs"] .admonition,
+[data-mode="docs"] details,
+[data-mode="docs"] .code-tabs:not(.code-tabs--rich):not(.content-tabs),
+[data-mode="docs"] .code-compare-left,
+[data-mode="docs"] .code-compare-right,
+[data-mode="docs"] .code-block-wrapper,
+[data-mode="docs"] .code-block-simple,
+[data-mode="docs"] .article pre,
+[data-mode="docs"] .article table,
+[data-mode="docs"] .table-scroll-wrapper,
+[data-mode="docs"] .section-navbox,
+[data-mode="docs"] .page-nav-card,
+[data-mode="docs"] .toc-mobile,
+[data-mode="docs"] .search-modal-content,
+[data-mode="docs"] .license-modal-content,
+[data-mode="docs"] .project-meta,
+[data-mode="docs"] .project-infobox {
+    border-radius: 0;
+}
+
+[data-mode="docs"] .admonition {
+    border-left-width: 2px;
+    border-top: 1px solid var(--docs-line);
+    border-right: 1px solid var(--docs-line);
+    border-bottom: 1px solid var(--docs-line);
+    background: color-mix(in srgb, var(--admonition-accent, var(--accent-primary)) 6%, var(--bg-secondary));
+}
+
+[data-mode="docs"] .admonition.note { --admonition-accent: var(--accent-info); }
+[data-mode="docs"] .admonition.tip { --admonition-accent: var(--accent-success); }
+[data-mode="docs"] .admonition.warning { --admonition-accent: var(--accent-warning); }
+[data-mode="docs"] .admonition.danger,
+[data-mode="docs"] .admonition.error { --admonition-accent: var(--accent-danger); }
+
+[data-mode="docs"] .admonition-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] details {
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] details[open] {
+    border-color: var(--docs-accent-line);
+    box-shadow: none;
+}
+
+[data-mode="docs"] details:not(.nav-group-details):not(.toc-mobile) summary {
+    background: var(--bg-tertiary);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] details:not(.nav-group-details):not(.toc-mobile) summary::before {
+    border-radius: 0;
+}
+
+[data-mode="docs"] .sidebar .nav-group-summary {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] .code-tabs:not(.code-tabs--rich):not(.content-tabs),
+[data-mode="docs"] .code-block-wrapper,
+[data-mode="docs"] .code-block-simple,
+[data-mode="docs"] .article pre {
+    border-color: var(--docs-line);
+    box-shadow: none;
+}
+
+[data-mode="docs"] .code-compare-left,
+[data-mode="docs"] .code-compare-right {
+    border-color: var(--docs-line);
+    background: var(--bg-secondary);
+}
+
+[data-mode="docs"] .code-compare-header {
+    border-bottom-color: var(--docs-line);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] .article table,
+[data-mode="docs"] .table-scroll-wrapper {
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .article th,
+[data-mode="docs"] .article thead th {
+    border-bottom-color: var(--docs-line-strong);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+}
+
+[data-mode="docs"] .article td {
+    border-bottom-color: var(--docs-line);
+}
+
+[data-mode="docs"] .article tbody tr:hover {
+    background: var(--bg-tertiary);
+}
+
+[data-mode="docs"] .section-navbox {
+    border-color: var(--docs-line);
+    background: var(--bg-secondary);
+}
+
+[data-mode="docs"] .section-navbox-header {
+    border-bottom-color: var(--docs-line);
+}
+
+[data-mode="docs"] .section-navbox-title {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+}
+
+[data-mode="docs"] .section-navbox-toggle {
+    border-radius: 0;
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .page-nav {
+    border-top-color: var(--docs-line);
+}
+
+[data-mode="docs"] .page-nav-card {
+    background: var(--bg-secondary);
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .page-nav-card:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--docs-accent-line);
+    transform: none;
+    box-shadow: none;
+}
+
+[data-mode="docs"] .page-nav-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] .search-modal-content,
+[data-mode="docs"] .license-modal-content {
+    border-color: var(--docs-line-strong);
+    box-shadow: none;
+}
+
+[data-mode="docs"] .toc-mobile {
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .toc-mobile-toggle {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] .project-meta,
+[data-mode="docs"] .project-infobox {
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .copy-code-button,
+[data-mode="docs"] .tab-copy-btn,
+[data-mode="docs"] .section-navbox-toggle {
+    border-radius: 0;
+}
+
+[data-mode="docs"] .difficulty-easy {
+    color: var(--accent-success);
+}
+
+[data-mode="docs"] .difficulty-medium {
+    color: var(--accent-warning);
+}
+
+[data-mode="docs"] .difficulty-hard {
+    color: var(--accent-danger);
+}
+
+[data-mode="docs"] .difficulty-neutral {
+    color: var(--text-tertiary);
+}
+
+/* About page surfaces */
+
+[data-mode="docs"] .about-profile-card,
+[data-mode="docs"] .about-profile-link,
+[data-mode="docs"] .tech-item,
+[data-mode="docs"] .academic-toggle,
+[data-mode="docs"] .project-showcase-card,
+[data-mode="docs"] .project-action-link,
+[data-mode="docs"] .academic-badge {
+    border-radius: 0;
+}
+
+[data-mode="docs"] .about-profile-card,
+[data-mode="docs"] .project-showcase-card {
+    background: var(--bg-secondary);
+    border-color: var(--docs-line);
+    box-shadow: none;
+}
+
+[data-mode="docs"] .about-profile-card:hover,
+[data-mode="docs"] .project-showcase-card:hover {
+    border-color: var(--docs-accent-line);
+    transform: none;
+    box-shadow: none;
+}
+
+[data-mode="docs"] .about-profile-role,
+[data-mode="docs"] .tech-item,
+[data-mode="docs"] .project-showcase-tech,
+[data-mode="docs"] .academic-badge,
+[data-mode="docs"] .project-action-link {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+[data-mode="docs"] .tech-item {
+    border-color: var(--docs-line);
+    background: transparent;
+}
+
+[data-mode="docs"] .tech-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--docs-accent-line);
+}
+
+[data-mode="docs"] .project-showcase-links .project-action-link {
+    border-radius: 0;
+    border-color: var(--docs-line);
+}
+
+/* RSS feed page surfaces */
+
+[data-mode="docs"] .rss-feed-card {
+    background: var(--bg-secondary);
+    border-color: var(--docs-line);
+    border-radius: 0;
+}
+
+[data-mode="docs"] .rss-feed-card:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--docs-accent-line);
+    transform: none;
+    box-shadow: none;
+}
+
+[data-mode="docs"] .rss-card-icon-box,
+[data-mode="docs"] .rss-url-bar {
+    border-radius: 0;
+    border-color: var(--docs-line);
+}
+
+[data-mode="docs"] .rss-card-subtitle {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}

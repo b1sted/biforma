@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.Lang }}" data-theme="dark" data-base-url="{{ site.BaseURL | relURL }}">
+<html lang="{{ site.Language.Lang }}" data-theme="dark" data-mode="{{ site.Params.themeMode | default "docs" }}" data-base-url="{{ site.BaseURL | relURL }}">
 
 <head>
     {{- partial "head.html" . -}}

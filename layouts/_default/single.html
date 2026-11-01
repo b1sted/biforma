@@ -3,29 +3,26 @@
 {{ end }}
 
 {{ define "main" }}
-{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
-<header class="page-header {{ if $isBlog }}blog-single-header{{ end }}">
+<header class="page-header single-header">
     <h1 class="page-title">{{ .Title }}</h1>
 
     {{ with .Params.subtitle | default .Description }}
         <p class="page-subtitle">{{ . }}</p>
     {{ end }}
 
-    {{ if $isBlog }}
-        <div class="single-meta-info">
-            {{ if not .Date.IsZero }}
-                <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
-                    {{ .Date | time.Format (i18n "date_format") }}
-                </time>
-                <span class="single-meta-sep">•</span>
-            {{ end }}
+    <div class="single-meta-info">
+        {{ if not .Date.IsZero }}
+            <time datetime="{{ .Date.Format "2006-01-02" }}" class="single-meta-item">
+                {{ .Date | time.Format (i18n "date_format") }}
+            </time>
+            <span class="single-meta-sep">•</span>
+        {{ end }}
 
-            {{ with .ReadingTime }}
-                <span class="single-meta-item">⏱ {{ . }} {{ i18n "reading_time_min" }}</span>
-            {{ end }}
-        </div>
-    {{ end }}
+        {{ with .ReadingTime }}
+            <span class="single-meta-item">⏱ {{ . }} {{ i18n "reading_time_min" }}</span>
+        {{ end }}
+    </div>
 </header>
 
 {{- if partial "toc-enabled.html" . -}}
@@ -62,7 +59,7 @@
 
 {{ with .Params.tags }}
     <div class="article-footer-tags">
-        <span class="article-tags-label">{{ i18n "article_tags_label" | default "Теги статьи" }}</span>
+        <span class="article-tags-label">{{ i18n "article_tags_label" | default "Article tags" }}</span>
         <div class="single-meta-tags">
             {{ range . }}
                 <span class="tag-chip">#{{ . }}</span>

@@ -30,6 +30,7 @@ export function initSearch() {
 
     const noResultsText = window.i18n?.searchNoResults || 'No results found';
     const indexMissingText = window.i18n?.searchIndexMissing || 'Error: search index not found.<br>Run: <code>npx pagefind --site public</code>';
+    const hasLanguageFilter = Boolean(document.querySelector('[data-pagefind-filter="language"]'));
 
     const loadPagefind = async () => {
         if (pagefind) return;
@@ -118,7 +119,8 @@ export function initSearch() {
             if (pagefind) {
                 const cleanQuery = query.replace(/^[<(\[{'"`\\/]+|[>)}\]'"`\\/]+$/g, '').trim() || query;
                 const lang = (document.documentElement.lang || 'ru').split('-')[0];
-                const search = await pagefind.search(cleanQuery, { filters: { language: lang } });
+                const options = hasLanguageFilter ? { filters: { language: lang } } : undefined;
+                const search = await pagefind.search(cleanQuery, options);
                 if (searchId === currentSearchId && search) {
                     renderResults(search, searchId);
                 }

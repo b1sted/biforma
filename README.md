@@ -60,6 +60,19 @@ Add `biforma` as a Git submodule to your Hugo site:
 git submodule add https://github.com/b1sted/biforma.git themes/biforma
 ```
 
+### Example Site
+
+A complete, self-contained example lives in `exampleSite/`. It demonstrates
+both layout modes, nested documentation sections, rich Markdown, math,
+footnotes, shortcodes, Pagefind search, the About page, and PWA assets:
+
+```bash
+hugo server --source exampleSite
+```
+
+See `exampleSite/README.md` for the content map, build commands, and the
+`themeMode` switch.
+
 ### Search Indexing
 
 Generate the search index after building your site:

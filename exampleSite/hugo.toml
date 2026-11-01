@@ -1,0 +1,228 @@
+# =============================================================================
+# Biforma example site
+# =============================================================================
+# This configuration is intentionally self-contained. It points Hugo at the
+# theme repository through `themesDir`, so the site can be built from this
+# directory without installing the theme elsewhere.
+#
+# Run from the repository root:
+#   hugo server --source exampleSite
+#   hugo --source exampleSite --gc --minify --panicOnWarning
+#
+# Generate the Pagefind index after a production build:
+#   npx pagefind --site exampleSite/public
+# =============================================================================
+
+baseURL = "https://example.org/"
+themesDir = "../.."
+theme = "biforma"
+title = "Biforma Demo"
+
+# Content and URL behaviour ---------------------------------------------------
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+enableRobotsTXT = true
+
+# Enable the taxonomy pages used by the sample blog articles.
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Localization ----------------------------------------------------------------
+# Add another [languages.xx] table to enable the theme's language switcher.
+# The theme uses `locale` for hreflang and `label` for the switcher tooltip.
+[languages]
+  [languages.en]
+    locale = "en-US"
+    label = "English"
+    weight = 1
+    title = "Biforma Demo"
+
+# Theme parameters ------------------------------------------------------------
+[params]
+  # Layout mode ---------------------------------------------------------------
+  # "docs" (default): tree-view sidebar, documentation landing page, section
+  # cards and grouped article lists.
+  # "blog": bento post feed on the home page plus a profile/category sidebar.
+  # The sample content is shared, so switching this value is enough to preview
+  # both layouts.
+  themeMode = "docs"
+
+  # Branding ------------------------------------------------------------------
+  logo = "📘"                       # Emoji or a path/URL to an SVG/PNG image
+  description = "A canonical example site for the Biforma Hugo theme."
+  author = "Demo Author"
+  role = "Documentation Maintainer"
+  avatar = "/avatar.png"            # Used by the blog profile and About page
+  avatarEmoji = "🧑‍💻"             # Takes precedence over avatar in blog mode
+  keywords = ["hugo", "documentation", "blog", "theme", "example"]
+
+  # Default Open Graph image used when a page does not set `image`.
+  defaultImage = "/og-default.png"
+
+  # Navigation and contact links ---------------------------------------------
+  # The docs header links to `mainSite`; the footer and sidebar use the same
+  # contact fallback chain as params.social / params.externalLinks.
+  mainSite = "https://example.org"
+  showAbout = true
+
+  # Search --------------------------------------------------------------------
+  # The theme lazy-loads Pagefind from /pagefind/pagefind.js and filters the
+  # index by the page language. Build the index after Hugo:
+  #   npx pagefind --site exampleSite/public
+  # `searchPlaceholder` is shared by the header trigger and the search modal.
+  searchPlaceholder = "Search the demo..."
+
+  # Footer --------------------------------------------------------------------
+  showThemeCredit = true
+  themeName = "Biforma"
+  themeURL = "https://example.com/theme"
+
+  # Table of contents ---------------------------------------------------------
+  # Keep this in sync with markup.tableOfContents.endLevel below. Hugo does not
+  # expose the markup setting to templates.
+  tocMaxLevel = 4
+
+  # Blog feed ----------------------------------------------------------------
+  # Posts per page on the blog home. The bento grid is designed for a full
+  # page; keep this >= 8 when you have enough articles.
+  blogPageSize = 14
+  # Limit the blog home and blog sidebar to these sections. Remove the key to
+  # include every regular page except the RSS and About pages.
+  blogSections = ["blog"]
+
+  # RSS feed -----------------------------------------------------------------
+  # Limit the home feed to these sections. Remove the key to include all
+  # sections except `rss` and pages marked searchHidden or type: about.
+  rssSections = ["blog", "guides"]
+  rssFullContent = true
+
+  # Donation call-to-action ---------------------------------------------------
+  donateButtonText = "Support this demo"
+
+  # Contact links -------------------------------------------------------------
+  # Nested tables must come after all bare [params] keys. The header, footer,
+  # sidebar, and donation block share this fallback chain.
+  [params.social]
+    github = "https://github.com/example"
+    telegram = "https://t.me/example"
+    email = "hello@example.org"
+
+  [params.externalLinks]
+    donateUrl = "https://example.com/donate"
+
+  # Optional aliases (kept out of the demo to show the nested form above):
+  # github = "https://github.com/example"
+  # telegram = "https://t.me/example"
+  # email = "hello@example.org"
+  # donate = "https://example.org/donate"
+
+  # Sidebar -------------------------------------------------------------------
+  [params.sidebar]
+    generalTitle = "Start Here"
+    hideGeneralTitle = false
+
+  # Content licenses ----------------------------------------------------------
+  # Keys must match data/licenses.yaml in the theme. The footer opens the
+  # built-in license modal with permissions and full license text.
+  [params.license]
+    enable = true
+    code = "polyform"
+    codeName = "PolyForm Noncommercial 1.0.0"
+    content = "cc_by_nc"
+    contentName = "CC BY-NC 4.0"
+
+  # Analytics and verification ------------------------------------------------
+  # Analytics scripts are only emitted in production builds with real IDs.
+  # googleAnalytics = "G-XXXXXXXXXX"
+  # yandexMetrika = 12345678
+  # yandexWebvisor = false
+  # googleVerification = "example-google-verification-code"
+  # yandexVerification = "example-yandex-verification-code"
+
+  # Content Security Policy ---------------------------------------------------
+  # Leave unset to use the theme's strict default policy. Override with a full
+  # policy string if your site needs additional origins.
+  # csp = "default-src 'self'; ..."
+
+  # Global Mermaid opt-in -----------------------------------------------------
+  # Pages can enable diagrams with `mermaid: true` or a mermaid shortcode. Set
+  # this to true only when every page should load the Mermaid assets.
+  # mermaid = false
+
+# Navigation menus ------------------------------------------------------------
+# The theme builds its sidebar and header navigation from content sections and
+# page metadata. This menu is included for sites that add custom menu partials
+# or use Hugo's menu API in their own templates.
+[menu]
+  [[menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    pageRef = "/guides"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    pageRef = "/blog"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    pageRef = "/about"
+    weight = 30
+
+# Markdown, math and syntax highlighting -------------------------------------
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # Required for the raw HTML used in the feature showcase.
+      unsafe = true
+
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+
+      [markup.goldmark.parser.attribute]
+        block = true
+
+    [markup.goldmark.extensions]
+      # Passthrough delimiters feed KaTeX without Goldmark escaping the math.
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)'], ['$', '$']]
+
+  [markup.highlight]
+    # Chroma style used for fenced code blocks and the `code` shortcode.
+    style = "dracula"
+    # Line numbers are opt-in per block: ```lang {linenos=true}
+    # or {{< code ... linenos="true" >}}.
+    lineNos = false
+    lineNumbersInTable = false
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    tabWidth = 2
+
+# Feeds ----------------------------------------------------------------------
+[services]
+  [services.rss]
+    limit = 20
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[outputFormats]
+  [outputFormats.RSS]
+    mediaType = "application/rss+xml"
+    baseName = "rss"

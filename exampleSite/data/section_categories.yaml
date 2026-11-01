@@ -1,0 +1,27 @@
+# Shared metadata for collapsible article groups.
+# The `key` must match the `group` front matter value exactly.
+# These values are used by section pages and the article section navbox.
+
+- key: "Orientation"
+  icon: "🚀"
+  description: "A short tour before you dive into the guides"
+
+- key: "Release Notes"
+  icon: "🗒️"
+  description: "What changed in this demo"
+
+- key: "Overview"
+  icon: "🗺️"
+  description: "How the guides are organized"
+
+- key: "Fundamentals"
+  icon: "📦"
+  description: "The minimum steps to get a working site"
+
+- key: "Extending the theme"
+  icon: "🧩"
+  description: "Make the theme match your project"
+
+- key: "Shipping"
+  icon: "🚢"
+  description: "Build and publish the generated site"

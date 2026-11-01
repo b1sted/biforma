@@ -6,10 +6,11 @@
 <li class="nav-item">
     <a class="nav-link{{ if $isActive }} active{{ end }}"
        href="{{ $page.RelPermalink }}"
+       title="{{ $title }}"
        {{ if $isActive }}aria-current="page"{{ end }}>
         {{ with $page.Params.icon }}
             <span class="nav-icon" aria-hidden="true">{{ . }}</span>
         {{ end }}
-        <span>{{ $title }}</span>
+        <span class="nav-link-text">{{ $title }}</span>
     </a>
 </li>

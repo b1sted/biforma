@@ -1,8 +1,9 @@
-<aside class="sidebar" id="sidebar">
-    <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
-        {{ $currentPage := . }}
-        {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+{{ $currentPage := . }}
+{{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+{{ $themeMode := cond $isBlog "blog" "docs" }}
 
+<aside class="sidebar" id="sidebar" data-theme-mode="{{ $themeMode }}">
+    <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
         {{ if $isBlog }}
             <div class="blog-sidebar-wrapper">
 

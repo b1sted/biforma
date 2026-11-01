@@ -15,56 +15,29 @@
         </div>
     {{- end -}}
 
-    <div class="project-meta-row">
-        {{- with .Params.projectType -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_type" }}</span>
-            <span class="meta-value">{{ . }}</span>
-        </div>
-        {{- end -}}
+    {{- $items := slice -}}
+    {{- with .Params.projectType -}}{{- $items = $items | append (dict "label" (i18n "project_type") "value" .) -}}{{- end -}}
+    {{- with .Params.language -}}{{- $items = $items | append (dict "label" (i18n "project_language") "value" .) -}}{{- end -}}
+    {{- with .Params.year -}}{{- $items = $items | append (dict "label" (i18n "project_year") "value" .) -}}{{- end -}}
+    {{- with .Params.linesOfCode -}}{{- $items = $items | append (dict "label" (i18n "project_lines") "value" .) -}}{{- end -}}
+    {{- with .Params.modules -}}{{- $items = $items | append (dict "label" (i18n "project_modules") "value" .) -}}{{- end -}}
+    {{- with .Params.duration -}}{{- $items = $items | append (dict "label" (i18n "project_duration") "value" .) -}}{{- end -}}
+    {{- with .Params.status -}}{{- $items = $items | append (dict "label" (i18n "project_status") "value" . "status" true) -}}{{- end -}}
 
-        {{- with .Params.language -}}
+    {{- with $items }}
+    {{- $rows := slice (first 4 .) -}}
+    {{- if gt (len .) 4 -}}{{- $rows = $rows | append (after 4 .) -}}{{- end -}}
+    {{- range $rows }}
+    <div class="project-meta-row" style="--meta-columns: {{ len . }}">
+        {{- range . }}
         <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_language" }}</span>
-            <span class="meta-value">{{ . }}</span>
+            <span class="meta-label">{{ .label }}</span>
+            <span class="meta-value{{ if .status }} meta-status{{ end }}">{{ .value }}</span>
         </div>
-        {{- end -}}
-
-        {{- with .Params.year -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_year" }}</span>
-            <span class="meta-value">{{ . }}</span>
-        </div>
-        {{- end -}}
-
-        {{- with .Params.linesOfCode -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_lines" }}</span>
-            <span class="meta-value">{{ . }}</span>
-        </div>
-        {{- end -}}
-
-        {{- with .Params.modules -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_modules" }}</span>
-            <span class="meta-value">{{ . }}</span>
-        </div>
-        {{- end -}}
-
-        {{- with .Params.duration -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_duration" }}</span>
-            <span class="meta-value">{{ . }}</span>
-        </div>
-        {{- end -}}
-
-        {{- with .Params.status -}}
-        <div class="meta-item">
-            <span class="meta-label">{{ i18n "project_status" }}</span>
-            <span class="meta-value meta-status">{{ . }}</span>
-        </div>
-        {{- end -}}
+        {{- end }}
     </div>
+    {{- end }}
+    {{- end }}
 
     {{- if or .Params.github .Params.demo .Params.documentation -}}
     <div class="project-meta-links">

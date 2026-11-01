@@ -16,7 +16,7 @@ function sanitizeTitle(str) {
 }
 
 export function initSearch() {
-    const searchTriggers = document.querySelectorAll('.search-trigger');
+    const searchTrigger = document.querySelector('.search-trigger');
     const modal = document.getElementById('search-modal');
     const input = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
@@ -126,11 +126,9 @@ export function initSearch() {
         }, 150);
     };
 
-    searchTriggers.forEach((trigger) => {
-        trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal();
-        });
+    searchTrigger?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
     });
 
     document.querySelector('.search-trigger-mobile')?.addEventListener('click', (e) => {

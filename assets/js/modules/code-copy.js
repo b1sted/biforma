@@ -25,8 +25,8 @@ function extractCleanCode(codeElement) {
 }
 
 export function initCopyButtons() {
-    const defaultDone = window.i18n?.doneText || 'Готово!';
-    const defaultCopy = window.i18n?.copyText || 'Копировать';
+    const defaultDone = window.i18n?.doneText || 'Done!';
+    const defaultCopy = window.i18n?.copyText || 'Copy';
 
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.copy-code-button, .tab-copy-btn, .rss-copy-btn');

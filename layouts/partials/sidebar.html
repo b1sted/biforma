@@ -1,28 +1,8 @@
 <aside class="sidebar" id="sidebar">
-    {{ $currentPage := . }}
-    {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
-
-    {{ if not $isBlog }}
-        {{ $docsPages := where site.RegularPages "Params.searchHidden" "!=" true }}
-        <div class="sidebar-head">
-            <div class="sidebar-head-row">
-                <span class="sidebar-head-label">
-                    <span class="sidebar-status" aria-hidden="true"></span>
-                    {{ i18n "docs_nav_label" }}
-                </span>
-                <span class="sidebar-head-count" aria-hidden="true">{{ len $docsPages }}</span>
-            </div>
-            <button type="button" class="sidebar-search search-trigger" aria-label="{{ i18n "aria_open_search" }}">
-                <svg width="14" height="14" aria-hidden="true">
-                    <use href="{{ "icons.svg#icon-search" | relURL }}"></use>
-                </svg>
-                <span>{{ i18n "search_placeholder" }}</span>
-                <kbd>Ctrl K</kbd>
-            </button>
-        </div>
-    {{ end }}
-
     <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
+        {{ $currentPage := . }}
+        {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
+
         {{ if $isBlog }}
             <div class="blog-sidebar-wrapper">
 
@@ -208,12 +188,6 @@
                     {{ partial "nav-section.html" (dict "section" . "currentPage" $currentPage) }}
                 {{ end }}
             {{ end }}
-
-            <div class="sidebar-foot" aria-hidden="true">
-                <span>{{ i18n "docs_nav_end" }}</span>
-                <span class="sidebar-foot-rule"></span>
-                <span>///</span>
-            </div>
         {{ end }}
     </nav>
 </aside>

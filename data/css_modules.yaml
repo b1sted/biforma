@@ -24,7 +24,7 @@ core:
 
 by_kind:
   home:
-    - docs-home
+    - section-page
   list:
     - section-page
   single:

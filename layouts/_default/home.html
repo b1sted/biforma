@@ -40,7 +40,7 @@
                 {{ else if $isHero }}
                     <article class="blog-bento-hero">
                         <div class="blog-hero-top-row">
-                            <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Свежая публикация" }}</span>
+                            <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Latest post" }}</span>
                             {{ if not .Date.IsZero }}
                                 <time class="blog-hero-date" datetime="{{ .Date.Format "2006-01-02" }}">
                                     {{ .Date | time.Format (i18n "date_format") }}
@@ -158,13 +158,13 @@
         </div>
 
         {{ if gt $paginator.TotalPages 1 }}
-            <nav class="blog-pagination" aria-label="{{ i18n "aria_pagination" | default "Пагинация" }}">
+            <nav class="blog-pagination" aria-label="{{ i18n "aria_pagination" | default "Pagination" }}">
                 {{ if $paginator.HasPrev }}
                     <a href="{{ $paginator.Prev.URL }}" class="blog-pagination-btn prev">
-                        <span>{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                        <span>{{ i18n "blog_pagination_prev" | default "← Previous" }}</span>
                     </a>
                 {{ else }}
-                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_prev" | default "← Previous" }}</span>
                 {{ end }}
 
                 <span class="blog-pagination-info">
@@ -173,10 +173,10 @@
 
                 {{ if $paginator.HasNext }}
                     <a href="{{ $paginator.Next.URL }}" class="blog-pagination-btn next">
-                        <span>{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                        <span>{{ i18n "blog_pagination_next" | default "Next →" }}</span>
                     </a>
                 {{ else }}
-                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_next" | default "Next →" }}</span>
                 {{ end }}
             </nav>
         {{ end }}

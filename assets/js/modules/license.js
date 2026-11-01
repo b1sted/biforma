@@ -96,9 +96,9 @@ export function initLicenseModal() {
         const must = p['must' + suffix] || [];
 
         const labels = {
-            can: currentLang === 'ru' ? 'Можно' : 'Can',
-            cannot: currentLang === 'ru' ? 'Нельзя' : 'Cannot',
-            must: currentLang === 'ru' ? 'Нужно' : 'Must'
+            can: window.i18n?.permCan || 'Can',
+            cannot: window.i18n?.permCannot || 'Cannot',
+            must: window.i18n?.permMust || 'Must'
         };
 
         const renderList = (items) => items.length ? `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>` : '';

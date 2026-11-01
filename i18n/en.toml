@@ -29,75 +29,6 @@ other = "Page"
 [page_abbr]
 other = "Page"
 
-[docs_nav_label]
-other = "Documentation index"
-
-[docs_nav_end]
-other = "End of index"
-
-# Documentation Landing & Metadata
-
-[docs_kicker]
-other = "Documentation index"
-
-[docs_start]
-other = "Start reading"
-
-[docs_browse]
-other = "Browse sections"
-
-[docs_search]
-other = "Search the docs"
-
-[docs_stat_sections]
-other = "Sections"
-
-[docs_stat_articles]
-other = "Entries"
-
-[docs_stat_updated]
-other = "Updated"
-
-[docs_intro_title]
-other = "Introduction"
-
-[docs_subsections]
-one = "%d subsection"
-other = "%d subsections"
-
-[docs_recent_title]
-other = "Recent updates"
-
-[docs_recent_meta]
-other = "Latest entries"
-
-[docs_section]
-other = "Section"
-
-[docs_article]
-other = "Article"
-
-[docs_meta_articles]
-other = "Entries"
-
-[docs_meta_groups]
-other = "Groups"
-
-[docs_meta_updated]
-other = "Updated"
-
-[docs_meta_section]
-other = "Section"
-
-[docs_meta_reading]
-other = "Reading"
-
-[docs_meta_level]
-other = "Level"
-
-[docs_toc_label]
-other = "Navigation"
-
 # Table of Contents & Article navigation
 
 [toc_title]
@@ -202,6 +133,9 @@ other = "Support the author"
 
 [home_sections_title]
 other = "Sections"
+
+[docs_recent_title]
+other = "Recent updates"
 
 [section_ungrouped]
 other = "General Notes"

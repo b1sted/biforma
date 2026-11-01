@@ -93,16 +93,14 @@
         padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
     }
 
-    .sidebar .nav-link {
+    .sidebar[data-theme-mode="docs"] .nav-link {
         padding: 10px var(--spacing-sm);
         min-height: 44px;
-        align-items: center;
     }
 
-    .sidebar .nav-group-summary {
+    .sidebar[data-theme-mode="docs"] .nav-group-summary {
         min-height: 44px;
-        padding: 8px var(--spacing-sm) !important;
-        align-items: center !important;
+        padding: 10px var(--spacing-sm);
     }
 
     .sidebar.open {

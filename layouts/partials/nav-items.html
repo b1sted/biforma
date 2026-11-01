@@ -36,9 +36,9 @@
 
         <li class="nav-group">
             <details class="nav-group-details" {{ if $hasActive }}open{{ end }}>
-                <summary class="nav-group-summary">
-                    <span class="nav-group-title">{{ $displayTitle }}</span>
+                <summary class="nav-group-summary" title="{{ $displayTitle }}">
                     <span class="nav-group-chevron" aria-hidden="true">›</span>
+                    <span class="nav-group-title">{{ $displayTitle }}</span>
                 </summary>
                 <ul class="nav-list nav-list-nested">
                     {{ range $groupPages }}

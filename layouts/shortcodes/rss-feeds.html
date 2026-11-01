@@ -9,77 +9,67 @@
     {{- $validArticles = where $validArticles "Type" "ne" "about" -}}
     {{- $allPagesCount := len $validArticles -}}
 
-    <div class="rss-feed-card" data-rss-url="{{ $homeRss }}">
-        <div class="rss-card-header">
-            <div class="rss-card-icon-box">
-                <span aria-hidden="true">🌐</span>
-            </div>
-            <div class="rss-card-info">
-                <h3 class="rss-card-title">{{ i18n "rss_all_articles" | default "All site articles" }}</h3>
-                <span class="rss-card-subtitle">{{ printf (i18n "notes_count" $allPagesCount) $allPagesCount }}</span>
-            </div>
-        </div>
+    {{- $feeds := slice -}}
+    {{- $feeds = $feeds | append (dict
+        "url" $homeRss
+        "title" (i18n "rss_all_articles" | default "All site articles")
+        "count" $allPagesCount
+        "icon" ""
+        "iconID" "icon-globe"
+    ) -}}
 
-        <div class="rss-card-bottom">
-            <div class="rss-url-bar">
-                <span class="rss-url-text" title="{{ $homeRss }}">
-                    <code>{{ $homeRss }}</code>
-                </span>
-                <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Copy" }}" title="{{ i18n "copy_text" | default "Copy URL" }}">
-                    <span aria-hidden="true">📋</span>
-                    <span class="copy-text">{{ i18n "copy_text" | default "Copy" }}</span>
-                </button>
-                <a href="{{ $homeRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Open RSS feed: %s") (i18n "rss_all_articles" | default "All site articles") }}" title="{{ i18n "rss_open_feed" | default "Open in a new tab" }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    {{ range site.Sections.ByWeight }}
-        {{ if and (ne .Section "rss") .RegularPages }}
+    {{- range site.Sections.ByWeight -}}
+        {{- if and (ne .Section "rss") .RegularPages -}}
             {{- $sectionRss := "" -}}
             {{- with .OutputFormats.Get "RSS" -}}
                 {{- $sectionRss = .Permalink -}}
             {{- else -}}
                 {{- $sectionRss = printf "%srss.xml" .Permalink -}}
             {{- end -}}
-            {{- $count := len .RegularPages -}}
+            {{- $feeds = $feeds | append (dict
+                "url" $sectionRss
+                "title" .Title
+                "count" (len .RegularPages)
+                "icon" (.Params.icon | default "")
+                "iconID" "icon-rss"
+            ) -}}
+        {{- end -}}
+    {{- end -}}
 
-            <div class="rss-feed-card" data-rss-url="{{ $sectionRss }}">
-                <div class="rss-card-header">
-                    <div class="rss-card-icon-box">
-                        <span aria-hidden="true">{{ .Params.icon | default "📁" }}</span>
-                    </div>
-                    <div class="rss-card-info">
-                        <h3 class="rss-card-title">{{ .Title }}</h3>
-                        <span class="rss-card-subtitle">{{ printf (i18n "notes_count" $count) $count }}</span>
-                    </div>
+    {{- range $feeds -}}
+        {{- $openLabel := printf (i18n "rss_open_feed_named" | default "Open RSS feed: %s") .title -}}
+        <div class="rss-feed-card" data-rss-url="{{ .url }}">
+            <div class="rss-card-header">
+                <div class="rss-card-icon-box" aria-hidden="true">
+                    {{- if .icon -}}
+                        <span class="rss-card-icon-emoji">{{ .icon }}</span>
+                    {{- else -}}
+                        <svg class="rss-card-icon-svg" width="20" height="20" aria-hidden="true"><use href="{{ printf "icons.svg#%s" .iconID | relURL }}"></use></svg>
+                    {{- end -}}
                 </div>
+                <div class="rss-card-info">
+                    <h3 class="rss-card-title">{{ .title }}</h3>
+                    <span class="rss-card-subtitle">{{ printf (i18n "notes_count" .count) .count }}</span>
+                </div>
+            </div>
 
-                <div class="rss-card-bottom">
-                    <div class="rss-url-bar">
-                        <span class="rss-url-text" title="{{ $sectionRss }}">
-                            <code>{{ $sectionRss }}</code>
-                        </span>
-                        <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Copy" }}" title="{{ i18n "copy_text" | default "Copy URL" }}">
-                            <span aria-hidden="true">📋</span>
-                            <span class="copy-text">{{ i18n "copy_text" | default "Copy" }}</span>
+            <div class="rss-card-bottom">
+                <div class="rss-url-bar">
+                    <span class="rss-url-text" title="{{ .url }}">
+                        <code>{{ .url }}</code>
+                    </span>
+                    <div class="rss-url-actions">
+                        <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Copy" }}">
+                            <svg class="rss-action-icon rss-icon-copy" width="15" height="15" aria-hidden="true"><use href="{{ "icons.svg#icon-copy" | relURL }}"></use></svg>
+                            <svg class="rss-action-icon rss-icon-check" width="15" height="15" aria-hidden="true"><use href="{{ "icons.svg#icon-check" | relURL }}"></use></svg>
+                            <span class="copy-text" role="status" aria-live="polite">{{ i18n "copy_text" | default "Copy" }}</span>
                         </button>
-                        <a href="{{ $sectionRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Open RSS feed: %s") .Title }}" title="{{ i18n "rss_open_feed" | default "Open in a new tab" }}">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
+                        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ $openLabel }}" title="{{ $openLabel }}">
+                            <svg class="rss-action-icon" width="15" height="15" aria-hidden="true"><use href="{{ "icons.svg#icon-external" | relURL }}"></use></svg>
                         </a>
                     </div>
                 </div>
             </div>
-        {{ end }}
-    {{ end }}
+        </div>
+    {{- end -}}
 </div>

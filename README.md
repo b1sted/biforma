@@ -296,7 +296,7 @@ show a collapsible navigation box for the current section.
 
 Group metadata is resolved in this order:
 
-1. `data/section_categories.yaml` in the site (overrides the theme file):
+1. `data/section_categories.yaml` in the site:
    ```yaml
    - key: "Getting Started"
      icon: "🚀"

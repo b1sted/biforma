@@ -5,11 +5,53 @@
 {{ define "main" }}
 {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 
-<header class="page-header {{ if $isBlog }}blog-single-header{{ end }}">
+{{ if not $isBlog }}
+<div class="docs-progress" aria-hidden="true"><span></span></div>
+{{ end }}
+
+<header class="page-header {{ if $isBlog }}blog-single-header{{ else }}docs-page-header{{ end }}">
+    {{ if not $isBlog }}
+    <p class="docs-eyebrow">
+        <span class="docs-eyebrow-mark" aria-hidden="true">[</span>
+        {{ i18n "docs_article" }}
+        <span class="docs-eyebrow-mark" aria-hidden="true">]</span>
+    </p>
+    {{ end }}
     <h1 class="page-title">{{ .Title }}</h1>
 
     {{ with .Params.subtitle | default .Description }}
         <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+
+    {{ if not $isBlog }}
+    <dl class="docs-page-meta">
+        {{ with .CurrentSection }}
+            {{ if .Section }}
+            <div class="docs-meta-item">
+                <dt>{{ i18n "docs_meta_section" }}</dt>
+                <dd><a href="{{ .RelPermalink }}">{{ .Title }}</a></dd>
+            </div>
+            {{ end }}
+        {{ end }}
+        {{ if not .Lastmod.IsZero }}
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_updated" }}</dt>
+            <dd><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod | time.Format (i18n "date_format") }}</time></dd>
+        </div>
+        {{ end }}
+        {{ with .ReadingTime }}
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_reading" }}</dt>
+            <dd>{{ . }} {{ i18n "reading_time_min" }}</dd>
+        </div>
+        {{ end }}
+        {{ if .Params.difficulty }}
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_level" }}</dt>
+            <dd>{{ partial "difficulty-badge.html" . }}</dd>
+        </div>
+        {{ end }}
+    </dl>
     {{ end }}
 
     {{ if $isBlog }}
@@ -51,7 +93,7 @@
     {{ partial "project-meta.html" . }}
 {{ end }}
 
-<article class="article" data-pagefind-body>
+<article class="article{{ if not $isBlog }} docs-article{{ end }}" data-pagefind-body>
     {{ .Content }}
     {{ partial "sources.html" . }}
 </article>
@@ -62,7 +104,7 @@
 
 {{ with .Params.tags }}
     <div class="article-footer-tags">
-        <span class="article-tags-label">{{ i18n "article_tags_label" | default "Теги статьи" }}</span>
+        <span class="article-tags-label">{{ i18n "article_tags_label" | default "Article tags" }}</span>
         <div class="single-meta-tags">
             {{ range . }}
                 <span class="tag-chip">#{{ . }}</span>

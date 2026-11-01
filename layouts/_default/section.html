@@ -3,7 +3,20 @@
 {{ end }}
 
 {{ define "main" }}
-<header class="page-header">
+{{ $sectionPages := where .RegularPagesRecursive "Params.searchHidden" "!=" true }}
+{{ $groupKeys := slice }}
+{{ range $sectionPages }}
+    {{ with .Params.group }}
+        {{ if not (in $groupKeys .) }}{{ $groupKeys = $groupKeys | append . }}{{ end }}
+    {{ end }}
+{{ end }}
+
+<header class="page-header docs-page-header">
+    <p class="docs-eyebrow">
+        <span class="docs-eyebrow-mark" aria-hidden="true">[</span>
+        {{ i18n "docs_section" }}
+        <span class="docs-eyebrow-mark" aria-hidden="true">]</span>
+    </p>
     <h1 class="page-title">
         {{- with .Params.icon -}}<span class="page-title-icon">{{ . }}</span> {{- end -}}
         {{- .Title -}}
@@ -11,9 +24,29 @@
     {{ with .Description | default .Params.description }}
         <p class="page-subtitle">{{ . }}</p>
     {{ end }}
+    {{ if ne .Section "rss" }}
+    <dl class="docs-page-meta">
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_articles" }}</dt>
+            <dd>{{ len $sectionPages }}</dd>
+        </div>
+        {{ if $groupKeys }}
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_groups" }}</dt>
+            <dd>{{ len $groupKeys }}</dd>
+        </div>
+        {{ end }}
+        {{ if not .Lastmod.IsZero }}
+        <div class="docs-meta-item">
+            <dt>{{ i18n "docs_meta_updated" }}</dt>
+            <dd><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod | time.Format (i18n "date_format") }}</time></dd>
+        </div>
+        {{ end }}
+    </dl>
+    {{ end }}
 </header>
 
-<article class="article">
+<article class="article docs-section-article">
     {{ .Content }}
 
     {{ with .Sections }}

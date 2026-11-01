@@ -94,7 +94,7 @@
     }
 
     .sidebar[data-theme-mode="docs"] .nav-link {
-        padding: 10px var(--spacing-sm);
+        padding: 10px var(--spacing-sm) 10px 10px;
         min-height: 44px;
     }
 

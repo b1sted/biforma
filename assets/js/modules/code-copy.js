@@ -45,12 +45,15 @@ export function initCopyButtons() {
             try {
                 await copyText(text);
                 btn.classList.add('copied');
+                const doneLabel = btn.classList.contains('rss-copy-btn')
+                    ? (window.i18n?.copiedText || 'Copied!')
+                    : defaultDone;
                 const span = btn.querySelector('.copy-text') || btn.querySelector('span:last-child');
                 const old = span ? span.textContent : '';
-                if (span) span.textContent = defaultDone;
+                if (span) span.textContent = doneLabel;
                 setTimeout(() => {
                     btn.classList.remove('copied');
-                    if (span) span.textContent = old === defaultDone ? defaultCopy : old;
+                    if (span) span.textContent = old === doneLabel ? defaultCopy : old;
                 }, 1200);
             } catch (err) {
                 console.error('Failed to copy text:', err);

@@ -284,28 +284,6 @@
     .sections-grid {
         grid-template-columns: 1fr;
     }
-
-    .rss-feeds-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-
-    .rss-feed-card {
-        padding: var(--spacing-lg);
-    }
-
-    .rss-card-icon {
-        font-size: 32px;
-    }
-
-    .rss-card-url code {
-        font-size: 10px;
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-
-    .rss-feed-card::after {
-        display: none;
-    }
 }
 
 @media (max-width: 400px) {

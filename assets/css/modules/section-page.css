@@ -179,6 +179,7 @@
 .section-icon {
     font-size: 28px;
     flex-shrink: 0;
+    color: var(--text-primary);
 }
 
 .section-info {
@@ -263,7 +264,7 @@
 }
 
 .card-meta-sep {
-    color: var(--border-secondary);
+    color: var(--text-muted);
 }
 
 .article-card-title {

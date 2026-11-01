@@ -59,6 +59,7 @@
     align-items: center;
     gap: 10px;
     height: 44px;
+    color: var(--text-primary);
     text-decoration: none;
     transition: opacity var(--transition);
     white-space: nowrap;

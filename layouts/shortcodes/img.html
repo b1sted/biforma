@@ -23,12 +23,14 @@
         {{- if $pageResLight -}}
             {{- $widthLight = $pageResLight.Width -}}
             {{- $heightLight = $pageResLight.Height -}}
+            {{- $srcLight = $pageResLight.RelPermalink -}}
         {{- else -}}
             {{- $staticLight := printf "static/%s" $cleanLight -}}
             {{- if fileExists $staticLight -}}
                 {{- $cfgLight := imageConfig $staticLight -}}
                 {{- $widthLight = $cfgLight.Width -}}
                 {{- $heightLight = $cfgLight.Height -}}
+                {{- $srcLight = $srcLight | relURL -}}
             {{- else if .Page.File -}}
                 {{- $contentLight := path.Join "content" .Page.File.Dir $cleanLight -}}
                 {{- if fileExists $contentLight -}}
@@ -50,12 +52,14 @@
         {{- if $pageResDark -}}
             {{- $widthDark = $pageResDark.Width -}}
             {{- $heightDark = $pageResDark.Height -}}
+            {{- $srcDark = $pageResDark.RelPermalink -}}
         {{- else -}}
             {{- $staticDark := printf "static/%s" $cleanDark -}}
             {{- if fileExists $staticDark -}}
                 {{- $cfgDark := imageConfig $staticDark -}}
                 {{- $widthDark = $cfgDark.Width -}}
                 {{- $heightDark = $cfgDark.Height -}}
+                {{- $srcDark = $srcDark | relURL -}}
             {{- else if .Page.File -}}
                 {{- $contentDark := path.Join "content" .Page.File.Dir $cleanDark -}}
                 {{- if fileExists $contentDark -}}
@@ -85,12 +89,14 @@
         {{- if $pageRes -}}
             {{- $width = $pageRes.Width -}}
             {{- $height = $pageRes.Height -}}
+            {{- $src = $pageRes.RelPermalink -}}
         {{- else -}}
             {{- $staticPath := printf "static/%s" $cleanSrc -}}
             {{- if fileExists $staticPath -}}
                 {{- $cfg := imageConfig $staticPath -}}
                 {{- $width = $cfg.Width -}}
                 {{- $height = $cfg.Height -}}
+                {{- $src = $src | relURL -}}
             {{- else if .Page.File -}}
                 {{- $contentPath := path.Join "content" .Page.File.Dir $cleanSrc -}}
                 {{- if fileExists $contentPath -}}

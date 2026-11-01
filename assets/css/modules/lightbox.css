@@ -179,8 +179,8 @@
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid transparent;
     color: rgba(255, 255, 255, 0.95);
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
@@ -221,7 +221,7 @@
 
 .lightbox-btn.zoom-reset {
     width: auto;
-    height: 38px;
+    height: 44px;
     padding: 0 14px;
     border-radius: 9999px;
     font-family: inherit;

@@ -75,6 +75,12 @@
     font-family: inherit;
 }
 
+.search-modal-header input:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
 .search-modal-header input::placeholder {
     color: var(--text-muted);
 }
@@ -85,6 +91,8 @@
     color: var(--text-muted);
     cursor: pointer;
     padding: var(--spacing-xs);
+    min-width: 44px;
+    min-height: 44px;
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
@@ -163,7 +171,7 @@
 
 .search-result-title mark {
     background: var(--accent-primary);
-    color: white;
+    color: var(--bg-primary);
     padding: 1px 4px;
     border-radius: 3px;
 }
@@ -181,7 +189,7 @@
 }
 
 .search-result-preview mark {
-    background: rgba(74, 144, 226, 0.3);
+    background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
     color: var(--text-primary);
     padding: 0 2px;
     border-radius: 2px;

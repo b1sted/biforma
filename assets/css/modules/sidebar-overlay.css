@@ -126,6 +126,85 @@
     }
 }
 
+/*
+ * Touch target sizing.
+ *
+ * Interactive controls in the drawer and in content chrome must stay at
+ * least 44x44 CSS pixels on touch-sized viewports, per WCAG 2.5.5 and the
+ * Apple HIG / Material Design guidance. Inline links inside prose are
+ * intentionally excluded: enlarging them would break text flow.
+ */
+@media (max-width: 1024px) {
+    .sidebar[data-theme-mode="docs"] .nav-section-link {
+        min-height: 44px;
+        padding: 10px 0;
+    }
+
+    .blog-sidebar-wrapper .category-link,
+    .blog-sidebar-wrapper .featured-link {
+        min-height: 44px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .profile-social-link {
+        width: 44px;
+        height: 44px;
+    }
+
+    .breadcrumb {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0 4px;
+        justify-content: center;
+    }
+
+    .footer-text a,
+    .footer-license a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 4px;
+    }
+
+    .about-profile-link,
+    .project-showcase-links .project-action-link {
+        min-height: 44px;
+    }
+
+    .suggestion-card {
+        min-height: 44px;
+    }
+
+    .section-navbox-toggle {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .section-navbox-links a {
+        min-height: 44px;
+    }
+
+    .copy-code-button {
+        min-height: 44px;
+    }
+
+    .section-group-header {
+        min-height: 44px;
+    }
+
+    .blog-pagination .blog-pagination-btn {
+        min-height: 44px;
+    }
+
+    .heading-anchor-link {
+        min-width: 44px;
+        min-height: 44px;
+        margin: -12px -12px -12px 0.2em;
+        vertical-align: middle;
+    }
+}
+
 @media (max-width: 768px) {
     .docs-wrapper {
         padding: 14px 16px;

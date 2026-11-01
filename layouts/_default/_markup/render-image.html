@@ -24,18 +24,25 @@
 {{- $width := "" -}}
 {{- $height := "" -}}
 
+{{- $fragmentSuffix := "" -}}
+{{- if and $u.Fragment (not $themeClass) -}}
+    {{- $fragmentSuffix = printf "#%s" $u.Fragment -}}
+{{- end -}}
+
 {{- if not $u.IsAbs -}}
     {{- $cleanPath := strings.TrimPrefix "/" $u.Path -}}
     {{- $pageRes := or (.Page.Resources.GetMatch $cleanPath) (.Page.Resources.GetMatch $u.Path) -}}
     {{- if $pageRes -}}
         {{- $width = $pageRes.Width -}}
         {{- $height = $pageRes.Height -}}
+        {{- $src = printf "%s%s" $pageRes.RelPermalink $fragmentSuffix -}}
     {{- else -}}
         {{- $staticPath := printf "static/%s" $cleanPath -}}
         {{- if fileExists $staticPath -}}
             {{- $cfg := imageConfig $staticPath -}}
             {{- $width = $cfg.Width -}}
             {{- $height = $cfg.Height -}}
+            {{- $src = printf "%s%s" ($src | relURL) $fragmentSuffix -}}
         {{- else if .Page.File -}}
             {{- $contentPath := path.Join "content" .Page.File.Dir $cleanPath -}}
             {{- if fileExists $contentPath -}}

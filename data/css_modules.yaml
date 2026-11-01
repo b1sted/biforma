@@ -12,6 +12,7 @@ core:
   - motion
   - layout
   - typography
+  - anchors
   - header
   - footer
   - toc

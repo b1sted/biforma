@@ -39,8 +39,13 @@
     color: var(--accent-primary);
 }
 
+.breadcrumb:focus-visible {
+    outline-offset: -2px;
+    border-radius: var(--radius-sm);
+}
+
 .breadcrumb-sep {
-    color: var(--border-secondary);
+    color: var(--text-muted);
     flex-shrink: 0;
     user-select: none;
 }
@@ -119,7 +124,7 @@
 }
 
 .single-meta-sep {
-    color: var(--border-secondary);
+    color: var(--text-muted);
 }
 
 .article {
@@ -746,6 +751,8 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+    min-width: 44px;
+    min-height: 44px;
     padding: 3px 10px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-primary);
@@ -867,19 +874,31 @@
 }
 
 @media (max-width: 1024px) {
+    /*
+     * Breadcrumbs wrap on narrow screens instead of scrolling sideways.
+     * The previous negative margins made the first/last crumb overflow the
+     * scroll container, which clipped keyboard focus rings.
+     */
     .breadcrumbs {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        row-gap: 4px;
         padding-top: 4px;
         padding-bottom: 8px;
     }
 
     .breadcrumb {
-        min-height: 36px;
+        min-height: 44px;
         padding: 0 6px;
-        margin: 0 -6px;
+        margin: 0;
     }
 
     .breadcrumb-current,
     .breadcrumbs > span:not(.breadcrumb-sep) {
-        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        max-width: 100%;
+        white-space: normal;
     }
 }

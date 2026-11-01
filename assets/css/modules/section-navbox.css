@@ -180,8 +180,8 @@
     }
 
     .section-navbox-toggle {
-        min-width: 36px;
-        min-height: 36px;
+        min-width: 44px;
+        min-height: 44px;
         padding: 8px;
         font-size: 16px;
     }
@@ -208,8 +208,10 @@
     }
 
     .section-navbox-links a {
-        min-height: 36px;
-        padding: 6px 10px;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 8px 10px;
         font-size: 15px;
         line-height: 1.5;
         border-radius: 6px;

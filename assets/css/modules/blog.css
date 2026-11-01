@@ -457,7 +457,7 @@
 
 .meta-sep,
 .card-meta-sep {
-    color: var(--border-secondary);
+    color: var(--text-muted);
 }
 
 .card-category-row {
@@ -713,6 +713,11 @@
     .blog-tag-list {
         width: 100%;
         margin-top: 2px;
+    }
+
+    .profile-social-link {
+        width: 44px;
+        height: 44px;
     }
 }
 

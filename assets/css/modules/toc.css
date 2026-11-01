@@ -193,7 +193,7 @@
 
 .toc-mobile-nav a.active {
     color: var(--accent-primary) !important;
-    background: rgba(92, 161, 241, 0.12) !important;
+    background: color-mix(in srgb, var(--accent-primary) 12%, transparent) !important;
     border-left: 3px solid var(--accent-primary) !important;
 }
 
@@ -252,7 +252,7 @@
 
 .sidebar-toc-nav a.active {
     color: var(--accent-primary) !important;
-    background: rgba(92, 161, 241, 0.12) !important;
+    background: color-mix(in srgb, var(--accent-primary) 12%, transparent) !important;
     border-left: 3px solid var(--accent-primary) !important;
 }
 
@@ -352,7 +352,7 @@
 
 #TableOfContents a.active {
     color: var(--accent-primary) !important;
-    background: rgba(92, 161, 241, 0.12) !important;
+    background: color-mix(in srgb, var(--accent-primary) 12%, transparent) !important;
     border-left: 3px solid var(--accent-primary) !important;
 }
 
@@ -382,7 +382,7 @@
     }
 
     .toc-mobile-nav ul ul a {
-        min-height: 40px;
+        min-height: 44px;
         font-size: var(--font-size-2xs);
     }
 }

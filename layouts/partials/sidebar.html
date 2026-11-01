@@ -2,7 +2,7 @@
 {{ $isBlog := eq (site.Params.themeMode | default "docs") "blog" }}
 {{ $themeMode := cond $isBlog "blog" "docs" }}
 
-<aside class="sidebar" id="sidebar" data-theme-mode="{{ $themeMode }}">
+<aside class="sidebar" id="sidebar" data-theme-mode="{{ $themeMode }}" tabindex="-1">
     <nav class="sidebar-nav" aria-label="{{ i18n "aria_sidebar_nav" }}">
         {{ if $isBlog }}
             <div class="blog-sidebar-wrapper">
@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="profile-meta">
-                                <h2 class="profile-name">{{ site.Params.author }}</h2>
+                                <p class="profile-name">{{ site.Params.author }}</p>
                                 {{ with site.Params.role | default site.Params.authorRole }}
                                     <span class="profile-role">{{ . }}</span>
                                 {{ end }}
@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="profile-meta">
-                                <h2 class="profile-name">{{ site.Params.author }}</h2>
+                                <p class="profile-name">{{ site.Params.author }}</p>
                                 {{ with site.Params.role | default site.Params.authorRole }}
                                     <span class="profile-role">{{ . }}</span>
                                 {{ end }}
@@ -116,7 +116,7 @@
 
                 {{ $sections := where (where site.Sections "Section" "ne" "rss") "Section" "ne" "about" }}
                 <div class="sidebar-block">
-                    <h3 class="sidebar-block-title">{{ i18n "blog_categories" | default "CATEGORIES" }}</h3>
+                    <p class="sidebar-block-title">{{ i18n "blog_categories" | default "CATEGORIES" }}</p>
                     <ul class="category-list">
                         {{ $validPosts := partial "blog-pages.html" . }}
                         {{ $allCount := len $validPosts }}
@@ -151,7 +151,7 @@
                 {{ if $featuredCandidates }}
                     <hr class="sidebar-divider">
                     <div class="sidebar-block">
-                        <h3 class="sidebar-block-title">{{ i18n "blog_featured" | default "FEATURED" }}</h3>
+                        <p class="sidebar-block-title">{{ i18n "blog_featured" | default "FEATURED" }}</p>
                         <ul class="featured-list">
                             {{ range $featuredCandidates }}
                                 <li class="featured-item">
@@ -174,9 +174,9 @@
                     {{ with .Site.Params.sidebar }}{{ $hideTitle = .hideGeneralTitle }}{{ end }}
 
                     {{ if not $hideTitle }}
-                    <h3 class="nav-section-title">
+                    <div class="nav-section-title">
                         {{ with .Site.Params.sidebar.generalTitle }}{{ . }}{{ else }}{{ i18n "sidebar_general" }}{{ end }}
-                    </h3>
+                    </div>
                     {{ end }}
 
                     {{ partial "nav-items.html" (dict "pages" $rootPages "currentPage" $currentPage "site" .Site) }}

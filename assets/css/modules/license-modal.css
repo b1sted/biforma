@@ -61,6 +61,10 @@
     color: var(--text-muted);
     cursor: pointer;
     padding: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     display: flex;
     border-radius: var(--radius-sm);
     transition: all 0.2s ease;

@@ -183,27 +183,6 @@
     </div>
 
 {{ else }}
-    <header class="page-header">
-        <h1 class="page-title">{{ site.Title }}</h1>
-        <p class="page-subtitle">{{ .Description | default site.Params.description }}</p>
-    </header>
-
-    <article class="article">
-        {{ .Content }}
-
-        <h2>{{ i18n "home_sections_title" }}</h2>
-        <div class="sections-grid">
-            {{ range where site.Sections "Section" "ne" "rss" }}
-                {{ $count := len .RegularPages }}
-                <a href="{{ .RelPermalink }}" class="section-card">
-                    <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
-                    <div class="section-info">
-                        <h3>{{ .Title }}</h3>
-                        <p>{{ printf (i18n "notes_count" $count) $count }}</p>
-                    </div>
-                </a>
-            {{ end }}
-        </div>
-    </article>
+    {{ partial "docs-home.html" . }}
 {{ end }}
 {{ end }}

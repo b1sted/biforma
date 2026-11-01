@@ -16,7 +16,7 @@ function sanitizeTitle(str) {
 }
 
 export function initSearch() {
-    const searchTrigger = document.querySelector('.search-trigger');
+    const searchTriggers = document.querySelectorAll('.search-trigger');
     const modal = document.getElementById('search-modal');
     const input = document.getElementById('search-input');
     const resultsContainer = document.getElementById('search-results');
@@ -28,8 +28,8 @@ export function initSearch() {
     let currentSearchId = 0;
     let previousActiveElement = null;
 
-    const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
-    const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
+    const noResultsText = window.i18n?.searchNoResults || 'No results found';
+    const indexMissingText = window.i18n?.searchIndexMissing || 'Error: search index not found.<br>Run: <code>npx pagefind --site public</code>';
 
     const loadPagefind = async () => {
         if (pagefind) return;
@@ -126,9 +126,11 @@ export function initSearch() {
         }, 150);
     };
 
-    searchTrigger?.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
+    searchTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
     });
 
     document.querySelector('.search-trigger-mobile')?.addEventListener('click', (e) => {

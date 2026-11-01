@@ -573,8 +573,10 @@ hugo new content projects/my-project.md --kind project
 ## Known Limitations
 
 - **Image dimensions** are detected for page resources, site `static/` files and
-  `content/` files. Files inside the theme's `static/` directory are not visible
-  to Hugo's `fileExists`, so put theme-shipped images in `assets/` and use
+  `content/` files. Page-bundle resources are also rewritten to their published
+  `RelPermalink`, so `/cover.png` inside a bundle resolves correctly. Files
+  inside the theme's `static/` directory are not visible to Hugo's
+  `fileExists`, so put theme-shipped images in `assets/` and use
   `resources.Get` if you need automatic dimensions.
 - **Responsive images**: the theme does not generate `srcset`/AVIF/WebP
   variants automatically; provide appropriately sized files in content.

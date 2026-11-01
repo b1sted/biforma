@@ -134,6 +134,9 @@ other = "Support the author"
 [home_sections_title]
 other = "Sections"
 
+[docs_recent_title]
+other = "Recent updates"
+
 [section_ungrouped]
 other = "General Notes"
 

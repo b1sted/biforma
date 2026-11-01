@@ -40,7 +40,7 @@
                 {{ else if $isHero }}
                     <article class="blog-bento-hero">
                         <div class="blog-hero-top-row">
-                            <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Свежая публикация" }}</span>
+                            <span class="blog-hero-badge">🔥 {{ i18n "blog_hero_badge" | default "Latest post" }}</span>
                             {{ if not .Date.IsZero }}
                                 <time class="blog-hero-date" datetime="{{ .Date.Format "2006-01-02" }}">
                                     {{ .Date | time.Format (i18n "date_format") }}
@@ -158,13 +158,13 @@
         </div>
 
         {{ if gt $paginator.TotalPages 1 }}
-            <nav class="blog-pagination" aria-label="{{ i18n "aria_pagination" | default "Пагинация" }}">
+            <nav class="blog-pagination" aria-label="{{ i18n "aria_pagination" | default "Pagination" }}">
                 {{ if $paginator.HasPrev }}
                     <a href="{{ $paginator.Prev.URL }}" class="blog-pagination-btn prev">
-                        <span>{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                        <span>{{ i18n "blog_pagination_prev" | default "← Previous" }}</span>
                     </a>
                 {{ else }}
-                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_prev" | default "← Назад" }}</span>
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_prev" | default "← Previous" }}</span>
                 {{ end }}
 
                 <span class="blog-pagination-info">
@@ -173,37 +173,16 @@
 
                 {{ if $paginator.HasNext }}
                     <a href="{{ $paginator.Next.URL }}" class="blog-pagination-btn next">
-                        <span>{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                        <span>{{ i18n "blog_pagination_next" | default "Next →" }}</span>
                     </a>
                 {{ else }}
-                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_next" | default "Далее →" }}</span>
+                    <span class="blog-pagination-btn disabled">{{ i18n "blog_pagination_next" | default "Next →" }}</span>
                 {{ end }}
             </nav>
         {{ end }}
     </div>
 
 {{ else }}
-    <header class="page-header">
-        <h1 class="page-title">{{ site.Title }}</h1>
-        <p class="page-subtitle">{{ .Description | default site.Params.description }}</p>
-    </header>
-
-    <article class="article">
-        {{ .Content }}
-
-        <h2>{{ i18n "home_sections_title" }}</h2>
-        <div class="sections-grid">
-            {{ range where site.Sections "Section" "ne" "rss" }}
-                {{ $count := len .RegularPages }}
-                <a href="{{ .RelPermalink }}" class="section-card">
-                    <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
-                    <div class="section-info">
-                        <h3>{{ .Title }}</h3>
-                        <p>{{ printf (i18n "notes_count" $count) $count }}</p>
-                    </div>
-                </a>
-            {{ end }}
-        </div>
-    </article>
+    {{ partial "docs-home.html" . }}
 {{ end }}
 {{ end }}

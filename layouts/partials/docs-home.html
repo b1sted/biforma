@@ -1,0 +1,39 @@
+{{- $sections := where site.Sections.ByWeight "Section" "ne" "rss" -}}
+{{- $docsPages := where site.RegularPages "Params.searchHidden" "!=" true -}}
+{{- $recent := first 6 ($docsPages.ByLastmod.Reverse) -}}
+
+<header class="page-header">
+    <h1 class="page-title">{{ site.Title }}</h1>
+    {{ with .Description | default site.Params.description }}
+        <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+</header>
+
+<article class="article">
+    {{ .Content }}
+
+    {{ if $sections }}
+        <h2 id="sections">{{ i18n "home_sections_title" }}</h2>
+        <div class="sections-grid">
+            {{ range $sections }}
+                {{ $count := len (where .RegularPagesRecursive "Params.searchHidden" "!=" true) }}
+                <a href="{{ .RelPermalink }}" class="section-card">
+                    <span class="section-icon">{{ .Params.icon | default "📄" }}</span>
+                    <div class="section-info">
+                        <h3>{{ .Title }}</h3>
+                        <p>{{ printf (i18n "notes_count" $count) $count }}</p>
+                    </div>
+                </a>
+            {{ end }}
+        </div>
+    {{ end }}
+
+    {{ if $recent }}
+        <h2 id="recent">{{ i18n "docs_recent_title" }}</h2>
+        <div class="section-articles" data-count="{{ len $recent }}">
+            {{ range $recent }}
+                {{ partial "article-card.html" . }}
+            {{ end }}
+        </div>
+    {{ end }}
+</article>

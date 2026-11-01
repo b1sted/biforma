@@ -32,6 +32,7 @@
 ## Features
 
 - **Dual Mode (`themeMode`)**: Switch between `docs` (tree navigation, Table of Contents, category filters) and `blog` (clean post feed, metadata).
+- **Documentation Landing**: An automatically generated docs index with section cards and recent updates, using the same card components and typography as the blog.
 - **Blog Series**: Collapse a multi-part guide into a single card on the blog home while keeping every article accessible from the section page.
 - **Multilingual & i18n**: Built-in internationalization with localized UI strings and an optional header language switcher for multi-language sites.
 - **Performance First**: Zero-FOUC dark/light theme toggle, local variable fonts (*Inter*, *JetBrains Mono*), lazy-loaded analytics, lazy license texts, and a strict script CSP without `unsafe-inline`.

@@ -136,6 +136,9 @@ other = "Поддержать автора"
 [home_sections_title]
 other = "Разделы заметок"
 
+[docs_recent_title]
+other = "Последние обновления"
+
 [section_ungrouped]
 other = "Общие заметки"
 

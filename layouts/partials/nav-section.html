@@ -1,7 +1,6 @@
 {{- $section := .section -}}
 {{- $currentPage := .currentPage -}}
 {{- $pages := where $section.RegularPages "Params.searchHidden" "!=" true -}}
-{{- $count := len (where $section.RegularPagesRecursive "Params.searchHidden" "!=" true) -}}
 
 {{- if or $pages $section.Sections -}}
 <section class="nav-section">
@@ -9,8 +8,7 @@
         <a href="{{ $section.RelPermalink }}"
            class="nav-section-link{{ if or (eq $currentPage.RelPermalink $section.RelPermalink) ($currentPage.IsDescendant $section) }} active{{ end }}">
             {{ with $section.Params.icon }}<span class="nav-icon">{{ . }}</span>{{ end }}
-            <span class="nav-section-name">{{ $section.Title | default (i18n "sidebar_section") }}</span>
-            <span class="nav-section-count" aria-hidden="true">{{ $count }}</span>
+            <span>{{ $section.Title | default (i18n "sidebar_section") }}</span>
         </a>
     </h3>
 

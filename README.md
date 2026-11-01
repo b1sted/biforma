@@ -41,6 +41,7 @@
 - **Diagrams (Mermaid.js)**: Lazy-loaded (IntersectionObserver) offline Mermaid rendering that auto-switches between dark/light themes, with a zoom & pan lightbox for every diagram. Build-time SSR renders both themes and avoids shipping the Mermaid runtime.
 - **Enhanced Media**: Auto-calculated image dimensions for page resources and site `static/` files (prevents CLS), eager/high priority for the first article image, and a built-in image zoom lightbox.
 - **Heading Anchors**: Hover-revealed anchor links next to headings (up to the configured TOC depth), with TOC-consistent smooth scrolling.
+- **Citation Anchors**: Zero-JS smooth scrolling and a CLS-safe `:target` pulse for footnotes, bibliography entries, and numbered formulas, with fixed-header offsets and a reduced-motion fallback.
 - **License Modal & Footer Credit**: Per-page code/content license disclosure via modal (license texts are fetched from a fingerprinted JSON file on first open), plus an optional "Theme: Biforma" credit line in the footer.
 - **Obfuscated Email Links**: Base64-encoded `mailto:` links to reduce scraping by spam bots.
 - **PWA & Offline**: Web app manifest, installable icons, a service worker with cache-first fonts/icons and stale-while-revalidate CSS/JS, an offline fallback page, plus intent-based link prefetching.

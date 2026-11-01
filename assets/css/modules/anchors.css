@@ -1,0 +1,78 @@
+/*
+ * Citation anchors.
+ *
+ * Footnote references, bibliography entries and numbered formula links all
+ * resolve to native fragment identifiers. Smooth scrolling and the arrival
+ * highlight therefore need no JavaScript: the browser handles the jump, and
+ * the pulse is driven by the built-in :target selector.
+ *
+ * The pulse animates background-color, box-shadow and border-radius only.
+ * All three are paint-only properties, so the effect cannot contribute to CLS.
+ * Users who prefer reduced motion get an instant, static highlight instead.
+ */
+
+:root {
+    --anchor-scroll-offset: calc(var(--header-height, 4rem) + 1.5rem);
+}
+
+/*
+ * The docs layout scrolls inside .main-content instead of the window, so both
+ * scroll containers opt into native smooth scrolling.
+ */
+html,
+.main-content {
+    scroll-behavior: smooth;
+}
+
+/*
+ * Keep jump destinations clear of the fixed header. This covers Goldmark
+ * footnotes (#fn:1 / #fnref:1), bibliography sources (#source-*), KaTeX
+ * equations (#eq-* / #equation-*), MathJax equation ids (#mjx-eqn-*), and
+ * plain heading anchors.
+ */
+:target,
+.footnote-item,
+.footnotes,
+.katex-display,
+.math,
+.equation,
+.source-item,
+.sources-title,
+[id^="fn:"],
+[id^="fnref:"],
+[id^="mjx-eqn-"],
+[id^="eq-"],
+[id^="equation-"],
+[id^="source-"] {
+    scroll-margin-top: var(--anchor-scroll-offset);
+}
+
+@keyframes target-pulse {
+    0% {
+        background-color: color-mix(in srgb, var(--accent-primary) 18%, transparent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 10%, transparent);
+        border-radius: var(--radius-sm);
+    }
+
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 4px transparent;
+    }
+}
+
+:target {
+    animation: target-pulse 1.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    .main-content {
+        scroll-behavior: auto;
+    }
+
+    :target {
+        animation: none;
+        background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+        border-radius: var(--radius-sm);
+    }
+}

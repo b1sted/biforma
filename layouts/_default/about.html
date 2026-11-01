@@ -78,11 +78,11 @@
             {{ with .Params.projects }}
             <section class="about-projects">
                 <div class="about-projects-header">
-                    <h2 class="about-projects-title">{{ .title | default (i18n "about_projects_title" | default "Проекты") }}</h2>
-                    <label class="academic-toggle" id="academic-toggle-label" title="{{ i18n "academic_toggle_title_show" | default "Показать учебные проекты" }}">
+                    <h2 class="about-projects-title">{{ .title | default (i18n "about_projects_title" | default "Projects") }}</h2>
+                    <label class="academic-toggle" id="academic-toggle-label" title="{{ i18n "academic_toggle_title_show" | default "Show academic projects" }}">
                         <input type="checkbox" id="academic-toggle" autocomplete="off">
                         <span class="academic-toggle-icon">🎓</span>
-                        <span class="academic-toggle-text" id="academic-toggle-text">{{ i18n "academic_toggle_show" | default "Показать учебные" }}</span>
+                        <span class="academic-toggle-text" id="academic-toggle-text">{{ i18n "academic_toggle_show" | default "Show academic" }}</span>
                     </label>
                 </div>
 
@@ -98,7 +98,7 @@
                             </div>
 
                             {{ if .academic }}
-                                <span class="academic-badge">🎓 {{ i18n "academic_badge" | default "Учебный" }}</span>
+                                <span class="academic-badge">🎓 {{ i18n "academic_badge" | default "Academic" }}</span>
                             {{ end }}
                         </div>
 

@@ -13,7 +13,7 @@
 
                 <div class="profile-block">
                     {{ if $hasAbout }}
-                        <a href="{{ $aboutPage.RelPermalink }}" class="profile-header profile-header-link" aria-label="{{ i18n "nav_about" | default "Обо мне" }}">
+                        <a href="{{ $aboutPage.RelPermalink }}" class="profile-header profile-header-link" aria-label="{{ i18n "nav_about" | default "About" }}">
                             <div class="profile-avatar">
                                 {{ with site.Params.avatarEmoji | default site.Params.authorEmoji }}
                                     <span class="profile-avatar-emoji">{{ . }}</span>
@@ -115,14 +115,14 @@
 
                 {{ $sections := where (where site.Sections "Section" "ne" "rss") "Section" "ne" "about" }}
                 <div class="sidebar-block">
-                    <h3 class="sidebar-block-title">{{ i18n "blog_categories" | default "КАТЕГОРИИ" }}</h3>
+                    <h3 class="sidebar-block-title">{{ i18n "blog_categories" | default "CATEGORIES" }}</h3>
                     <ul class="category-list">
                         {{ $validPosts := partial "blog-pages.html" . }}
                         {{ $allCount := len $validPosts }}
 
                         <li class="category-item">
                             <a href="{{ site.Home.RelPermalink }}" class="category-link{{ if $currentPage.IsHome }} active{{ end }}">
-                                <span class="category-name">{{ i18n "blog_all_posts" | default "Все посты" }}</span>
+                                <span class="category-name">{{ i18n "blog_all_posts" | default "All posts" }}</span>
                                 <span class="category-count">{{ $allCount }}</span>
                             </a>
                         </li>
@@ -150,7 +150,7 @@
                 {{ if $featuredCandidates }}
                     <hr class="sidebar-divider">
                     <div class="sidebar-block">
-                        <h3 class="sidebar-block-title">{{ i18n "blog_featured" | default "ИЗБРАННОЕ" }}</h3>
+                        <h3 class="sidebar-block-title">{{ i18n "blog_featured" | default "FEATURED" }}</h3>
                         <ul class="featured-list">
                             {{ range $featuredCandidates }}
                                 <li class="featured-item">

@@ -6,10 +6,10 @@ export function initAboutFilter() {
 
     if (!toggle || !showcase) return;
 
-    const txtShow = window.i18n?.academicToggleShow || 'Показать учебные';
-    const txtHide = window.i18n?.academicToggleHide || 'Скрыть учебные';
-    const titleShow = window.i18n?.academicToggleTitleShow || 'Показать учебные проекты';
-    const titleHide = window.i18n?.academicToggleTitleHide || 'Скрыть учебные проекты';
+    const txtShow = window.i18n?.academicToggleShow || 'Show academic';
+    const txtHide = window.i18n?.academicToggleHide || 'Hide academic';
+    const titleShow = window.i18n?.academicToggleTitleShow || 'Show academic projects';
+    const titleHide = window.i18n?.academicToggleTitleHide || 'Hide academic projects';
 
     function applyFilter() {
         const showAcademic = Boolean(toggle.checked);

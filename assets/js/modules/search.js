@@ -28,8 +28,8 @@ export function initSearch() {
     let currentSearchId = 0;
     let previousActiveElement = null;
 
-    const noResultsText = window.i18n?.searchNoResults || 'Ничего не найдено';
-    const indexMissingText = window.i18n?.searchIndexMissing || 'Ошибка: Индекс поиска не найден.<br>Выполните: <code>npx pagefind --site public</code>';
+    const noResultsText = window.i18n?.searchNoResults || 'No results found';
+    const indexMissingText = window.i18n?.searchIndexMissing || 'Error: search index not found.<br>Run: <code>npx pagefind --site public</code>';
 
     const loadPagefind = async () => {
         if (pagefind) return;

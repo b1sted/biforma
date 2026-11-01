@@ -40,8 +40,8 @@ function initCompareScrollSync() {
 }
 
 function initCompareCopyButtons() {
-    const copiedText = window.i18n?.copiedText || 'Скопировано!';
-    const defaultCopy = window.i18n?.copyText || 'Копировать';
+    const copiedText = window.i18n?.copiedText || 'Copied!';
+    const defaultCopy = window.i18n?.copyText || 'Copy';
 
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.code-compare-header .copy-code-button');

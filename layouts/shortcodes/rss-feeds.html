@@ -15,7 +15,7 @@
                 <span aria-hidden="true">🌐</span>
             </div>
             <div class="rss-card-info">
-                <h3 class="rss-card-title">{{ i18n "rss_all_articles" | default "Все статьи сайта" }}</h3>
+                <h3 class="rss-card-title">{{ i18n "rss_all_articles" | default "All site articles" }}</h3>
                 <span class="rss-card-subtitle">{{ printf (i18n "notes_count" $allPagesCount) $allPagesCount }}</span>
             </div>
         </div>
@@ -25,11 +25,11 @@
                 <span class="rss-url-text" title="{{ $homeRss }}">
                     <code>{{ $homeRss }}</code>
                 </span>
-                <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Копировать" }}" title="{{ i18n "copy_text" | default "Копировать URL" }}">
+                <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Copy" }}" title="{{ i18n "copy_text" | default "Copy URL" }}">
                     <span aria-hidden="true">📋</span>
-                    <span class="copy-text">{{ i18n "copy_text" | default "Копировать" }}</span>
+                    <span class="copy-text">{{ i18n "copy_text" | default "Copy" }}</span>
                 </button>
-                <a href="{{ $homeRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Открыть RSS-ленту: %s") (i18n "rss_all_articles" | default "Все статьи сайта") }}" title="{{ i18n "rss_open_feed" | default "Открыть в новой вкладке" }}">
+                <a href="{{ $homeRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Open RSS feed: %s") (i18n "rss_all_articles" | default "All site articles") }}" title="{{ i18n "rss_open_feed" | default "Open in a new tab" }}">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         <polyline points="15 3 21 3 21 9"></polyline>
@@ -66,11 +66,11 @@
                         <span class="rss-url-text" title="{{ $sectionRss }}">
                             <code>{{ $sectionRss }}</code>
                         </span>
-                        <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Копировать" }}" title="{{ i18n "copy_text" | default "Копировать URL" }}">
+                        <button type="button" class="rss-copy-btn" aria-label="{{ i18n "copy_text" | default "Copy" }}" title="{{ i18n "copy_text" | default "Copy URL" }}">
                             <span aria-hidden="true">📋</span>
-                            <span class="copy-text">{{ i18n "copy_text" | default "Копировать" }}</span>
+                            <span class="copy-text">{{ i18n "copy_text" | default "Copy" }}</span>
                         </button>
-                        <a href="{{ $sectionRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Открыть RSS-ленту: %s") .Title }}" title="{{ i18n "rss_open_feed" | default "Открыть в новой вкладке" }}">
+                        <a href="{{ $sectionRss }}" target="_blank" rel="noopener noreferrer" class="rss-view-link" aria-label="{{ printf (i18n "rss_open_feed_named" | default "Open RSS feed: %s") .Title }}" title="{{ i18n "rss_open_feed" | default "Open in a new tab" }}">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>

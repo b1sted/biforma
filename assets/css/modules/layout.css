@@ -182,20 +182,40 @@
 }
 
 /*
- * Keyboard-only focus. Mouse clicks never draw a ring, while keyboard
- * navigation gets an offset outline that follows each element's radius.
+ * Keyboard-only focus.
+ *
+ * The sidebar is a scroll container (overflow-y: scroll) and collapsible
+ * groups use overflow: hidden, so an offset outline is clipped and becomes
+ * invisible. Draw the indicator as an inset ring instead: it is never clipped
+ * by a parent and stays inside the row's own radius.
+ *
+ * Mouse interaction never draws a ring. Hover only changes the background,
+ * and pointer focus is explicitly cleared below.
  */
 .sidebar[data-theme-mode="docs"] a:focus:not(:focus-visible),
 .sidebar[data-theme-mode="docs"] button:focus:not(:focus-visible),
 .sidebar[data-theme-mode="docs"] summary:focus:not(:focus-visible) {
     outline: none;
+    box-shadow: none;
 }
 
 .sidebar[data-theme-mode="docs"] a:focus-visible,
 .sidebar[data-theme-mode="docs"] button:focus-visible,
 .sidebar[data-theme-mode="docs"] summary:focus-visible {
-    outline: 2px solid var(--accent-primary);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--accent-primary);
+}
+
+/*
+ * Hover is intentionally ring-free: only the subtle background tint and text
+ * color change. Keyboard focus (when the same row is also hovered) keeps the
+ * inset ring through the :focus-visible rule above.
+ */
+.sidebar[data-theme-mode="docs"] a:hover:not(:focus-visible),
+.sidebar[data-theme-mode="docs"] button:hover:not(:focus-visible),
+.sidebar[data-theme-mode="docs"] summary:hover:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
 }
 
 .sidebar[data-theme-mode="docs"] .nav-group-details {
